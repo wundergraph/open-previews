@@ -33,7 +33,7 @@
     "@astrojs/react": "^2.1.2",
     "@astrojs/vercel": "^3.2.5",
     "@fontsource/inter": "^4.5.15",
-    "@radix-ui/react-dialog": "^1.0.3",
+    "@radix-ui/react-dialog": "1.0.4-rc.1",
     "clsx": "^1.2.1",
     "lucide-react": "^0.192.0",
     "micromodal": "^0.4.10",

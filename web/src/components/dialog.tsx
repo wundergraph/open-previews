@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as DialogPrimitive from "@radix-ui/react-dialog/dist/index";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 import clsx from "clsx";
 import { X } from "lucide-react";
 
