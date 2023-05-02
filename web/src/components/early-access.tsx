@@ -17,7 +17,7 @@ export default function EarlyAccess() {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    fetch("/early-access.json", {
+    fetch("/api/early-access.json", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
