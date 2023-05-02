@@ -1,6 +1,5 @@
 ---
 import { Icon } from "astro-icon";
-import HeroImage from "~/components/hero-image.astro";
 import Starfield from "~/components/starfield.astro";
 import GitHubCorner from "./github-corner.astro";
 import { EarlyAccess } from "./early-access.jsx";
@@ -10,7 +9,6 @@ import { EarlyAccess } from "./early-access.jsx";
   <Starfield />
   <GitHubCorner />
   <div id="splash-bg-fallback" class="absolute inset-0 hidden opacity-40">
-    <HeroImage />
   </div>
   <div class="relative flex flex-col space-y-20 justify-center h-full place-items-center">
     <h2
@@ -55,10 +53,6 @@ import { EarlyAccess } from "./early-access.jsx";
   }
 
   @media (prefers-reduced-motion: reduce) {
-    #astronaut {
-      @apply animate-none;
-    }
-
     :global(#starfield) {
       @apply hidden;
     }
