@@ -7,9 +7,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./dialog";
+} from "./dialog.jsx";
 
-export const EarlyAccess = () => {
+export default function EarlyAccess() {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const [email, setEmail] = React.useState("");
@@ -100,4 +100,4 @@ export const EarlyAccess = () => {
       </DialogContent>
     </Dialog>
   );
-};
+}
