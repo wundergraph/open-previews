@@ -1,0 +1,70 @@
+---
+import { Icon } from "astro-icon";
+import HeroImage from "~/components/hero-image.astro";
+import Starfield from "~/components/starfield.astro";
+import GitHubCorner from "./github-corner.astro";
+import { EarlyAccess } from "./early-access.jsx";
+---
+
+<section class="relative h-full bg-black">
+  <Starfield />
+  <GitHubCorner />
+  <div id="splash-bg-fallback" class="absolute inset-0 hidden opacity-40">
+    <HeroImage />
+  </div>
+  <div class="relative flex flex-col space-y-20 justify-center h-full place-items-center">
+    <h2
+      class="flex flex-col gap-2 self-end sm:gap-4 sm:self-auto sm:justify-self-end max-w-7xl"
+    >
+      <Icon name="message" class="h-24 text-white md:h-32" />
+      <div
+        class="gradient-text text-center font-extrabold tracking-tighter text-8xl"
+      >
+        Open Source 
+        <br /> Preview Comments,
+        <br /> that run anywhere.
+      </div>
+    </h2>
+    <div>
+      <EarlyAccess client:load />
+    </div>
+  </div>
+</section>
+
+<noscript>
+  <style>
+    #splash-bg-fallback {
+      display: block;
+    }
+  </style>
+</noscript>
+
+<style>
+  @keyframes float {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+      transform: translate3d(0, 30px, 0);
+    }
+  }
+
+  #astronaut {
+    animation: float linear 2.5s infinite alternate;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #astronaut {
+      @apply animate-none;
+    }
+
+    :global(#starfield) {
+      @apply hidden;
+    }
+
+    #splash-bg-fallback {
+      @apply block;
+    }
+  }
+</style>

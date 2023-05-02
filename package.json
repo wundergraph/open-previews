@@ -1,0 +1,22 @@
+{
+  "name": "open-previews",
+  "version": "1.0.0",
+  "description": "Open source preview comments for your pull requests",
+  "main": "index.js",
+  "scripts": {
+    "dev:web": "pnpm run --filter @open-previews/web dev"
+  },
+  "keywords": [
+    "open-previews",
+    "preview-comments",
+    "comments",
+    "ci",
+    "pull-requests"
+  ],
+  "author": "WunderGraph Maintainers",
+  "license": "ISC",
+  "dependencies": {
+    "prettier": "2.8.8",
+    "typescript": "^5.0.4"
+  }
+}
