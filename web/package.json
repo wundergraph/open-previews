@@ -30,6 +30,7 @@
     "tailwindcss-fluid-type": "^2.0.3"
   },
   "dependencies": {
+    "@astrojs/netlify": "^2.2.2",
     "@astrojs/react": "^2.1.2",
     "@astrojs/vercel": "^3.2.5",
     "@fontsource/inter": "^4.5.15",
