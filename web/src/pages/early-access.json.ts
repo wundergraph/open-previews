@@ -5,33 +5,49 @@ export const post: APIRoute = async ({ request }) => {
     const body = await request.json();
 
     if (!body?.email || body?.formId !== "early-access-form") {
-      // Sends a HTTP bad request error code
-      new Response(null, { status: 400 });
+      return new Response(null, { status: 400 });
     }
 
     const result = await api("/contacts", {
       contact: {
-        name: body.name,
         email: body.email,
       },
     });
 
-    if (!result.ok) {
-      new Response(null, { status: 400 });
+    if (result?.status !== 200) {
+      return new Response(null, { status: 400 });
     }
 
     const data = await result.json();
 
+    let contact = data?.contact;
+
     if (data.errors?.[0]?.code === "duplicate") {
-      return new Response(null, { status: 200 });
-    } else if (data.contact?.id) {
+      const result = await api("/contact/sync", {
+        contact: {
+          email: body.email,
+        },
+      });
+
+      if (result?.status !== 200) {
+        return new Response(null, { status: 400 });
+      }
+
+      const data = await result.json();
+
+      contact = data?.contact;
+    }
+
+    if (contact?.id) {
       await api("/contactLists", {
         contactList: {
           list: parseInt(import.meta.env.AC_LIST_ID || "21"),
-          contact: data.contact.id,
+          contact: contact.id,
           status: 1,
         },
       });
+    } else {
+      return new Response(null, { status: 400 });
     }
 
     return new Response(null, { status: 200 });
