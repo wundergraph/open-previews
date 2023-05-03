@@ -1,6 +1,7 @@
 ---
 import { Icon } from "astro-icon";
 import ThemeSwitcher from "~/components/theme-switcher.astro";
+import WunderGraph from "~/components/wundergraph.astro";
 import type { NavItem } from "~/types";
 
 const navItems: Array<NavItem> = [];
@@ -12,7 +13,7 @@ const navItems: Array<NavItem> = [];
 >
   <a class="flex items-center gap-3" href="https://wundergraph.com">
     <h1 class="sr-only">WunderGraph</h1>
-    <Icon name="wundergraph" class="h-10" />
+    <WunderGraph />
   </a>
   <div>
     <div class="flex items-center gap-6">
