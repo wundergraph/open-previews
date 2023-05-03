@@ -14,7 +14,7 @@ export const post: APIRoute = async ({ request }) => {
       },
     });
 
-    if (result?.status !== 200) {
+    if (result?.status !== 200 && result?.status !== 422) {
       return new Response("Sign up failed", { status: result?.status });
     }
 
