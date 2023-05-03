@@ -5,7 +5,7 @@ export const post: APIRoute = async ({ request }) => {
     const body = await request.json();
 
     if (!body?.email || body?.formId !== "early-access-form") {
-      return new Response(null, { status: 400 });
+      return new Response("Invalid params", { status: 400 });
     }
 
     const result = await api("/contacts", {
@@ -15,7 +15,7 @@ export const post: APIRoute = async ({ request }) => {
     });
 
     if (result?.status !== 200) {
-      return new Response(null, { status: 400 });
+      return new Response("Sign up failed", { status: result?.status });
     }
 
     const data = await result.json();
@@ -30,7 +30,7 @@ export const post: APIRoute = async ({ request }) => {
       });
 
       if (result?.status !== 200) {
-        return new Response(null, { status: 400 });
+        return new Response("Sync failed", { status: result?.status });
       }
 
       const data = await result.json();
