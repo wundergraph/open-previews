@@ -9,8 +9,10 @@ import node from "@astrojs/node";
 export default defineConfig({
   site: "https://openpreviews.com/",
   output: "server",
-  adapter: import.meta.env.VERCEL
-    ? vercel()
+  adapter: process.env.VERCEL
+    ? vercel({
+        includeFiles,
+      })
     : node({
         mode: "standalone",
       }),
