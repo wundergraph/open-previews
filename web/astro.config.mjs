@@ -10,9 +10,7 @@ export default defineConfig({
   site: "https://openpreviews.com/",
   output: "server",
   adapter: process.env.VERCEL
-    ? vercel({
-        includeFiles,
-      })
+    ? vercel()
     : node({
         mode: "standalone",
       }),
