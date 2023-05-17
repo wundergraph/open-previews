@@ -90,7 +90,7 @@ export default function EarlyAccess() {
       <DialogTrigger asChild>
         <button
           onClick={() => setIsOpen(true)}
-          className="relative z-10 flex items-center justify-center gap-3 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 px-6 py-4 text-white outline-offset-2 outline-pink-400/40 before:absolute before:inset-px before:-z-10 before:rounded-lg before:bg-black before:transition-all hover:text-white before:hover:inset-0 before:hover:opacity-0 focus-visible:border-0 focus-visible:outline-2"
+          className="relative z-10 flex items-center justify-center gap-3 bg-gradient-to-r from-purple-500 to-pink-500 px-6 py-3 text-white outline-offset-2 outline-pink-400/40 before:absolute before:inset-px before:-z-10  before:bg-black before:transition-all hover:text-white before:hover:inset-0 before:hover:opacity-0 focus-visible:border-0 focus-visible:outline-2"
         >
           <span>Early access</span>
         </button>

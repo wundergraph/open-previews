@@ -2,7 +2,7 @@
 import { Icon } from "astro-icon";
 import Starfield from "~/components/starfield.astro";
 import GitHubCorner from "./github-corner.astro";
-import EarlyAccess from "./early-access";
+import EarlyAccess from "./early-access.jsx";
 ---
 
 <section class="relative h-full bg-black">
@@ -12,17 +12,18 @@ import EarlyAccess from "./early-access";
   </div>
   <div class="relative flex flex-col space-y-20 justify-center h-full place-items-center">
     <h2
-      class="flex flex-col gap-2 self-end sm:gap-4 sm:self-auto sm:justify-self-end max-w-7xl"
+      class="flex flex-col gap-2 self-end sm:gap-4 sm:self-auto sm:justify-self-end   max-w-7xl"
     >
-      <Icon name="message" class="h-24 text-white md:h-32" />
       <div
         class="gradient-text text-center font-extrabold tracking-tighter text-8xl"
       >
-        Open Source 
-        <br /> Preview Comments,
+        Preview <span class="relative text-white"><span class="border-2 border-pink-500/40 bg-pink-500/20 absolute inset-0" /> Comments</span>,
         <br /> that run anywhere.
       </div>
     </h2>
+    <p class="text-white text-center   max-w-3xl">
+      Add commenting functionality to your staging and preview environments,<br /> no matter where they are hosted. Easy to set up and fully open source.
+    </p>
     <div>
       <EarlyAccess client:load />
     </div>
@@ -38,20 +39,6 @@ import EarlyAccess from "./early-access";
 </noscript>
 
 <style>
-  @keyframes float {
-    0% {
-      transform: translate3d(0, 0, 0);
-    }
-
-    100% {
-      transform: translate3d(0, 30px, 0);
-    }
-  }
-
-  #astronaut {
-    animation: float linear 2.5s infinite alternate;
-  }
-
   @media (prefers-reduced-motion: reduce) {
     :global(#starfield) {
       @apply hidden;
