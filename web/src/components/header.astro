@@ -4,16 +4,23 @@ import ThemeSwitcher from "~/components/theme-switcher.astro";
 import WunderGraph from "~/components/wundergraph.astro";
 import type { NavItem } from "~/types";
 
-const navItems: Array<NavItem> = [];
+const navItems: Array<NavItem> = [
+  {
+    title: 'Privacy policy',
+    url: '/privacy-policy'
+  }, {
+    title: 'Terms of service',
+    url: '/terms'
+  }
+];
 ---
 
 <header
   id="page-header"
   class="absolute bottom-0 z-20 flex w-full items-center justify-between border-b border-transparent px-8 py-4 text-white"
 >
-  <a class="flex items-center gap-3" href="https://wundergraph.com">
-    <h1 class="sr-only">WunderGraph</h1>
-    <WunderGraph />
+  <a class="flex items-center gap-1 text-sm" href="https://wundergraph.com">
+    Built by <WunderGraph /> WunderGraph with ❤️
   </a>
   <div>
     <div class="flex items-center gap-6">

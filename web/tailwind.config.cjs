@@ -28,5 +28,6 @@ module.exports = {
     require("tailwindcss-fluid-type"),
     require("@tailwindcss/forms"),
     require("tailwindcss-animate"),
+    require("@tailwindcss/typography"),
   ],
 };
