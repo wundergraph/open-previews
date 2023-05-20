@@ -31,8 +31,7 @@ export default function EarlyAccess() {
       <DialogHeader>
         <DialogTitle className="text-center">Request Access</DialogTitle>
         <DialogDescription className="text-center text-xs text-gray-400">
-          Join our growing waitlist our team will reach out to you as soon as
-          possible.
+          Join our waitlist so we can notify you as soon as we're ready!
         </DialogDescription>
       </DialogHeader>
       <div className="py-4">
@@ -65,7 +64,7 @@ export default function EarlyAccess() {
       <DialogHeader>
         <DialogTitle className="text-center">Request Access</DialogTitle>
         <DialogDescription className="text-center text-xs text-gray-400">
-          Thanks for signing up! Please star us on Github while you wait for
+          Thanks for signing up! Please star us on GitHub while you wait for
           access.
         </DialogDescription>
       </DialogHeader>
