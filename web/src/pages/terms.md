@@ -2,11 +2,11 @@
 layout: ../layouts/terms.astro
 title: "Website Terms of Use"
 tags: []
-date: 2023-04-12
+date: 2023-05-24
 description: "The terms you agree to when accessing this website."
 ---
 
-Last modified: April 12th, 2023
+Last modified: May 24th, 2023
 
 ## Acceptance of the Terms of Use
 
@@ -66,7 +66,7 @@ are owned by the Company, its licensors, or other providers of such material and
 trademark, patent, trade secret, and other intellectual property or proprietary rights laws.
 
 These Terms of Use permit you to use the Website for your personal, non-commercial use only,
-except for any paid services offered through the Website subject to their own respective terms of use. Except as otherwise permitted by the Company,
+except for any services offered through the Website subject to their own respective terms of use. Except as otherwise permitted by the Company,
 you must not reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store,
 or transmit any of the material on our Website, except as follows:
 
