@@ -20,19 +20,6 @@ const Dragons: React.FC = () => {
   );
 };
 
-function App() {
-  return (
-    <ShadowRoot>
-      <div className="container">
-        <Dragons />
-        <style type="text/css">{styles}</style>
-      </div>
-    </ShadowRoot>
-  );
-}
-
-export default App;
-
 function ShadowRoot(props: { children: React.ReactNode }) {
   const rootRef = React.useRef<HTMLElement>();
 
@@ -61,3 +48,15 @@ function ShadowRoot(props: { children: React.ReactNode }) {
 
   return null;
 }
+
+function App() {
+  return (
+    <ShadowRoot>
+      <div className="container">
+        <Dragons />
+      </div>
+    </ShadowRoot>
+  );
+}
+
+export default App;
