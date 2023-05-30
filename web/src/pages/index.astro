@@ -2,6 +2,8 @@
 import "@fontsource/inter/variable.css";
 import Header from "~/components/header.astro";
 import Splash from "~/components/splash.astro";
+import { OpenPreviews } from 'open-previews'
+
 import "~/styles/index.css";
 
 const { generator, site } = Astro;
@@ -60,5 +62,6 @@ const description =
   >
     <Header />
     <Splash />
+    <OpenPreviews client:only  />
   </body>
 </html>

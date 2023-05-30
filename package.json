@@ -1,10 +1,11 @@
 {
-  "name": "open-previews",
+  "name": "open-previews-workspace",
   "version": "1.0.0",
   "description": "Open source preview comments for your pull requests",
   "main": "index.js",
   "scripts": {
-    "dev:web": "pnpm run --filter @open-previews/web dev"
+    "dev:web": "pnpm run --filter @open-previews/web dev",
+    "dev:app": "pnpm run --filter @open-previews/app dev"
   },
   "keywords": [
     "open-previews",
