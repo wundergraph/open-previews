@@ -1,16 +1,26 @@
 import path from "node:path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { macaronVitePlugin } from "@macaron-css/vite";
+import { injectCSSPlugin } from "./scripts/inject-css";
+
 import dts from "vite-plugin-dts";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    macaronVitePlugin(),
     react(),
-    dts({
-      insertTypesEntry: true,
-    }),
+    injectCSSPlugin(),
+    // dts({
+    //   insertTypesEntry: true,
+    // }),
   ],
+  resolve: {
+    alias: {
+      "~": path.resolve(__dirname, "./src"),
+    },
+  },
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/main.tsx"),
@@ -39,7 +49,12 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ["@wundergraph/sdk"],
+    include: [
+      "@wundergraph/sdk",
+      "rangy",
+      "rangy/lib/rangy-classapplier",
+      "rangy/lib/rangy-serializer",
+    ],
     esbuildOptions: {
       target: "es2020",
     },

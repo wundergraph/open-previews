@@ -1,24 +1,11 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { useQuery } from "./lib/wundergraph";
-import styles from "./index.css?inline";
+import { useAuth, useQuery, useUser } from "./lib/wundergraph";
+import { addClickListener } from "./utils";
+import { Toolbar } from "./components/toolbar";
+import { Button } from "./components/layout";
 
-const Dragons: React.FC = () => {
-  const { data, error, isLoading } = useQuery({
-    operationName: "Dragons",
-  });
-  return (
-    <div>
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {JSON.stringify(error, null, 2)}</p>}
-      {data && (
-        <div>
-          <p>{JSON.stringify(data, null, 2)}</p>
-        </div>
-      )}
-    </div>
-  );
-};
+const styles = "__STYLES__";
 
 function ShadowRoot(props: { children: React.ReactNode }) {
   const rootRef = React.useRef<HTMLElement>();
@@ -31,7 +18,7 @@ function ShadowRoot(props: { children: React.ReactNode }) {
       document.body.appendChild(rootRef.current);
 
       const sheet = new CSSStyleSheet();
-
+      console.log(styles);
       sheet.replaceSync(styles);
 
       const root = rootRef.current.attachShadow({ mode: "open" });
@@ -50,13 +37,57 @@ function ShadowRoot(props: { children: React.ReactNode }) {
 }
 
 function App() {
+  const { logout } = useAuth();
+  const { data: user } = useUser();
+
+  React.useEffect(() => {
+    const unsubscribe = addClickListener();
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const signIn = () => {
+    const redirect_uri = `http://localhost:3000`;
+    openWindow(
+      `http://localhost:9991/auth/cookie/authorize/github?redirect_uri=${redirect_uri}`,
+      "mozillaWindow",
+      800,
+      600
+    );
+  };
+
   return (
     <ShadowRoot>
-      <div className="container">
-        <Dragons />
-      </div>
+      <Toolbar>
+        {user ? (
+          <div>
+            {user.email}
+
+            <Button onClick={() => logout()}>Logout</Button>
+          </div>
+        ) : (
+          <Button onClick={() => signIn()}>Sign in</Button>
+        )}
+      </Toolbar>
     </ShadowRoot>
   );
+}
+
+export function openWindow(url: string, winName: string, w: number, h: number) {
+  const left = screen.width ? (screen.width - w) / 2 : 0;
+  const top = screen.height ? (screen.height - h) / 2 : 0;
+  const settings =
+    "height=" +
+    h +
+    ",width=" +
+    w +
+    ",top=" +
+    top +
+    ",left=" +
+    left +
+    ",resizable";
+  return window.open(url, winName, settings);
 }
 
 export default App;
