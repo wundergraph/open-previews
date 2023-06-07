@@ -6,7 +6,6 @@ export default createOperation.query({
     repo: z.string(),
     categoryId: z.string(),
   }),
-  requireAuthentication: true,
   handler: async ({ input, operations, user, context }) => {
     const accessToken = await context.getToken(user);
 
@@ -45,7 +44,7 @@ export default createOperation.query({
 
     return {
       id: data.id,
-      comments: data.comments,
+      comments: data.comments?.nodes,
     };
   },
 });

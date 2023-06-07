@@ -5,9 +5,12 @@ export default createOperation.mutation({
     discussionId: z.string(),
     replyToId: z.string().optional(),
     body: z.string(),
+    meta: z.object({}),
   }),
   handler: async ({ input, graph, operations, user, context }) => {
     const accessToken = await context.getToken(user);
+
+    const body = `<div data-comment-meta="${input.meta}" />`;
 
     const result = await operations
       .withHeaders({

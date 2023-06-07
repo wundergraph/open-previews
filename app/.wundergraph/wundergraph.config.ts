@@ -23,20 +23,13 @@ const github = introspect.graphql({
   headers(builder) {
     // addClientRequestHeader("Authorization", "Authorization")
     return builder
-      .addStaticHeader(
-        "Authorization",
-        //   `Bearer ${process.env.GITHUB_TOKEN}`
-        `Bearer ghu_YDVxQ1zVlKv4fZiitzZSXGByaav1bm3fg95M`
-      )
+      .addStaticHeader("Authorization", `Bearer ${process.env.GITHUB_TOKEN}`) // temporary
       .addStaticHeader("X-Github-Next-Global-ID", "1");
   },
 });
 
 // configureWunderGraph emits the configuration
 configureWunderGraphApplication({
-  experimental: {
-    orm: true,
-  },
   apis: [github],
   server,
   operations,
