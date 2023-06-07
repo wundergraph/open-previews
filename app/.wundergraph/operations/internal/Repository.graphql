@@ -1,0 +1,13 @@
+query Repository($owner: String!, $name: String!) {
+  repository: github_repository(owner: $owner, name: $name) {
+    id
+    name
+    url
+    discussionCategories(first: 100) {
+      nodes {
+        id
+        name
+      }
+    }
+  }
+}

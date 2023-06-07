@@ -4,7 +4,7 @@ import {
   PopoverArrow,
   PopoverContent,
   PopoverPortal,
-} from "./popover";
+} from "./ui/popover";
 
 export const CommentBox = (props) => {
   const { children } = props;
@@ -15,7 +15,7 @@ export const CommentBox = (props) => {
       </PopoverAnchor>
       <PopoverPortal>
         <PopoverContent sideOffset={5}>
-          <textarea>Comment....</textarea>
+          <textarea defaultValue="Comment..." />
           <button>Save</button>
           <PopoverArrow />
         </PopoverContent>

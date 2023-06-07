@@ -1,0 +1,43 @@
+query Search($query: String!) {
+  search: github_search(type: DISCUSSION, query: $query, first: 100) {
+    nodes {
+      ... on github_Discussion {
+        id
+        title
+        closed
+        body
+        bodyHTML
+        comments(first: 100) {
+          nodes {
+            ... on github_DiscussionComment {
+              author {
+                login
+              }
+              body
+              createdAt
+              databaseId
+              discussion {
+                databaseId
+              }
+              editor {
+                login
+              }
+              id
+              lastEditedAt
+              publishedAt
+              updatedAt
+              url
+            }
+          }
+        }
+      }
+    }
+    discussionCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}

@@ -22,6 +22,6 @@
       "~/*": ["./*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "./wundergraph/**/*.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

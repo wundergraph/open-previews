@@ -1,0 +1,8 @@
+mutation Create($input: github_CreateDiscussionInput!) {
+  github_createDiscussion(input: $input) {
+    clientMutationId
+    discussion {
+      id
+    }
+  }
+}

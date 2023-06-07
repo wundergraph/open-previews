@@ -1,0 +1,4 @@
+projects:
+  gateway:
+    schema: "./app/.wundergraph/generated/wundergraph.schema.graphql"
+    documents: "./app/.wundergraph/operations/**/*.graphql/"
