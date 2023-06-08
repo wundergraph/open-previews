@@ -41,14 +41,14 @@ function App(props: OpenPreviewConfig) {
     props;
 
   return (
-    <ShadowRoot>
-      <Config value={{ categoryId, repository }}>
-        <Selections />
-        <Draggable>
-          <Toolbar />
-        </Draggable>
-      </Config>
-    </ShadowRoot>
+    // <ShadowRoot>
+    <Config value={{ categoryId, repository }}>
+      <Selections />
+      <Draggable>
+        <Toolbar />
+      </Draggable>
+    </Config>
+    // </ShadowRoot>
   );
 }
 

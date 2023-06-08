@@ -36,19 +36,17 @@ export const Toolbar = () => {
     );
   };
   return (
-    <Container>
+    <>
       {user ? (
-        <div>
-          {user.email}
-
-          <Button onClick={toggleCommentMode}>
+        <>
+          <button onClick={toggleCommentMode}>
             {isCommentModeOn ? "cancel" : "add comment!"}
-          </Button>
-          <Button onClick={() => logout()}>Logout</Button>
-        </div>
+          </button>
+          <button onClick={() => logout()}>Logout</button>
+        </>
       ) : (
-        <Button onClick={() => signIn()}>Sign in</Button>
+        <button onClick={() => signIn()}>Sign in</button>
       )}
-    </Container>
+    </>
   );
 };

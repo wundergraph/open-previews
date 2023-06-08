@@ -34,18 +34,18 @@ export const addClickListener = (): (() => void) => {
   return () => document.body.removeEventListener("click", listener, false);
 };
 
-getSelectedItems().then((items) => {
-  items.forEach((each) => {
-    const clickedElement = findElementFromPath(each.path);
-    if (clickedElement) {
-      addFloatingUI(
-        clickedElement,
-        { x: each.x, y: each.y },
-        each.selectionRange
-      );
-    }
-  });
-});
+// getSelectedItems().then((items) => {
+//   items.forEach((each) => {
+//     const clickedElement = findElementFromPath(each.path);
+//     if (clickedElement) {
+//       addFloatingUI(
+//         clickedElement,
+//         { x: each.x, y: each.y },
+//         each.selectionRange
+//       );
+//     }
+//   });
+// });
 
 const liveHighlighter = () => {
   if ($liveHighlightedDivs.get().length) {
@@ -64,7 +64,6 @@ const clearLiveHighlighter = () => {
   highlightedDivs.forEach((item) => {
     item.remove();
   });
-  console.log("calling resetter");
   resetLiveHighlightedDivs();
 };
 
