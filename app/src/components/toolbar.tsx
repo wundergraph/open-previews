@@ -74,7 +74,7 @@ const ToolbarLink = styled(ToolbarPrimitive.Link, {
     justifyContent: "center",
     alignItems: "center",
     ":hover": { backgroundColor: theme.color.grayDark.gray9 },
-    ":focus": {
+    ":focus-visible": {
       position: "relative",
       boxShadow: `0 0 0 2px ${theme.color.pink.pink5}`,
     },
@@ -85,7 +85,7 @@ const ToolbarButton = styled(ToolbarPrimitive.Button, {
   base: {
     ...itemStyles,
     ":hover": { backgroundColor: theme.color.grayDark.gray9 },
-    ":focus": {
+    ":focus-visible": {
       position: "relative",
       boxShadow: `0 0 0 2px ${theme.color.pink.pink5}`,
     },
