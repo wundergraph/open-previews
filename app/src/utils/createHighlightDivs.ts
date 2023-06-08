@@ -1,6 +1,6 @@
 export const createHighlightDivs = (range: any): HTMLDivElement[] => {
   const rects = Array.from(range.nativeRange.getClientRects());
-  const highlightDivs = rects.map((rect: any) => {
+  const highlightDivs = rects.map((rect) => {
     const div = document.createElement("div");
     div.classList.add("highlight");
     div.style.position = "absolute";
