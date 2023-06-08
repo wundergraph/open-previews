@@ -2,6 +2,8 @@ import { styled } from "@macaron-css/react";
 import { useAuth, useQuery, useUser } from "~/lib/wundergraph";
 import { Button } from "./ui/button";
 import { openWindow } from "~/utils/open-window";
+import { useStore } from "@nanostores/react";
+import { $commentMode, toggleCommentMode } from "~/utils/state/commentMode";
 
 const Container = styled("div", {
   base: {
@@ -19,6 +21,7 @@ const Container = styled("div", {
 export const Toolbar = () => {
   const { logout } = useAuth();
   const { data: user } = useUser();
+  const isCommentModeOn = useStore($commentMode);
 
   const signIn = () => {
     const redirect_uri = encodeURIComponent(`http://localhost:3000`);
@@ -33,16 +36,17 @@ export const Toolbar = () => {
     );
   };
   return (
-    <Container>
+    <>
       {user ? (
-        <div>
-          {user.email}
-
-          <Button onClick={() => logout()}>Logout</Button>
-        </div>
+        <>
+          <button onClick={toggleCommentMode}>
+            {isCommentModeOn ? "cancel" : "add comment!"}
+          </button>
+          <button onClick={() => logout()}>Logout</button>
+        </>
       ) : (
-        <Button onClick={() => signIn()}>Sign in</Button>
+        <button onClick={() => signIn()}>Sign in</button>
       )}
-    </Container>
+    </>
   );
 };
