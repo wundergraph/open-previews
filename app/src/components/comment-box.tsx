@@ -7,19 +7,32 @@ import {
 } from "./ui/popover";
 
 export const CommentBox = (props) => {
-  const { children } = props;
+  const { children, onSubmit } = props;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit?.(new FormData(e.target));
+  };
+
   return (
-    <Popover defaultOpen>
-      <PopoverAnchor>
-        <div />
+    <Popover open={true}>
+      <PopoverAnchor asChild>
+        <div
+          style={{
+            position: "absolute",
+            bottom: "200px",
+            zIndex: 2000,
+            left: "50%",
+          }}
+        />
       </PopoverAnchor>
-      <PopoverPortal>
-        <PopoverContent sideOffset={5}>
-          <textarea defaultValue="Comment..." />
-          <button>Save</button>
-          <PopoverArrow />
-        </PopoverContent>
-      </PopoverPortal>
+      <PopoverContent sideOffset={5}>
+        <form onSubmit={handleSubmit}>
+          <textarea name="comment" defaultValue="Comment..." />
+          <button type="submit">Save</button>
+        </form>
+        <PopoverArrow />
+      </PopoverContent>
     </Popover>
   );
 };

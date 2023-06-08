@@ -25,3 +25,5 @@ test/*.js
 *.njsproj
 *.sln
 *.sw?
+
+*.pem

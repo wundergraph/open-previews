@@ -1,7 +1,8 @@
 import React from "react";
-import { useQuery } from "~/lib/wundergraph";
+import { useMutation, useQuery } from "~/lib/wundergraph";
 import { useConfig } from "~/providers/config";
 import { addClickListener } from "~/utils";
+import { CommentBox } from "./comment-box";
 
 export const Selections = () => {
   const config = useConfig();
@@ -17,6 +18,10 @@ export const Selections = () => {
 
   console.log("comments", comments.data);
 
+  const createComment = useMutation({
+    operationName: "CreateComment",
+  });
+
   React.useEffect(() => {
     const unsubscribe = addClickListener();
     return () => {
@@ -24,5 +29,25 @@ export const Selections = () => {
     };
   }, []);
 
-  return null;
+  const [selection, setSelection] = React.useState({});
+
+  return (
+    <>
+      {selection && (
+        <CommentBox
+          onSubmit={(values) => {
+            return createComment.trigger({
+              discussionId: comments.data?.id,
+              meta: {
+                x: 100,
+                y: 200,
+                href: window.location.href,
+              },
+              body: "Test comment",
+            });
+          }}
+        />
+      )}
+    </>
+  );
 };

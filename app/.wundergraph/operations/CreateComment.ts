@@ -5,12 +5,19 @@ export default createOperation.mutation({
     discussionId: z.string(),
     replyToId: z.string().optional(),
     body: z.string(),
-    meta: z.object({}),
+    meta: z.object({
+      href: z.string(),
+      x: z.number(),
+      y: z.number(),
+      selection: z.string().optional(),
+    }),
   }),
-  handler: async ({ input, graph, operations, user, context }) => {
+  handler: async ({ input, operations, user, context }) => {
     const accessToken = await context.getToken(user);
 
-    const body = `<div data-comment-meta="${input.meta}" />`;
+    const body = `${input.body} <div data-comment-meta="${JSON.stringify(
+      input.meta
+    )}" />`;
 
     const result = await operations
       .withHeaders({
@@ -20,7 +27,7 @@ export default createOperation.mutation({
         operationName: "internal/Comment",
         input: {
           discussionId: input.discussionId,
-          body: input.body,
+          body,
         },
       });
 
