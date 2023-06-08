@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { Toolbar } from "./components/toolbar";
 import { Selections } from "./components/selections";
 import { Config, OpenPreviewConfig } from "./providers/config";
+import { Draggable } from "./components/Draggable";
 
 const styles = "__STYLES__";
 
@@ -43,7 +44,9 @@ function App(props: OpenPreviewConfig) {
     <ShadowRoot>
       <Config value={{ categoryId, repository }}>
         <Selections />
-        <Toolbar />
+        <Draggable>
+          <Toolbar />
+        </Draggable>
       </Config>
     </ShadowRoot>
   );

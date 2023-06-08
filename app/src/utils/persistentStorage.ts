@@ -1,8 +1,8 @@
-// import localforage from "localforage";
+import localforage from "localforage";
 
-// localforage.config({
-//   name: "open-previews",
-//   storeName: "selectedElements",
-// });
+localforage.config({
+  name: "open-previews",
+  storeName: "selectedElements",
+});
 
-// export const storage = localforage;
+export const storage = localforage;
