@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { Toolbar } from "./components/toolbar";
 import { Selections } from "./components/selections";
 import { Config, OpenPreviewConfig } from "./providers/config";
-import { Draggable } from "./components/Draggable";
+import { themeClass } from "./theme";
 
 const styles = "__STYLES__";
 
@@ -18,7 +18,6 @@ function ShadowRoot(props: { children: React.ReactNode }) {
       document.body.appendChild(rootRef.current);
 
       const sheet = new CSSStyleSheet();
-
       sheet.replaceSync(styles);
 
       const root = rootRef.current.attachShadow({ mode: "open" });
@@ -41,14 +40,14 @@ function App(props: OpenPreviewConfig) {
     props;
 
   return (
-    // <ShadowRoot>
-    <Config value={{ categoryId, repository }}>
-      <Selections />
-      <Draggable>
-        <Toolbar />
-      </Draggable>
-    </Config>
-    // </ShadowRoot>
+    <ShadowRoot>
+      <Config value={{ categoryId, repository }}>
+        <div className={themeClass}>
+          <Selections />
+          <Toolbar />
+        </div>
+      </Config>
+    </ShadowRoot>
   );
 }
 
