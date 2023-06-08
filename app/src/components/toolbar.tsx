@@ -5,7 +5,7 @@ import { openWindow } from "~/utils/open-window";
 import { useStore } from "@nanostores/react";
 import { $commentMode, toggleCommentMode } from "~/utils/state/commentMode";
 import { LoginIcon } from "./icons/login";
-import { DndContext, useDraggable } from "@dnd-kit/core";
+import { DndContext, PointerSensor, useDraggable } from "@dnd-kit/core";
 
 import * as ToolbarPrimitive from "@radix-ui/react-toolbar";
 import { theme } from "~/theme";
@@ -152,6 +152,17 @@ export const Toolbar = () => {
           };
         });
       }}
+      sensors={[
+        {
+          sensor: PointerSensor,
+          options: {
+            preventDefaultEvents: true,
+            activationConstraint: {
+              distance: 5,
+            },
+          },
+        },
+      ]}
     >
       <ToolbarPositioner x={x} y={y}>
         <ToolbarRoot role="toolbar">
