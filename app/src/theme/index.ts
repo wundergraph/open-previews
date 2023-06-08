@@ -1,5 +1,4 @@
-// import { createTheme } from "@macaron-css/core";
-import { createTheme } from "@vanilla-extract/css";
+import { createTheme } from "@macaron-css/core";
 
 import {
   gray,
@@ -10,9 +9,12 @@ import {
   blueDark,
   redDark,
   greenDark,
+  pink,
+  pinkDark,
+  grayDarkA,
 } from "@radix-ui/colors";
 
-export const [themeClass, vars] = createTheme({
+export const [themeClass, theme] = createTheme({
   color: {
     gray: {
       ...gray,
@@ -29,6 +31,9 @@ export const [themeClass, vars] = createTheme({
     grayDark: {
       ...grayDark,
     },
+    grayDarkA: {
+      ...grayDarkA,
+    },
     blueDark: {
       ...blueDark,
     },
@@ -38,5 +43,16 @@ export const [themeClass, vars] = createTheme({
     greenDark: {
       ...greenDark,
     },
+    pink: {
+      ...pink,
+    },
+    pinkDark: {
+      ...pinkDark,
+    },
+  },
+  zIndex: {
+    base: "20000",
   },
 });
+
+console.log("themeclass", themeClass);

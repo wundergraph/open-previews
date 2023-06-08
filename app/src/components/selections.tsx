@@ -22,18 +22,18 @@ export const Selections = () => {
     operationName: "CreateComment",
   });
 
-  React.useEffect(() => {
-    const unsubscribe = addClickListener();
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  // React.useEffect(() => {
+  //   const unsubscribe = addClickListener();
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, []);
 
   const [selection, setSelection] = React.useState({});
 
   return (
     <>
-      {selection && (
+      {/* {selection && (
         <CommentBox
           onSubmit={(values) => {
             return createComment.trigger({
@@ -47,7 +47,7 @@ export const Selections = () => {
             });
           }}
         />
-      )}
+      )} */}
     </>
   );
 };
