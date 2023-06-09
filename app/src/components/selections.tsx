@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useMutation, useQuery } from "~/lib/wundergraph";
 import { useConfig } from "~/providers/config";
 import { addClickListener } from "~/utils";
@@ -22,12 +22,12 @@ export const Selections = () => {
     operationName: "CreateComment",
   });
 
-  // React.useEffect(() => {
-  //   const unsubscribe = addClickListener();
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
+  useEffect(() => {
+    const unsubscribe = addClickListener();
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const [selection, setSelection] = React.useState({});
 

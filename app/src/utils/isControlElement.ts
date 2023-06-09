@@ -9,7 +9,7 @@ export const isControlElement = (
 
   // Check if element has the class
   // @ts-expect-error
-  if (element.classList.contains("preview-control")) {
+  if (element.classList.contains("open-preview-control")) {
     return true;
   }
 

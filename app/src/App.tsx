@@ -15,6 +15,7 @@ function ShadowRoot(props: { children: React.ReactNode }) {
   React.useLayoutEffect(() => {
     if (!rootRef.current) {
       rootRef.current = document.createElement("open-previews");
+      rootRef.current.classList.add("open-preview-control");
       document.body.appendChild(rootRef.current);
 
       const sheet = new CSSStyleSheet();
