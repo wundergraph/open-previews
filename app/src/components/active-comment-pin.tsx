@@ -52,8 +52,13 @@ export const ActiveCommentPin = forwardRef<CommentPinHandle, Props>(
     let rects: any[] = [];
 
     if (pinDetails.selectionRange) {
-      const range = rangy.deserializeRange(pinDetails.selectionRange);
-      rects = Array.from(range.nativeRange.getClientRects());
+      try {
+        const range = rangy.deserializeRange(pinDetails.selectionRange);
+        rects = Array.from(range.nativeRange.getClientRects());
+      } catch (e) {
+        console.error(e);
+        // for now do nothing...
+      }
     }
 
     return (

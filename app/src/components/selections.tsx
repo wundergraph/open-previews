@@ -14,8 +14,6 @@ export const Selections = () => {
     },
   });
 
-  console.log("comments", comments.data);
-
   const createComment = useMutation({
     operationName: "CreateComment",
   });
