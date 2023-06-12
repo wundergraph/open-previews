@@ -1,25 +1,41 @@
-import { configureWunderGraphServer } from "@wundergraph/sdk/server";
-import { encodeUserToken, decodeUserToken } from "./lib/tokens";
-import { User } from "@wundergraph/sdk/client";
+import {
+  ClientRequest,
+  configureWunderGraphServer,
+} from "@wundergraph/sdk/server";
+import { encodeUserToken, verifyToken } from "./lib/tokens";
+import { AuthorizationError, User } from "@wundergraph/sdk/client";
 
 class RequestContext {
-  getToken = async (user?: User) => {
-    console.log("getToken", user?.customClaims?.token);
-    return user && (await decodeUserToken(user?.customClaims?.token));
+  getTokenFromUser = async (user?: User) => {
+    if (!user?.customClaims?.token) {
+      throw new AuthorizationError();
+    }
+    return await verifyToken(user.customClaims?.token);
+  };
+  getTokenFromRequest = async (clientRequest: ClientRequest) => {
+    const token = clientRequest.headers.get("x-session-token");
+    if (!token) {
+      throw new AuthorizationError();
+    }
+    return await verifyToken(token);
   };
 }
 
-export default configureWunderGraphServer<RequestContext>(() => ({
+export default configureWunderGraphServer(() => ({
   hooks: {
     authentication: {
       mutatingPostAuthentication: async ({ user }) => {
-        console.log("mutatingPostAuthentication", user);
+        const token = await encodeUserToken(user);
+        console.log("mutatingPostAuthentication", user, token);
         return {
           user: {
             ...user,
             customClaims: {
-              token: await encodeUserToken(user),
+              token,
             },
+          },
+          headers: {
+            "x-session-token": token,
           },
           status: "ok",
         };

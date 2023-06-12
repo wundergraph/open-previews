@@ -4,6 +4,7 @@ import { Toolbar } from "./components/toolbar";
 import { Selections } from "./components/selections";
 import { Config, OpenPreviewConfig } from "./providers/config";
 import { themeClass } from "./theme";
+import { useUser } from "./hooks/use-user";
 
 const styles = "__STYLES__";
 
@@ -36,16 +37,19 @@ function ShadowRoot(props: { children: React.ReactNode }) {
 }
 
 function App(props: OpenPreviewConfig) {
-  const { categoryId = "39587787", repository = "Pagebakers/cloud-starter" } =
-    props;
+  const user = useUser();
+
+  console.log(user);
 
   return (
     <ShadowRoot>
-      <Config value={{ categoryId, repository }}>
-        <div className={themeClass}>
-          <Selections />
-          <Toolbar />
-        </div>
+      <Config value={props}>
+        {
+          <div className={themeClass}>
+            {user.data ? <Selections /> : null}
+            <Toolbar />
+          </div>
+        }
       </Config>
     </ShadowRoot>
   );

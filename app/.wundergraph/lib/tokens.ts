@@ -14,13 +14,21 @@ export const encodeUserToken = async (user: User) => {
   const secret = getSecret();
 
   // @todo this is not encoded.
-  return jwt.sign({ token: user.rawAccessToken }, secret, { expiresIn: "2h" });
+  return jwt.sign(
+    { accessToken: user.rawAccessToken, name: user.name, email: user.email },
+    secret,
+    { expiresIn: "2h" }
+  );
 };
 
-export const decodeUserToken = async (token: string): Promise<string> => {
+interface Token {
+  accessToken: string;
+  name: string;
+  email: string;
+}
+
+export const verifyToken = async (token: string): Promise<Token> => {
   const secret = getSecret();
-
-  const decoded = jwt.verify(token, secret) as JwtPayload;
-
-  return decoded?.token;
+  const decoded = jwt.verify(token, secret) as Token;
+  return decoded;
 };

@@ -10,7 +10,7 @@ export const Selections = () => {
   const comments = useQuery({
     operationName: "Comments",
     input: {
-      repo: config.repository,
+      repository: config.repository,
       categoryId: config.categoryId,
       url: window.location.hostname,
     },

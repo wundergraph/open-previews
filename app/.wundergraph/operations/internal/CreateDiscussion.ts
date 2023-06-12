@@ -4,15 +4,15 @@ export default createOperation.mutation({
   input: z.object({
     url: z.string(),
     categoryId: z.string(),
-    repo: z.string(),
+    repository: z.string(),
     body: z.string().optional(),
   }),
-  handler: async ({ input, operations, user, context }) => {
-    const accessToken = await context.getToken(user);
+  handler: async ({ input, operations, clientRequest, context }) => {
+    const { accessToken } = await context.getTokenFromRequest(clientRequest);
     const headers = {
       Authorization: `Bearer ${accessToken}`,
     };
-    const [owner, name] = input.repo.split("/");
+    const [owner, name] = input.repository.split("/");
 
     const { data, error: repositoryError } = await operations.query({
       operationName: "internal/Repository",

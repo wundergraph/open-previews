@@ -64,7 +64,9 @@ configureWunderGraphApplication({
       ],
       authorizedRedirectUriRegexes: [
         "http://localhost:3000*",
-        "https://wg-cloud.eu.ngrok.io/webhooks/github-callback",
+        "http://localhost:9991*",
+        "https://wg-cloud.eu.ngrok.io*",
+        "https://wg-web.eu.ngrok.io*",
       ],
     },
   },
