@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useMutation, useQuery } from "~/lib/wundergraph";
 import { useConfig } from "~/providers/config";
-import { addClickListener } from "~/utils";
-import { CommentBox } from "./comment-box";
 
 export const Selections = () => {
   const config = useConfig();
@@ -21,15 +19,6 @@ export const Selections = () => {
   const createComment = useMutation({
     operationName: "CreateComment",
   });
-
-  useEffect(() => {
-    const unsubscribe = addClickListener();
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
-  const [selection, setSelection] = React.useState({});
 
   return (
     <>

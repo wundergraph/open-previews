@@ -4,6 +4,12 @@ import { Toolbar } from "./components/toolbar";
 import { Selections } from "./components/selections";
 import { Config, OpenPreviewConfig } from "./providers/config";
 import { themeClass } from "./theme";
+import {
+  ActiveCommentPin,
+  CommentPinHandle,
+} from "./components/active-comment-pin";
+import { useEffect, useRef, useState } from "react";
+import { addClickListener } from "./utils";
 
 const styles = "__STYLES__";
 
@@ -40,12 +46,43 @@ function App(props: OpenPreviewConfig) {
   const { categoryId = "39587787", repository = "Pagebakers/cloud-starter" } =
     props;
 
+  const activePinRef = useRef<CommentPinHandle | null>(null);
+
+  const [, setRandom] = useState<number>();
+
+  useEffect(() => {
+    const unsubscribe = addClickListener(activePinRef.current);
+    return () => {
+      unsubscribe();
+    };
+  }, [activePinRef.current]);
+
+  useEffect(() => {
+    const rerender = () => setRandom(Math.random());
+
+    /**
+     * Re-render once to access the activePinRef
+     */
+    setTimeout(() => {
+      rerender();
+    }, 500);
+
+    window.addEventListener("resize", rerender);
+    window.addEventListener("scroll", rerender);
+
+    return () => {
+      window.removeEventListener("resize", rerender);
+      window.removeEventListener("scroll", rerender);
+    };
+  }, []);
+
   return (
     <ShadowRoot>
       <Config value={{ categoryId, repository }}>
         <div className={themeClass}>
           <Selections />
           <Toolbar />
+          <ActiveCommentPin ref={activePinRef} />
         </div>
       </Config>
     </ShadowRoot>
