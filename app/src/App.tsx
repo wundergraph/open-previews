@@ -84,7 +84,7 @@ function App(props: OpenPreviewConfig) {
           <Selections />
           <Toolbar />
           <ActiveCommentPin ref={activePinRef} />
-          <LiveHighlighter />
+          <LiveHighlighter commentHandler={activePinRef} />
         </div>
       </Config>
     </ShadowRoot>

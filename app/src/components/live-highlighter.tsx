@@ -1,7 +1,12 @@
 import { FC, useEffect, useState } from "react";
 import { rangy } from "~/utils/rangy";
+import { CommentPinHandle } from "./active-comment-pin";
+import { pathBuilder } from "~/utils/pathBuilder";
+import { findElementFromPath } from "~/utils/findElementFromPath";
 
-export const LiveHighlighter: FC = () => {
+export const LiveHighlighter: FC<{
+  commentHandler: React.MutableRefObject<CommentPinHandle | null>;
+}> = ({ commentHandler }) => {
   const [isHightlightActive, setIsHighlightActive] = useState(false);
   const [activeRange, setActiveRange] = useState<any>();
 
@@ -17,6 +22,19 @@ export const LiveHighlighter: FC = () => {
     };
 
     const transitionToComments = (event: MouseEvent) => {
+      const selection = rangy.getSelection();
+      if (selection.toString().length) {
+        const targetElement = pathBuilder(event);
+        const clickedElement = findElementFromPath(targetElement.path);
+        commentHandler.current?.addCommentPin(
+          clickedElement!,
+          {
+            x: targetElement.x,
+            y: targetElement.y,
+          },
+          targetElement.selectionRange
+        );
+      }
       setIsHighlightActive(false);
       setActiveRange(undefined);
     };
