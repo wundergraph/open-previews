@@ -49,33 +49,3 @@ export const addClickListener = (
 //     }
 //   });
 // });
-
-const liveHighlighter = () => {
-  if ($liveHighlightedDivs.get().length) {
-    clearLiveHighlighter();
-  }
-  const selection = rangy.getSelection();
-  if (selection.toString().length) {
-    const selectionRange = rangy.serializeSelection(selection, true);
-    const range = rangy.deserializeRange(selectionRange);
-    setLiveHighlightedDivs(createHighlightDivs(range));
-  }
-};
-
-const clearLiveHighlighter = () => {
-  const highlightedDivs = $liveHighlightedDivs.get();
-  highlightedDivs.forEach((item) => {
-    item.remove();
-  });
-  resetLiveHighlightedDivs();
-};
-
-const transitionToComments = (event: MouseEvent) => {
-  const isAnyDivHighlighted = !!$liveHighlightedDivs.get().length;
-  if (isAnyDivHighlighted) {
-    clearLiveHighlighter();
-  }
-};
-
-document.addEventListener("selectionchange", liveHighlighter);
-document.addEventListener("mouseup", transitionToComments);

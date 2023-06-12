@@ -10,6 +10,7 @@ import {
 } from "./components/active-comment-pin";
 import { useEffect, useRef, useState } from "react";
 import { addClickListener } from "./utils";
+import { LiveHighlighter } from "./components/live-highlighter";
 
 const styles = "__STYLES__";
 
@@ -83,6 +84,7 @@ function App(props: OpenPreviewConfig) {
           <Selections />
           <Toolbar />
           <ActiveCommentPin ref={activePinRef} />
+          <LiveHighlighter />
         </div>
       </Config>
     </ShadowRoot>

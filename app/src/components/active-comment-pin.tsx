@@ -64,9 +64,10 @@ export const ActiveCommentPin = forwardRef<CommentPinHandle, Props>(
     return (
       <div style={{ left, top, position: "fixed" }}>
         <CommentBox />
-        {rects.map((each) => {
+        {rects.map((each, eachIndex) => {
           return (
             <div
+              key={eachIndex.toString()}
               className="highlight"
               style={{
                 position: "fixed",
