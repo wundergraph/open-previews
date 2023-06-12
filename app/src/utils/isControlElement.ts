@@ -1,3 +1,5 @@
+import { CONTROL_ELEMENT_CLASS } from "./constants/constants";
+
 // Code to check if the clicked element is part of Open Preview controls
 export const isControlElement = (
   element: HTMLElement | EventTarget | null
@@ -9,7 +11,7 @@ export const isControlElement = (
 
   // Check if element has the class
   // @ts-expect-error
-  if (element.classList.contains("open-preview-control")) {
+  if (element.classList.contains(CONTROL_ELEMENT_CLASS)) {
     return true;
   }
 

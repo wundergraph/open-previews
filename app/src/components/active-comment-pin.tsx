@@ -2,10 +2,10 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { PositionData, SelectionRange } from "~/utils/pathBuilder";
 import { CommentBox } from "./comment-box";
 import { rangy } from "~/utils/rangy";
-import { storage } from "~/utils/persistentStorage";
+import { addSelection } from "~/utils/state/activeSelections";
 
 type PinDetails = {
-  targetElement: PositionData;
+  targetElement?: PositionData;
   element: HTMLElement;
   coords: { x: number; y: number };
   selectionRange?: SelectionRange;
@@ -13,6 +13,7 @@ type PinDetails = {
 
 type ActiveCommentPinProps = {
   pinDetails?: PinDetails;
+  onSubmit?: (data: FormData) => unknown;
 };
 
 export type CommentPinHandle = {
@@ -70,13 +71,15 @@ export const ActiveCommentPin = forwardRef<
   }
 
   const persistCommentBox = async () => {
-    const timestamp = new Date();
-    await storage.setItem(timestamp.toISOString(), pinDetails.targetElement);
+    if (pinDetails.targetElement) {
+      const timestamp = new Date().toISOString();
+      addSelection(timestamp, pinDetails.targetElement);
+    }
   };
 
   return (
     <div style={{ left, top, position: "fixed" }}>
-      <CommentBox onSubmit={persistCommentBox} />
+      <CommentBox onSubmit={props.onSubmit ?? persistCommentBox} />
       {rects.map((each, eachIndex) => {
         return (
           <div

@@ -29,6 +29,9 @@ importers:
       '@macaron-css/vite':
         specifier: ^1.4.2
         version: 1.4.2(@types/node@16.18.32)(vite@2.9.16)
+      '@nanostores/persistent':
+        specifier: ^0.9.0
+        version: 0.9.0(nanostores@0.9.1)
       '@nanostores/react':
         specifier: ^0.7.1
         version: 0.7.1(nanostores@0.9.1)(react@18.2.0)
@@ -3153,6 +3156,15 @@ packages:
   /@microsoft/tsdoc@0.14.2:
     resolution: {integrity: sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==}
     dev: true
+
+  /@nanostores/persistent@0.9.0(nanostores@0.9.1):
+    resolution: {integrity: sha512-9OvMOWs0NRiFXmZQXYsb7vGKTt+3XM0/gHl/gGdRTGvYBSaUwJrcmrOx8oc2jmj3QEGoT7JoeUStTGZUy0fSsw==}
+    engines: {node: ^16.0.0 || ^18.0.0 || >=20.0.0}
+    peerDependencies:
+      nanostores: ^0.9.0
+    dependencies:
+      nanostores: 0.9.1
+    dev: false
 
   /@nanostores/react@0.7.1(nanostores@0.9.1)(react@18.2.0):
     resolution: {integrity: sha512-EXQg9N4MdI4eJQz/AZLIx3hxQ6BuBmV4Q55bCd5YCSgEOAW7tGTsIZxpRXxvxLXzflNvHTBvfrDNY38TlSVBkQ==}

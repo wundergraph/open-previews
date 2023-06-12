@@ -11,6 +11,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { addClickListener } from "./utils";
 import { LiveHighlighter } from "./components/live-highlighter";
+import { CONTROL_ELEMENT_CLASS } from "./utils/constants/constants";
 
 const styles = "__STYLES__";
 
@@ -22,7 +23,7 @@ function ShadowRoot(props: { children: React.ReactNode }) {
   React.useLayoutEffect(() => {
     if (!rootRef.current) {
       rootRef.current = document.createElement("open-previews");
-      rootRef.current.classList.add("open-preview-control");
+      rootRef.current.classList.add(CONTROL_ELEMENT_CLASS);
       document.body.appendChild(rootRef.current);
 
       const sheet = new CSSStyleSheet();
