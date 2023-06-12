@@ -8,19 +8,16 @@ export const addCommentBox = async (
   event: MouseEvent,
   commentPinHandle: CommentPinHandle | null
 ) => {
-  const timestamp = new Date();
-
   const targetElement = pathBuilder(event);
-
-  await storage.setItem(timestamp.toISOString(), targetElement);
 
   // Find the clicked element and add a floating UI next to it
   const clickedElement = findElementFromPath(targetElement.path);
   if (clickedElement) {
-    return commentPinHandle?.addCommentPin(
-      clickedElement,
-      { x: targetElement.x, y: targetElement.y },
-      targetElement.selectionRange
-    );
+    return commentPinHandle?.addCommentPin({
+      element: clickedElement,
+      coords: { x: targetElement.x, y: targetElement.y },
+      selectionRange: targetElement.selectionRange,
+      targetElement,
+    });
   }
 };

@@ -1,88 +1,100 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import { SelectionRange } from "~/utils/pathBuilder";
+import { PositionData, SelectionRange } from "~/utils/pathBuilder";
 import { CommentBox } from "./comment-box";
 import { rangy } from "~/utils/rangy";
+import { storage } from "~/utils/persistentStorage";
 
-type Props = {};
-
-export type CommentPinHandle = {
-  addCommentPin: (
-    element: HTMLElement,
-    coords: { x: number; y: number },
-    selectionRange?: SelectionRange
-  ) => void;
+type PinDetails = {
+  targetElement: PositionData;
+  element: HTMLElement;
+  coords: { x: number; y: number };
+  selectionRange?: SelectionRange;
 };
 
-export const ActiveCommentPin = forwardRef<CommentPinHandle, Props>(
-  (props, ref) => {
-    const [pinDetails, setPinDetails] = useState<{
-      element: HTMLElement;
-      coords: { x: number; y: number };
-      selectionRange?: SelectionRange;
-    }>();
+type ActiveCommentPinProps = {
+  pinDetails?: PinDetails;
+};
 
-    const addCommentPin = (
-      element: HTMLElement,
-      coords: { x: number; y: number },
-      selectionRange?: SelectionRange
-    ) => {
-      setPinDetails({
-        element,
-        coords,
-        selectionRange,
-      });
-    };
+export type CommentPinHandle = {
+  addCommentPin: (args: PinDetails) => void;
+};
 
-    useImperativeHandle(
-      ref,
-      () => {
-        return {
-          addCommentPin,
-        };
-      },
-      []
-    );
+export const ActiveCommentPin = forwardRef<
+  CommentPinHandle,
+  ActiveCommentPinProps
+>((props, ref) => {
+  const [pinDetails, setPinDetails] = useState<PinDetails | undefined>(
+    props.pinDetails
+  );
 
-    if (!pinDetails) return null;
+  const addCommentPin = ({
+    element,
+    coords,
+    targetElement,
+    selectionRange,
+  }: PinDetails) => {
+    setPinDetails({
+      element,
+      coords,
+      selectionRange,
+      targetElement,
+    });
+  };
 
-    const rect = pinDetails.element.getBoundingClientRect();
-    const left = `${rect.left + pinDetails.coords.x}px`;
-    const top = `${rect.top + pinDetails.coords.y}px`;
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        addCommentPin,
+      };
+    },
+    []
+  );
 
-    let rects: any[] = [];
+  if (!pinDetails) return null;
 
-    if (pinDetails.selectionRange) {
-      try {
-        const range = rangy.deserializeRange(pinDetails.selectionRange);
-        rects = Array.from(range.nativeRange.getClientRects());
-      } catch (e) {
-        console.error(e);
-        // for now do nothing...
-      }
+  const rect = pinDetails.element.getBoundingClientRect();
+  const left = `${rect.left + pinDetails.coords.x}px`;
+  const top = `${rect.top + pinDetails.coords.y}px`;
+
+  let rects: any[] = [];
+
+  if (pinDetails.selectionRange) {
+    try {
+      const range = rangy.deserializeRange(pinDetails.selectionRange);
+      rects = Array.from(range.nativeRange.getClientRects());
+    } catch (e) {
+      console.error(e);
+      // for now do nothing...
     }
-
-    return (
-      <div style={{ left, top, position: "fixed" }}>
-        <CommentBox />
-        {rects.map((each, eachIndex) => {
-          return (
-            <div
-              key={eachIndex.toString()}
-              className="highlight"
-              style={{
-                position: "fixed",
-                left: `${each.left + window.scrollX}px`,
-                top: `${each.top + window.scrollY}px`,
-                width: `${each.width}px`,
-                height: `${each.height}px`,
-                backgroundColor: "yellow",
-                opacity: "0.5",
-                pointerEvents: "none",
-              }}
-            ></div>
-          );
-        })}
-      </div>
-    );
   }
-);
+
+  const persistCommentBox = async () => {
+    const timestamp = new Date();
+    await storage.setItem(timestamp.toISOString(), pinDetails.targetElement);
+  };
+
+  return (
+    <div style={{ left, top, position: "fixed" }}>
+      <CommentBox onSubmit={persistCommentBox} />
+      {rects.map((each, eachIndex) => {
+        return (
+          <div
+            key={eachIndex.toString()}
+            className="highlight"
+            style={{
+              position: "fixed",
+              left: `${each.left + window.scrollX}px`,
+              top: `${each.top + window.scrollY}px`,
+              width: `${each.width}px`,
+              height: `${each.height}px`,
+              backgroundColor: "yellow",
+              opacity: "0.5",
+              pointerEvents: "none",
+            }}
+          ></div>
+        );
+      })}
+    </div>
+  );
+});

@@ -26,14 +26,15 @@ export const LiveHighlighter: FC<{
       if (selection.toString().length) {
         const targetElement = pathBuilder(event);
         const clickedElement = findElementFromPath(targetElement.path);
-        commentHandler.current?.addCommentPin(
-          clickedElement!,
-          {
+        commentHandler.current?.addCommentPin({
+          element: clickedElement!,
+          coords: {
             x: targetElement.x,
             y: targetElement.y,
           },
-          targetElement.selectionRange
-        );
+          selectionRange: targetElement.selectionRange,
+          targetElement,
+        });
       }
       setIsHighlightActive(false);
       setActiveRange(undefined);

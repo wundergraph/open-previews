@@ -28,26 +28,31 @@ export const addFloatingUI = (
   window.addEventListener("scroll", updatePosition);
 
   if (selectionRange) {
-    const range = rangy.deserializeRange(selectionRange);
-    let highlightDivs = createHighlightDivs(range);
+    try {
+      const range = rangy.deserializeRange(selectionRange);
+      let highlightDivs = createHighlightDivs(range);
 
-    window.addEventListener("resize", () => {
-      highlightDivs.forEach((item) => {
-        item.remove();
+      window.addEventListener("resize", () => {
+        highlightDivs.forEach((item) => {
+          item.remove();
+        });
+        highlightDivs = createHighlightDivs(range);
       });
-      highlightDivs = createHighlightDivs(range);
-    });
-    window.addEventListener("scroll", () => {
-      highlightDivs.forEach((item) => {
-        item.remove();
+      window.addEventListener("scroll", () => {
+        highlightDivs.forEach((item) => {
+          item.remove();
+        });
+        highlightDivs = createHighlightDivs(range);
       });
-      highlightDivs = createHighlightDivs(range);
-    });
+    } catch (e) {
+      console.error(e);
+      // do nothing for now
+    }
   }
 
   const root = createRoot(dummyElement);
 
-  root.render(<CommentBox />);
+  root.render(<CommentBox onSubmit={() => null} />);
 
   return () => dummyElement.remove();
 };

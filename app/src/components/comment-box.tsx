@@ -8,8 +8,10 @@ import {
 } from "./ui/popover";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
-export const CommentBox = (props) => {
-  const { children, onSubmit } = props;
+export const CommentBox = (props: {
+  onSubmit: (data: FormData) => unknown;
+}) => {
+  const { onSubmit } = props;
 
   const handleSubmit = (e) => {
     e.preventDefault();
