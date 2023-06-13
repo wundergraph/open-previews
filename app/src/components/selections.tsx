@@ -1,8 +1,9 @@
-import React from "react";
+import { useStore } from "@nanostores/react";
 import { useMutation, useQuery } from "~/lib/wundergraph";
 import { useConfig } from "~/providers/config";
-import { addClickListener } from "~/utils";
-import { CommentBox } from "./comment-box";
+import { $activeSelections } from "~/utils/state/activeSelections";
+import { ActiveCommentPin } from "./active-comment-pin";
+import { findElementFromPath } from "~/utils/findElementFromPath";
 
 export const Selections = () => {
   const config = useConfig();
@@ -16,38 +17,35 @@ export const Selections = () => {
     },
   });
 
-  console.log("comments", comments.data);
-
   const createComment = useMutation({
     operationName: "CreateComment",
   });
 
-  // React.useEffect(() => {
-  //   const unsubscribe = addClickListener();
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
+  const activeSelections = useStore($activeSelections);
 
-  const [selection, setSelection] = React.useState({});
+  const selectionsArray = Object.keys(activeSelections).map((each) => {
+    return {
+      ...activeSelections[each],
+      timeStamp: each,
+    };
+  });
 
   return (
     <>
-      {/* {selection && (
-        <CommentBox
-          onSubmit={(values) => {
-            return createComment.trigger({
-              discussionId: comments.data?.id,
-              meta: {
-                x: 100,
-                y: 200,
-                href: window.location.href,
-              },
-              body: "Test comment",
-            });
-          }}
-        />
-      )} */}
+      {selectionsArray.map((each) => {
+        const clickedElement = findElementFromPath(each.path) as HTMLElement;
+
+        return (
+          <ActiveCommentPin
+            pinDetails={{
+              element: clickedElement,
+              coords: { x: each.x, y: each.y },
+              selectionRange: each.selectionRange,
+            }}
+            onSubmit={() => null}
+          />
+        );
+      })}
     </>
   );
 };

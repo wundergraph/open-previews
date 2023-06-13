@@ -12,8 +12,11 @@ import {
   resetLiveHighlightedDivs,
   setLiveHighlightedDivs,
 } from "./state/liveHighlightedDivs";
+import { CommentPinHandle } from "~/components/active-comment-pin";
 
-export const addClickListener = (): (() => void) => {
+export const addClickListener = (
+  commentPinHandle: CommentPinHandle | null
+): (() => void) => {
   const listener = async (event: MouseEvent) => {
     if (!$commentMode.get()) {
       // user is not in comment mode - leave the event listener
@@ -26,7 +29,7 @@ export const addClickListener = (): (() => void) => {
 
     toggleCommentMode();
 
-    addCommentBox(event);
+    addCommentBox(event, commentPinHandle);
   };
 
   document.body.addEventListener("click", listener, false);
@@ -46,34 +49,3 @@ export const addClickListener = (): (() => void) => {
 //     }
 //   });
 // });
-
-const liveHighlighter = () => {
-  if ($liveHighlightedDivs.get().length) {
-    clearLiveHighlighter();
-  }
-  const selection = rangy.getSelection();
-  if (selection.toString().length) {
-    const selectionRange = rangy.serializeSelection(selection, true);
-    const range = rangy.deserializeRange(selectionRange);
-    setLiveHighlightedDivs(createHighlightDivs(range));
-  }
-};
-
-const clearLiveHighlighter = () => {
-  const highlightedDivs = $liveHighlightedDivs.get();
-  highlightedDivs.forEach((item) => {
-    item.remove();
-  });
-  resetLiveHighlightedDivs();
-};
-
-const transitionToComments = (event: MouseEvent) => {
-  const isAnyDivHighlighted = !!$liveHighlightedDivs.get().length;
-  if (isAnyDivHighlighted) {
-    clearLiveHighlighter();
-    addCommentBox(event);
-  }
-};
-
-document.addEventListener("selectionchange", liveHighlighter);
-document.addEventListener("mouseup", transitionToComments);

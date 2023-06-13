@@ -1,6 +1,6 @@
 import { styled } from "@macaron-css/react";
 import * as PopoverPrimitives from "@radix-ui/react-popover";
-import { vars } from "~/theme";
+import { theme } from "~/theme";
 
 // const slideUpAndFade = keyframes({
 //     '0%': { opacity: 0, transform: 'translateY(2px)' },
@@ -39,7 +39,7 @@ export const PopoverContent = styled(PopoverPrimitives.Content, {
     animationTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
     willChange: "transform, opacity",
     ":focus": {
-      boxShadow: `hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px, 0 0 0 2px ${vars.color.green.green7}`,
+      boxShadow: `hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px, 0 0 0 2px ${theme.color.green.green7}`,
     },
     selectors: {
       "&[data-state=open]": {
@@ -70,11 +70,11 @@ export const PopoverClose = styled(PopoverPrimitives.Close, {
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    color: vars.color.green.green11,
+    color: theme.color.green.green11,
     position: "absolute",
     top: 5,
     right: 5,
-    ":hover": { backgroundColor: vars.color.green.green11 },
-    ":focus": { boxShadow: `0 0 0 2px ${vars.color.green.green7}` },
+    ":hover": { backgroundColor: theme.color.green.green11 },
+    ":focus": { boxShadow: `0 0 0 2px ${theme.color.green.green7}` },
   },
 });

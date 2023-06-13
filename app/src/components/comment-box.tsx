@@ -1,3 +1,4 @@
+import { CommentIcon } from "./icons/comment";
 import {
   Popover,
   PopoverAnchor,
@@ -5,9 +6,12 @@ import {
   PopoverContent,
   PopoverPortal,
 } from "./ui/popover";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
-export const CommentBox = (props) => {
-  const { children, onSubmit } = props;
+export const CommentBox = (props: {
+  onSubmit: (data: FormData) => unknown;
+}) => {
+  const { onSubmit } = props;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,24 +19,20 @@ export const CommentBox = (props) => {
   };
 
   return (
-    <Popover open={true}>
-      <PopoverAnchor asChild>
-        <div
-          style={{
-            position: "absolute",
-            bottom: "200px",
-            zIndex: 2000,
-            left: "50%",
-          }}
-        />
-      </PopoverAnchor>
-      <PopoverContent sideOffset={5}>
-        <form onSubmit={handleSubmit}>
-          <textarea name="comment" defaultValue="Comment..." />
-          <button type="submit">Save</button>
-        </form>
-        <PopoverArrow />
-      </PopoverContent>
-    </Popover>
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild>
+        <button aria-label="open-comments">
+          <CommentIcon />
+        </button>
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content className="DropdownMenuContent" sideOffset={5}>
+          <form onSubmit={handleSubmit}>
+            <textarea name="comment" defaultValue="Comment..." />
+            <button type="submit">Save</button>
+          </form>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   );
 };

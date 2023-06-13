@@ -4,6 +4,14 @@ import { Toolbar } from "./components/toolbar";
 import { Selections } from "./components/selections";
 import { Config, OpenPreviewConfig } from "./providers/config";
 import { themeClass } from "./theme";
+import {
+  ActiveCommentPin,
+  CommentPinHandle,
+} from "./components/active-comment-pin";
+import { useEffect, useRef, useState } from "react";
+import { addClickListener } from "./utils";
+import { LiveHighlighter } from "./components/live-highlighter";
+import { CONTROL_ELEMENT_CLASS } from "./utils/constants/constants";
 import { useUser } from "./hooks/use-user";
 
 const styles = "__STYLES__";
@@ -16,6 +24,7 @@ function ShadowRoot(props: { children: React.ReactNode }) {
   React.useLayoutEffect(() => {
     if (!rootRef.current) {
       rootRef.current = document.createElement("open-previews");
+      rootRef.current.classList.add(CONTROL_ELEMENT_CLASS);
       document.body.appendChild(rootRef.current);
 
       const sheet = new CSSStyleSheet();
@@ -41,15 +50,45 @@ function App(props: OpenPreviewConfig) {
 
   console.log(user);
 
+  const activePinRef = useRef<CommentPinHandle | null>(null);
+
+  const [, setRandom] = useState<number>();
+
+  useEffect(() => {
+    const unsubscribe = addClickListener(activePinRef.current);
+    return () => {
+      unsubscribe();
+    };
+  }, [activePinRef.current]);
+
+  useEffect(() => {
+    const rerender = () => setRandom(Math.random());
+
+    /**
+     * Re-render once to access the activePinRef
+     */
+    setTimeout(() => {
+      rerender();
+    }, 500);
+
+    window.addEventListener("resize", rerender);
+    window.addEventListener("scroll", rerender);
+
+    return () => {
+      window.removeEventListener("resize", rerender);
+      window.removeEventListener("scroll", rerender);
+    };
+  }, []);
+
   return (
     <ShadowRoot>
       <Config value={props}>
-        {
-          <div className={themeClass}>
-            {user.data ? <Selections /> : null}
-            <Toolbar />
-          </div>
-        }
+        <div className={themeClass}>
+          {user.data ? <Selections /> : null}
+          <Toolbar />
+          <ActiveCommentPin ref={activePinRef} />
+          <LiveHighlighter commentHandler={activePinRef} />
+        </div>
       </Config>
     </ShadowRoot>
   );
