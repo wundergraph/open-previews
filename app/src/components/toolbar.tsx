@@ -1,7 +1,5 @@
 import { styled } from "@macaron-css/react";
 import { style } from "@macaron-css/core";
-import { useAuth, useQuery, useUser } from "~/lib/wundergraph";
-import { openWindow } from "~/utils/open-window";
 import { useStore } from "@nanostores/react";
 import { $commentMode, toggleCommentMode } from "~/utils/state/commentMode";
 import { LoginIcon } from "./icons/login";
@@ -12,6 +10,8 @@ import { theme } from "~/theme";
 import { CommentIcon } from "./icons/comment";
 import { XIcon } from "./icons/x";
 import React from "react";
+import { useUser } from "~/hooks/use-user";
+import { useAuth } from "~/lib/auth";
 
 const ToolbarRoot = styled(ToolbarPrimitive.Root, {
   base: {
@@ -123,19 +123,11 @@ const ToolbarPositioner = (props) => {
 };
 
 export const Toolbar = () => {
-  const { logout } = useAuth();
-  const { data: user } = useUser();
+  const { token, login, logout } = useAuth();
+  const { data: user } = useUser({
+    enabled: !!token,
+  });
   const isCommentModeOn = useStore($commentMode);
-
-  const signIn = () => {
-    const redirect_uri = encodeURIComponent(`http://localhost:3000`);
-    openWindow(
-      `http://localhost:9991/auth/cookie/authorize/github?redirect_uri=${redirect_uri}`,
-      "mozillaWindow",
-      800,
-      600
-    );
-  };
 
   const [{ x, y }, setCoordinates] = React.useState<{ x: number; y: number }>({
     x: window.innerWidth * 0.5 - 50,
@@ -185,7 +177,7 @@ export const Toolbar = () => {
               </ToolbarButton>
             </>
           ) : (
-            <ToolbarButton onClick={() => signIn()}>
+            <ToolbarButton onClick={() => login()}>
               <LoginIcon className={style({ marginRight: "4px" })} /> Log in to
               comment
             </ToolbarButton>

@@ -12,8 +12,8 @@ export default createOperation.mutation({
       selection: z.string().optional(),
     }),
   }),
-  handler: async ({ input, operations, user, context }) => {
-    const accessToken = await context.getToken(user);
+  handler: async ({ input, operations, clientRequest, context }) => {
+    const { accessToken } = await context.getTokenFromRequest(clientRequest);
 
     const body = `${input.body} <div data-comment-meta="${JSON.stringify(
       input.meta

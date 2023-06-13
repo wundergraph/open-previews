@@ -3,11 +3,11 @@ import { createOperation, z } from "../generated/wundergraph.factory";
 export default createOperation.query({
   input: z.object({
     url: z.string(),
-    repo: z.string(),
+    repository: z.string(),
     categoryId: z.string(),
   }),
-  handler: async ({ input, operations, user, context }) => {
-    const accessToken = await context.getToken(user);
+  handler: async ({ input, operations, clientRequest, context }) => {
+    const { accessToken } = await context.getTokenFromRequest(clientRequest);
 
     const headers = {
       Authorization: `Bearer ${accessToken}`,
@@ -17,7 +17,7 @@ export default createOperation.query({
       operationName: "internal/SearchDiscussions",
       input: {
         url: input.url,
-        repo: input.repo,
+        repository: input.repository,
       },
     });
 
@@ -31,7 +31,7 @@ export default createOperation.query({
           operationName: "internal/CreateDiscussion",
           input: {
             url: input.url,
-            repo: input.repo,
+            repository: input.repository,
             categoryId: input.categoryId,
             body: `## ${input.url}\n\n`,
           },

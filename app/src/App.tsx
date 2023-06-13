@@ -12,6 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { addClickListener } from "./utils";
 import { LiveHighlighter } from "./components/live-highlighter";
 import { CONTROL_ELEMENT_CLASS } from "./utils/constants/constants";
+import { useUser } from "./hooks/use-user";
 
 const styles = "__STYLES__";
 
@@ -45,8 +46,9 @@ function ShadowRoot(props: { children: React.ReactNode }) {
 }
 
 function App(props: OpenPreviewConfig) {
-  const { categoryId = "39587787", repository = "Pagebakers/cloud-starter" } =
-    props;
+  const user = useUser();
+
+  console.log(user);
 
   const activePinRef = useRef<CommentPinHandle | null>(null);
 
@@ -80,9 +82,9 @@ function App(props: OpenPreviewConfig) {
 
   return (
     <ShadowRoot>
-      <Config value={{ categoryId, repository }}>
+      <Config value={props}>
         <div className={themeClass}>
-          <Selections />
+          {user.data ? <Selections /> : null}
           <Toolbar />
           <ActiveCommentPin ref={activePinRef} />
           <LiveHighlighter commentHandler={activePinRef} />
