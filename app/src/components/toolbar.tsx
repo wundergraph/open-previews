@@ -19,10 +19,12 @@ const ToolbarRoot = styled(ToolbarPrimitive.Root, {
     padding: "8px",
     minWidth: "max-content",
     borderRadius: 25,
-    backgroundColor: theme.color.grayDarkA.grayA8,
+    backgroundColor: theme.color.grayDarkA.grayA6,
+    border: "1px solid",
+    borderColor: theme.color.grayDarkA.grayA7,
     backgroundBlendMode: "color-burn",
     backdropFilter: "blur(20px)",
-    zIndex: 10000,
+    zIndex: theme.zIndex.base,
   },
 });
 
@@ -131,7 +133,7 @@ export const Toolbar = () => {
 
   const [{ x, y }, setCoordinates] = React.useState<{ x: number; y: number }>({
     x: window.innerWidth * 0.5 - 50,
-    y: window.innerHeight - 100,
+    y: window.innerHeight - 80,
   });
 
   return (

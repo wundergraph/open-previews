@@ -3,6 +3,7 @@ import { PositionData, SelectionRange } from "~/utils/pathBuilder";
 import { CommentBox } from "./comment-box";
 import { rangy } from "~/utils/rangy";
 import { addSelection } from "~/utils/state/activeSelections";
+import { Highlight } from "./highlight";
 
 type PinDetails = {
   targetElement?: PositionData;
@@ -27,13 +28,16 @@ export const ActiveCommentPin = forwardRef<
   const [pinDetails, setPinDetails] = useState<PinDetails | undefined>(
     props.pinDetails
   );
+  const [open, setOpen] = useState(true);
 
+  // @TODO let's move this to nanostores?
   const addCommentPin = ({
     element,
     coords,
     targetElement,
     selectionRange,
   }: PinDetails) => {
+    setOpen(true);
     setPinDetails({
       element,
       coords,
@@ -54,11 +58,7 @@ export const ActiveCommentPin = forwardRef<
 
   if (!pinDetails) return null;
 
-  const rect = pinDetails.element.getBoundingClientRect();
-  const left = `${rect.left + pinDetails.coords.x}px`;
-  const top = `${rect.top + pinDetails.coords.y}px`;
-
-  let rects: any[] = [];
+  let rects: DOMRect[] = [];
 
   if (pinDetails.selectionRange) {
     try {
@@ -70,6 +70,23 @@ export const ActiveCommentPin = forwardRef<
     }
   }
 
+  const selection = rects[rects.length - 1];
+
+  let pos = { x: 0, y: 0 };
+
+  if (selection) {
+    pos = {
+      x: selection.left + selection.width,
+      y: selection.top + selection.height,
+    };
+  } else {
+    const rect = pinDetails.element.getBoundingClientRect();
+    pos = {
+      x: rect.left + pinDetails.coords.x,
+      y: rect.top + pinDetails.coords.y,
+    };
+  }
+
   const persistCommentBox = async () => {
     if (pinDetails.targetElement) {
       const timestamp = new Date().toISOString();
@@ -78,24 +95,23 @@ export const ActiveCommentPin = forwardRef<
   };
 
   return (
-    <div style={{ left, top, position: "fixed" }}>
-      <CommentBox onSubmit={props.onSubmit ?? persistCommentBox} />
-      {rects.map((each, eachIndex) => {
+    <div style={{ left: `${pos.x}px`, top: `${pos.y}px`, position: "fixed" }}>
+      <CommentBox
+        onSubmit={props.onSubmit ?? persistCommentBox}
+        open={open}
+        onOpenChange={setOpen}
+      />
+      {rects.map((rect, i) => {
         return (
-          <div
-            key={eachIndex.toString()}
-            className="highlight"
+          <Highlight
+            key={i}
             style={{
-              position: "fixed",
-              left: `${each.left + window.scrollX}px`,
-              top: `${each.top + window.scrollY}px`,
-              width: `${each.width}px`,
-              height: `${each.height}px`,
-              backgroundColor: "yellow",
-              opacity: "0.5",
-              pointerEvents: "none",
+              left: `${rect.left + window.scrollX}px`,
+              top: `${rect.top + window.scrollY}px`,
+              width: `${rect.width}px`,
+              height: `${rect.height}px`,
             }}
-          ></div>
+          />
         );
       })}
     </div>

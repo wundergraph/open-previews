@@ -12,6 +12,8 @@ import {
   pink,
   pinkDark,
   grayDarkA,
+  yellow,
+  yellowDark,
 } from "@radix-ui/colors";
 
 export const [themeClass, theme] = createTheme({
@@ -48,6 +50,12 @@ export const [themeClass, theme] = createTheme({
     },
     pinkDark: {
       ...pinkDark,
+    },
+    yellow: {
+      ...yellow,
+    },
+    yellowDark: {
+      ...yellowDark,
     },
   },
   zIndex: {

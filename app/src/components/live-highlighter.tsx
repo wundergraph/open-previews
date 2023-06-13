@@ -3,6 +3,7 @@ import { rangy } from "~/utils/rangy";
 import { CommentPinHandle } from "./active-comment-pin";
 import { pathBuilder } from "~/utils/pathBuilder";
 import { findElementFromPath } from "~/utils/findElementFromPath";
+import { Highlight } from "./highlight";
 
 export const LiveHighlighter: FC<{
   commentHandler: React.MutableRefObject<CommentPinHandle | null>;
@@ -51,7 +52,7 @@ export const LiveHighlighter: FC<{
 
   if (!isHightlightActive) return null;
 
-  let rects: any[] = [];
+  let rects: DOMRect[] = [];
 
   if (activeRange) {
     try {
@@ -64,22 +65,17 @@ export const LiveHighlighter: FC<{
 
   return (
     <>
-      {rects.map((each, eachIndex) => {
+      {rects.map((selection, i) => {
         return (
-          <div
-            key={eachIndex.toString()}
-            className="highlight"
+          <Highlight
+            key={i}
             style={{
-              position: "fixed",
-              left: `${each.left + window.scrollX}px`,
-              top: `${each.top + window.scrollY}px`,
-              width: `${each.width}px`,
-              height: `${each.height}px`,
-              backgroundColor: "yellow",
-              opacity: "0.5",
-              pointerEvents: "none",
+              left: `${selection.left + window.scrollX}px`,
+              top: `${selection.top + window.scrollY}px`,
+              width: `${selection.width}px`,
+              height: `${selection.height}px`,
             }}
-          ></div>
+          />
         );
       })}
     </>

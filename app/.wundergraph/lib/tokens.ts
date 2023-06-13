@@ -1,6 +1,6 @@
 import { User } from "@wundergraph/sdk/client";
 import { createSecretKey } from "node:crypto";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 const getSecret = () => {
   if (!process.env.JWT_SECRET) {
@@ -27,8 +27,13 @@ interface Token {
   email: string;
 }
 
-export const verifyToken = async (token: string): Promise<Token> => {
+export const verifyToken = async (
+  token: string,
+  ignoreExpiration?: boolean
+): Promise<Token> => {
   const secret = getSecret();
-  const decoded = jwt.verify(token, secret) as Token;
+  const decoded = jwt.verify(token, secret, {
+    ignoreExpiration,
+  }) as Token;
   return decoded;
 };

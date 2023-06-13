@@ -10,7 +10,7 @@ class RequestContext {
     if (!user?.customClaims?.token) {
       throw new AuthorizationError();
     }
-    return await verifyToken(user.customClaims?.token);
+    return await verifyToken(user.customClaims?.token, true); // we refresh it
   };
   getTokenFromRequest = async (clientRequest: ClientRequest) => {
     const token = clientRequest.headers.get("x-session-token");
