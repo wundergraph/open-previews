@@ -1,27 +1,19 @@
-import { createRoot } from "react-dom/client";
-import { addFloatingUI } from "./addFloatingUI";
-import { findElementFromPath } from "./findElementFromPath";
-import { getSelectedItems } from "./getSelectedItems";
 import { $commentMode, toggleCommentMode } from "./state/commentMode";
 import { isControlElement } from "./isControlElement";
-import { rangy } from "./rangy";
-import { createHighlightDivs } from "./createHighlightDivs";
 import { addCommentBox } from "./addCommentBox";
-import {
-  $liveHighlightedDivs,
-  resetLiveHighlightedDivs,
-  setLiveHighlightedDivs,
-} from "./state/liveHighlightedDivs";
-import { CommentPinHandle } from "~/components/active-comment-pin";
+import { removeActiveCommentPin } from "./state/activeCommentPin";
 
 export const addClickListener = (): (() => void) => {
   const listener = async (event: MouseEvent) => {
-    if (!$commentMode.get()) {
-      // user is not in comment mode - leave the event listener
+    if (event.target && isControlElement(event.target)) {
+      // Element is part of open previews - do not trigger any events
       return;
     }
 
-    if (event.target && isControlElement(event.target)) {
+    if (!$commentMode.get()) {
+      // user is not in comment mode - leave the event listener
+      // also clear any active pins - since click was made on the body of the page
+      if (window.getSelection()?.type !== "Range") removeActiveCommentPin();
       return;
     }
 

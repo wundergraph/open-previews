@@ -1,18 +1,11 @@
 import { styled } from "@macaron-css/react";
 import { CommentIcon } from "./icons/comment";
-import {
-  Popover,
-  PopoverAnchor,
-  PopoverArrow,
-  PopoverContent,
-  PopoverPortal,
-  PopoverTrigger,
-} from "./ui/popover";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { theme } from "~/theme";
 import { PlusIcon } from "./icons/plus";
-import { Button, IconButton } from "./ui/button";
+import { Button } from "./ui/button";
 import { style } from "@macaron-css/core";
+import { CONTROL_ELEMENT_CLASS } from "~/utils/constants/constants";
 
 const CommentPin = styled("button", {
   base: {
@@ -44,10 +37,9 @@ const Textarea = styled("textarea", {
 export const CommentBox = (props: {
   onSubmit: (data: FormData) => unknown;
   defaultOpen?: boolean;
-  open?: boolean;
   onOpenChange?: (open: boolean) => unknown;
 }) => {
-  const { onSubmit, defaultOpen, open, onOpenChange } = props;
+  const { onSubmit, defaultOpen, onOpenChange } = props;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -62,26 +54,23 @@ export const CommentBox = (props: {
   };
 
   return (
-    <Popover defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange}>
-      <PopoverTrigger asChild>
-        <CommentPin aria-label="open-comments">
-          <PlusIcon />
-        </CommentPin>
-      </PopoverTrigger>
-      <PopoverContent side="right" align="start" sideOffset={10}>
-        <form onSubmit={handleSubmit}>
-          <Textarea
-            name="comment"
-            placeholder="Write a comment..."
-            onKeyUp={handleKeyUp}
-          />
-          <div
-            className={style({ display: "flex", justifyContent: "flex-end" })}
-          >
-            <Button type="submit">Send</Button>
-          </div>
-        </form>
-      </PopoverContent>
-    </Popover>
+    <DropdownMenu.Root defaultOpen={defaultOpen}>
+      <DropdownMenu.Trigger asChild>
+        <button aria-label="open-comments">
+          <CommentIcon />
+        </button>
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          className={`DropdownMenuContent ${CONTROL_ELEMENT_CLASS}`}
+          sideOffset={5}
+        >
+          <form onSubmit={handleSubmit}>
+            <textarea name="comment" defaultValue="Comment..." />
+            <button type="submit">Save</button>
+          </form>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
   );
 };

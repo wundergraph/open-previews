@@ -6,8 +6,9 @@ import { Highlight } from "./highlight";
 import { PinDetails } from "~/utils/state/activeCommentPin";
 
 type ActiveCommentPinProps = {
-  pinDetails?: PinDetails;
+  pinDetails: PinDetails;
   onSubmit?: (data: FormData) => unknown;
+  defaultOpen?: boolean;
 };
 
 export type CommentPinHandle = {
@@ -17,11 +18,8 @@ export type CommentPinHandle = {
 export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
   pinDetails,
   onSubmit,
+  defaultOpen = false,
 }) => {
-  const [open, setOpen] = useState(true);
-
-  if (!pinDetails) return null;
-
   let rects: DOMRect[] = [];
 
   if (pinDetails.selectionRange) {
@@ -62,8 +60,7 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
     <div style={{ left: `${pos.x}px`, top: `${pos.y}px`, position: "fixed" }}>
       <CommentBox
         onSubmit={onSubmit ?? persistCommentBox}
-        open={open}
-        onOpenChange={setOpen}
+        defaultOpen={defaultOpen}
       />
       {rects.map((rect, i) => {
         return (

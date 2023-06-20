@@ -89,11 +89,9 @@ function App(props: OpenPreviewConfig) {
         <div className={themeClass}>
           {user.data ? <Selections /> : null}
           <Toolbar />
-          <ActiveCommentPin
-            pinDetails={
-              pinDetailsTypeGuard(otherProps) ? otherProps : undefined
-            }
-          />
+          {pinDetailsTypeGuard(otherProps) ? (
+            <ActiveCommentPin pinDetails={otherProps} defaultOpen />
+          ) : null}
           <LiveHighlighter />
         </div>
       </Config>
