@@ -1,13 +1,11 @@
 import { FC, useEffect, useState } from "react";
 import { rangy } from "~/utils/rangy";
-import { CommentPinHandle } from "./active-comment-pin";
 import { pathBuilder } from "~/utils/pathBuilder";
 import { findElementFromPath } from "~/utils/findElementFromPath";
 import { Highlight } from "./highlight";
+import { addActiveCommentPin } from "~/utils/state/activeCommentPin";
 
-export const LiveHighlighter: FC<{
-  commentHandler: React.MutableRefObject<CommentPinHandle | null>;
-}> = ({ commentHandler }) => {
+export const LiveHighlighter: FC = () => {
   const [isHightlightActive, setIsHighlightActive] = useState(false);
   const [activeRange, setActiveRange] = useState<any>();
 
@@ -27,7 +25,7 @@ export const LiveHighlighter: FC<{
       if (selection.toString().length) {
         const targetElement = pathBuilder(event);
         const clickedElement = findElementFromPath(targetElement.path);
-        commentHandler.current?.addCommentPin({
+        addActiveCommentPin({
           element: clickedElement!,
           coords: {
             x: targetElement.x,

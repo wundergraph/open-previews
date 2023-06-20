@@ -1,16 +1,9 @@
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import { PositionData, SelectionRange } from "~/utils/pathBuilder";
+import { FC, useState } from "react";
 import { CommentBox } from "./comment-box";
 import { rangy } from "~/utils/rangy";
 import { addSelection } from "~/utils/state/activeSelections";
 import { Highlight } from "./highlight";
-
-type PinDetails = {
-  targetElement?: PositionData;
-  element: HTMLElement;
-  coords: { x: number; y: number };
-  selectionRange?: SelectionRange;
-};
+import { PinDetails } from "~/utils/state/activeCommentPin";
 
 type ActiveCommentPinProps = {
   pinDetails?: PinDetails;
@@ -21,40 +14,11 @@ export type CommentPinHandle = {
   addCommentPin: (args: PinDetails) => void;
 };
 
-export const ActiveCommentPin = forwardRef<
-  CommentPinHandle,
-  ActiveCommentPinProps
->((props, ref) => {
-  const [pinDetails, setPinDetails] = useState<PinDetails | undefined>(
-    props.pinDetails
-  );
+export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
+  pinDetails,
+  onSubmit,
+}) => {
   const [open, setOpen] = useState(true);
-
-  // @TODO let's move this to nanostores?
-  const addCommentPin = ({
-    element,
-    coords,
-    targetElement,
-    selectionRange,
-  }: PinDetails) => {
-    setOpen(true);
-    setPinDetails({
-      element,
-      coords,
-      selectionRange,
-      targetElement,
-    });
-  };
-
-  useImperativeHandle(
-    ref,
-    () => {
-      return {
-        addCommentPin,
-      };
-    },
-    []
-  );
 
   if (!pinDetails) return null;
 
@@ -97,7 +61,7 @@ export const ActiveCommentPin = forwardRef<
   return (
     <div style={{ left: `${pos.x}px`, top: `${pos.y}px`, position: "fixed" }}>
       <CommentBox
-        onSubmit={props.onSubmit ?? persistCommentBox}
+        onSubmit={onSubmit ?? persistCommentBox}
         open={open}
         onOpenChange={setOpen}
       />
@@ -116,4 +80,4 @@ export const ActiveCommentPin = forwardRef<
       })}
     </div>
   );
-});
+};

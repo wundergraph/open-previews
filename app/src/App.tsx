@@ -13,6 +13,8 @@ import { addClickListener } from "./utils";
 import { LiveHighlighter } from "./components/live-highlighter";
 import { CONTROL_ELEMENT_CLASS } from "./utils/constants/constants";
 import { useUser } from "./hooks/use-user";
+import { useStore } from "@nanostores/react";
+import { $activeCommentPin, PinDetails } from "./utils/state/activeCommentPin";
 
 const styles = "__STYLES__";
 
@@ -45,31 +47,32 @@ function ShadowRoot(props: { children: React.ReactNode }) {
   return null;
 }
 
+const pinDetailsTypeGuard = (props: PinDetails | {}): props is PinDetails => {
+  // @ts-expect-error
+  if (props?.element && props?.coords) {
+    return true;
+  }
+  return false;
+};
+
 function App(props: OpenPreviewConfig) {
   const user = useUser();
 
-  console.log(user);
-
-  const activePinRef = useRef<CommentPinHandle | null>(null);
-
   const [, setRandom] = useState<number>();
 
+  const pinDetails = useStore($activeCommentPin);
+
+  const { commentText, isOpen, ...otherProps } = pinDetails;
+
   useEffect(() => {
-    const unsubscribe = addClickListener(activePinRef.current);
+    const unsubscribe = addClickListener();
     return () => {
       unsubscribe();
     };
-  }, [activePinRef.current]);
+  }, []);
 
   useEffect(() => {
     const rerender = () => setRandom(Math.random());
-
-    /**
-     * Re-render once to access the activePinRef
-     */
-    setTimeout(() => {
-      rerender();
-    }, 500);
 
     window.addEventListener("resize", rerender);
     window.addEventListener("scroll", rerender);
@@ -86,8 +89,12 @@ function App(props: OpenPreviewConfig) {
         <div className={themeClass}>
           {user.data ? <Selections /> : null}
           <Toolbar />
-          <ActiveCommentPin ref={activePinRef} />
-          <LiveHighlighter commentHandler={activePinRef} />
+          <ActiveCommentPin
+            pinDetails={
+              pinDetailsTypeGuard(otherProps) ? otherProps : undefined
+            }
+          />
+          <LiveHighlighter />
         </div>
       </Config>
     </ShadowRoot>

@@ -14,9 +14,7 @@ import {
 } from "./state/liveHighlightedDivs";
 import { CommentPinHandle } from "~/components/active-comment-pin";
 
-export const addClickListener = (
-  commentPinHandle: CommentPinHandle | null
-): (() => void) => {
+export const addClickListener = (): (() => void) => {
   const listener = async (event: MouseEvent) => {
     if (!$commentMode.get()) {
       // user is not in comment mode - leave the event listener
@@ -27,9 +25,11 @@ export const addClickListener = (
       return;
     }
 
+    event.preventDefault();
+
     toggleCommentMode();
 
-    addCommentBox(event, commentPinHandle);
+    addCommentBox(event);
   };
 
   document.body.addEventListener("click", listener, false);
