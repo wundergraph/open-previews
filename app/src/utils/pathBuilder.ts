@@ -60,8 +60,12 @@ export const pathBuilder = (event: MouseEvent): PositionData => {
   let serializedSelection: string;
 
   if (selection.rangeCount > 0) {
-    serializedSelection = rangy.serializeSelection(selection, true);
-    data.selectionRange = serializedSelection;
+    const range = selection.getRangeAt(0);
+    // Check if any text is selected before setting selectionRange
+    if (!range.collapsed) {
+      serializedSelection = rangy.serializeSelection(selection, true);
+      data.selectionRange = serializedSelection;
+    }
   }
 
   return data;
