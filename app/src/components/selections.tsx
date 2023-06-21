@@ -1,50 +1,84 @@
-import { useStore } from "@nanostores/react";
-import { useMutation, useQuery } from "~/lib/wundergraph";
-import { useConfig } from "~/providers/config";
-import { $activeSelections } from "~/utils/state/activeSelections";
+import { useQuery } from "~/lib/wundergraph";
 import { ActiveCommentPin } from "./active-comment-pin";
 import { findElementFromPath } from "~/utils/findElementFromPath";
 
-export const Selections = () => {
-  const config = useConfig();
+export type CommentMeta = {
+  path: string;
+  x: number;
+  y: number;
+  resolved?: boolean;
+  selection?: string;
+};
 
-  const comments = useQuery({
-    operationName: "Comments",
-    input: {
-      repository: config.repository,
-      categoryId: config.categoryId,
-      url: window.location.hostname,
-    },
-  });
+export type CommentsQueryData = ReturnType<typeof useQuery<"Comments">>["data"];
 
-  const createComment = useMutation({
-    operationName: "CreateComment",
-  });
+export type CommentsDataType = Exclude<
+  CommentsQueryData,
+  | {
+      id: any;
+      comments: never[];
+    }
+  | undefined
+>;
 
-  const activeSelections = useStore($activeSelections);
+export type CommentsWithSelections = Exclude<
+  CommentsDataType["comments"],
+  undefined
+>[0] & {
+  selection?: CommentMeta;
+};
 
-  const selectionsArray = Object.keys(activeSelections).map((each) => {
-    return {
-      ...activeSelections[each],
-      timeStamp: each,
-    };
-  });
+export const Selections = ({ data }: { data: CommentsQueryData }) => {
+  const comments: CommentsDataType["comments"] =
+    data &&
+    (data?.comments as Exclude<(typeof data)["comments"], never[] | undefined>);
+
+  const commentsWithSelections: CommentsWithSelections[] =
+    comments?.map((each) => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(each.body, "text/html");
+      const div = doc.querySelector("div[data-comment-meta]");
+
+      const commentMeta = decodeURIComponent(
+        div?.getAttribute("data-comment-meta") ?? ""
+      );
+      let data: CommentMeta | undefined;
+      try {
+        data = JSON.parse(commentMeta ?? "{}");
+      } catch (e) {
+        // do nothing for now - comment meta is invalid
+        data = undefined;
+      }
+
+      return {
+        ...each,
+        selection: data,
+      };
+    }) ?? [];
 
   return (
     <>
-      {selectionsArray.map((each) => {
-        const clickedElement = findElementFromPath(each.path) as HTMLElement;
+      {commentsWithSelections.map((each) => {
+        const selection = each?.selection;
+        let path = [];
+        try {
+          path = JSON.parse(selection?.path ?? "[]");
+        } catch {
+          // Do nothing for now...
+        }
+        const clickedElement = findElementFromPath(path) as HTMLElement;
 
         return (
           <ActiveCommentPin
             pinDetails={{
               element: clickedElement,
-              coords: { x: each.x, y: each.y },
-              selectionRange: each.selectionRange,
+              coords: { x: selection?.x ?? 0, y: selection?.y ?? 0 },
+              selectionRange: selection?.selection,
             }}
             onSubmit={() => null}
           />
         );
+        return null;
       })}
     </>
   );

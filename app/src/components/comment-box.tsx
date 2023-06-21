@@ -42,24 +42,24 @@ export const CommentBox = (props: {
 }) => {
   const { onSubmit, defaultOpen, onOpenChange } = props;
 
-  const { trigger } = useMutation({
-    operationName: "CreateComment",
-  });
+  // const { trigger } = useMutation({
+  //   operationName: "CreateComment",
+  // });
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    trigger({
-      body: "Comment from previews",
-      meta: {
-        href: "",
-        x: 0,
-        y: 0,
-        selection: "",
-      },
-      discussionId: "D_kwDOI3kT2M4AUHqB",
-      replyToId: "DC_kwDOI3kT2M4AXyjb",
-    });
+    // trigger({
+    //   body: "Comment from previews",
+    //   meta: {
+    //     path: "",
+    //     x: 0,
+    //     y: 0,
+    //     selection: "",
+    //   },
+    //   discussionId: "D_kwDOI3kT2M4AUHqB",
+    // replyToId: "DC_kwDOI3kT2M4AXyjb",
+    // });
 
     onSubmit?.(new FormData(e.target));
   };
@@ -84,7 +84,11 @@ export const CommentBox = (props: {
           sideOffset={5}
         >
           <form onSubmit={handleSubmit}>
-            <textarea name="comment" defaultValue="Comment..." />
+            <textarea
+              name="comment"
+              defaultValue="Comment..."
+              style={{ color: "black" }}
+            />
             <button type="submit">Save</button>
           </form>
         </DropdownMenu.Content>

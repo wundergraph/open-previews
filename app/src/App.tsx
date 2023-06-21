@@ -2,19 +2,17 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { Toolbar } from "./components/toolbar";
 import { Selections } from "./components/selections";
-import { Config, OpenPreviewConfig } from "./providers/config";
 import { themeClass } from "./theme";
-import {
-  ActiveCommentPin,
-  CommentPinHandle,
-} from "./components/active-comment-pin";
-import { useEffect, useRef, useState } from "react";
+import { ActiveCommentPin } from "./components/active-comment-pin";
+import { useEffect, useState } from "react";
 import { addClickListener } from "./utils";
 import { LiveHighlighter } from "./components/live-highlighter";
 import { CONTROL_ELEMENT_CLASS } from "./utils/constants/constants";
 import { useUser } from "./hooks/use-user";
 import { useStore } from "@nanostores/react";
 import { $activeCommentPin, PinDetails } from "./utils/state/activeCommentPin";
+import { useMutation, useQuery } from "./lib/wundergraph";
+import { $openPreviewConfig } from "./utils/state/openPreviewConfig";
 
 const styles = "__STYLES__";
 
@@ -55,7 +53,7 @@ const pinDetailsTypeGuard = (props: PinDetails | {}): props is PinDetails => {
   return false;
 };
 
-function App(props: OpenPreviewConfig) {
+function App() {
   const user = useUser();
 
   const [, setRandom] = useState<number>();
@@ -71,6 +69,38 @@ function App(props: OpenPreviewConfig) {
     };
   }, []);
 
+  const config = useStore($openPreviewConfig);
+
+  const { data } = useQuery({
+    operationName: "Comments",
+    input: {
+      repository: config.repository,
+      categoryId: config.categoryId,
+      url: window.location.hostname,
+    },
+  });
+
+  const { trigger } = useMutation({
+    operationName: "CreateComment",
+  });
+
+  const createNewThread = (formData: FormData) => {
+    const comment = formData.get("comment") as string;
+    if (pinDetailsTypeGuard(otherProps)) {
+      trigger({
+        body: comment ?? "",
+        discussionId: data?.id,
+        meta: {
+          path: JSON.stringify(otherProps.targetElement?.path ?? "{}"),
+          x: otherProps.coords.x,
+          y: otherProps.coords.y,
+          resolved: false,
+          selection: otherProps.selectionRange,
+        },
+      });
+    }
+  };
+
   useEffect(() => {
     const rerender = () => setRandom(Math.random());
 
@@ -85,16 +115,18 @@ function App(props: OpenPreviewConfig) {
 
   return (
     <ShadowRoot>
-      <Config value={props}>
-        <div className={themeClass}>
-          {user.data ? <Selections /> : null}
-          <Toolbar />
-          {pinDetailsTypeGuard(otherProps) ? (
-            <ActiveCommentPin pinDetails={otherProps} defaultOpen />
-          ) : null}
-          <LiveHighlighter />
-        </div>
-      </Config>
+      <div className={themeClass}>
+        {user.data ? <Selections data={data} /> : null}
+        <Toolbar />
+        {pinDetailsTypeGuard(otherProps) ? (
+          <ActiveCommentPin
+            pinDetails={otherProps}
+            defaultOpen
+            onSubmit={createNewThread}
+          />
+        ) : null}
+        <LiveHighlighter />
+      </div>
     </ShadowRoot>
   );
 }

@@ -6,18 +6,21 @@ export default createOperation.mutation({
     replyToId: z.string().optional(),
     body: z.string(),
     meta: z.object({
-      href: z.string(),
+      path: z.string(),
       x: z.number(),
       y: z.number(),
+      resolved: z.boolean().optional(),
       selection: z.string().optional(),
     }),
   }),
   handler: async ({ input, operations, clientRequest, context }) => {
     const { accessToken } = await context.getTokenFromRequest(clientRequest);
 
-    const body = `${input.body} <div data-comment-meta="${JSON.stringify(
-      input.meta
-    )}" />`;
+    const jsonMeta = JSON.stringify(input.meta);
+
+    const encodedJsonMeta = encodeURIComponent(jsonMeta);
+
+    const body = `${input.body} <div data-comment-meta="${encodedJsonMeta}" />`;
 
     const result = await operations
       .withHeaders({
