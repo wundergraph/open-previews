@@ -75,6 +75,11 @@ export const Selections = ({ data }: { data: CommentsQueryData }) => {
               coords: { x: selection?.x ?? 0, y: selection?.y ?? 0 },
               selectionRange: selection?.selection,
             }}
+            userDetails={{
+              profilePicURL: "",
+              username: "",
+              userProfileLink: "",
+            }}
             onSubmit={() => null}
           />
         );

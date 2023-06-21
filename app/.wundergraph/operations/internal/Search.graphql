@@ -14,6 +14,11 @@ query Search($query: String!) {
                 login
               }
               body
+              author {
+                avatarUrl
+                url
+                login
+              }
               createdAt
               databaseId
               discussion {
@@ -34,6 +39,11 @@ query Search($query: String!) {
                       login
                     }
                     body
+                    author {
+                      avatarUrl
+                      url
+                      login
+                    }
                     createdAt
                     databaseId
                     discussion {

@@ -1,14 +1,20 @@
-import { FC, useState } from "react";
-import { CommentBox } from "./comment-box";
+import { FC } from "react";
+import { CommentPopup } from "./comment-popup";
 import { rangy } from "~/utils/rangy";
-import { addSelection } from "~/utils/state/activeSelections";
 import { Highlight } from "./highlight";
 import { PinDetails } from "~/utils/state/activeCommentPin";
+import { NewCommentArgs } from "~/App";
 
 type ActiveCommentPinProps = {
   pinDetails: PinDetails;
-  onSubmit?: (data: FormData) => unknown;
+  onSubmit?: (args: NewCommentArgs) => unknown;
   defaultOpen?: boolean;
+  comments?: string[];
+  userDetails: {
+    profilePicURL: string;
+    userProfileLink: string;
+    username: string;
+  };
 };
 
 export type CommentPinHandle = {
@@ -17,8 +23,10 @@ export type CommentPinHandle = {
 
 export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
   pinDetails,
-  onSubmit,
+  onSubmit = (props: NewCommentArgs) => null,
   defaultOpen = false,
+  comments,
+  userDetails,
 }) => {
   let rects: DOMRect[] = [];
 
@@ -49,18 +57,13 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
     };
   }
 
-  const persistCommentBox = async () => {
-    if (pinDetails.targetElement) {
-      const timestamp = new Date().toISOString();
-      addSelection(timestamp, pinDetails.targetElement);
-    }
-  };
-
   return (
     <div style={{ left: `${pos.x}px`, top: `${pos.y}px`, position: "fixed" }}>
-      <CommentBox
-        onSubmit={onSubmit ?? persistCommentBox}
+      <CommentPopup
+        onSubmit={onSubmit}
         defaultOpen={defaultOpen}
+        comments={comments}
+        userDetails={userDetails}
       />
       {rects.map((rect, i) => {
         return (

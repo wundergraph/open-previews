@@ -53,6 +53,10 @@ const pinDetailsTypeGuard = (props: PinDetails | {}): props is PinDetails => {
   return false;
 };
 
+export interface NewCommentArgs {
+  comment: string;
+}
+
 function App() {
   const user = useUser();
 
@@ -71,7 +75,7 @@ function App() {
 
   const config = useStore($openPreviewConfig);
 
-  const { data } = useQuery({
+  const { data, mutate } = useQuery({
     operationName: "Comments",
     input: {
       repository: config.repository,
@@ -84,8 +88,7 @@ function App() {
     operationName: "CreateComment",
   });
 
-  const createNewThread = (formData: FormData) => {
-    const comment = formData.get("comment") as string;
+  const createNewThread = ({ comment }: NewCommentArgs) => {
     if (pinDetailsTypeGuard(otherProps)) {
       trigger({
         body: comment ?? "",
@@ -97,6 +100,8 @@ function App() {
           resolved: false,
           selection: otherProps.selectionRange,
         },
+      }).then(() => {
+        mutate();
       });
     }
   };
@@ -123,6 +128,11 @@ function App() {
             pinDetails={otherProps}
             defaultOpen
             onSubmit={createNewThread}
+            userDetails={{
+              username: "",
+              profilePicURL: "",
+              userProfileLink: "",
+            }}
           />
         ) : null}
         <LiveHighlighter />
