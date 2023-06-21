@@ -40,3 +40,10 @@ export const clearActivePinComment = () => {
     commentText: "",
   });
 };
+
+export const updateActivePinCommentText = (commentText: string) => {
+  $activeCommentPin.set({
+    ...$activeCommentPin.get(),
+    commentText,
+  });
+};

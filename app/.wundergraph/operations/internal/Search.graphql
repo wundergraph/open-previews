@@ -27,6 +27,29 @@ query Search($query: String!) {
               publishedAt
               updatedAt
               url
+              replies(first: 45) {
+                nodes {
+                  ... on github_DiscussionComment {
+                    author {
+                      login
+                    }
+                    body
+                    createdAt
+                    databaseId
+                    discussion {
+                      databaseId
+                    }
+                    editor {
+                      login
+                    }
+                    id
+                    lastEditedAt
+                    publishedAt
+                    updatedAt
+                    url
+                  }
+                }
+              }
             }
           }
         }

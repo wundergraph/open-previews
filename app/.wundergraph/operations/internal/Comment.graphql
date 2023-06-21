@@ -1,6 +1,6 @@
-mutation AddComment($discussionId: ID!, $body: String!) {
+mutation AddComment($discussionId: ID!, $body: String!, $replyToId: ID) {
   github_addDiscussionComment(
-    input: { discussionId: $discussionId, body: $body }
+    input: { discussionId: $discussionId, body: $body, replyToId: $replyToId }
   ) {
     clientMutationId
     comment {

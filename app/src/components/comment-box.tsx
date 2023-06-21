@@ -6,6 +6,7 @@ import { PlusIcon } from "./icons/plus";
 import { Button } from "./ui/button";
 import { style } from "@macaron-css/core";
 import { CONTROL_ELEMENT_CLASS } from "~/utils/constants/constants";
+import { useMutation } from "~/lib/wundergraph";
 
 const CommentPin = styled("button", {
   base: {
@@ -41,8 +42,25 @@ export const CommentBox = (props: {
 }) => {
   const { onSubmit, defaultOpen, onOpenChange } = props;
 
+  const { trigger } = useMutation({
+    operationName: "CreateComment",
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    trigger({
+      body: "Comment from previews",
+      meta: {
+        href: "",
+        x: 0,
+        y: 0,
+        selection: "",
+      },
+      discussionId: "D_kwDOI3kT2M4AUHqB",
+      replyToId: "DC_kwDOI3kT2M4AXyjb",
+    });
+
     onSubmit?.(new FormData(e.target));
   };
 

@@ -28,6 +28,7 @@ export default createOperation.mutation({
         input: {
           discussionId: input.discussionId,
           body,
+          replyToId: input.replyToId,
         },
       });
 
