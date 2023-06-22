@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { CommentPopup } from "./comment-popup";
 import { rangy } from "~/utils/rangy";
 import { Highlight } from "./highlight";
@@ -33,15 +33,18 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
 }) => {
   let rects: DOMRect[] = [];
 
-  if (pinDetails.selectionRange) {
-    try {
-      const range = rangy.deserializeRange(pinDetails.selectionRange);
-      rects = Array.from(range.nativeRange.getClientRects());
-    } catch (e) {
-      console.error(e);
-      // for now do nothing...
+  rects = useMemo(() => {
+    if (pinDetails.selectionRange) {
+      try {
+        const range = rangy.deserializeRange(pinDetails.selectionRange);
+        return Array.from(range.nativeRange.getClientRects());
+      } catch {
+        // for now do nothing...
+        return [];
+      }
     }
-  }
+    return [];
+  }, [pinDetails.selectionRange]);
 
   const selection = rects[rects.length - 1];
 
