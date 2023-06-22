@@ -1,6 +1,7 @@
 import { useQuery } from "~/lib/wundergraph";
 import { ActiveCommentPin } from "./active-comment-pin";
 import { findElementFromPath } from "~/utils/findElementFromPath";
+import { NewReplyArgs } from "~/App";
 
 export type CommentMeta = {
   path: string;
@@ -28,7 +29,13 @@ export type CommentsWithSelections = Exclude<
   selection?: CommentMeta;
 };
 
-export const Selections = ({ data }: { data: CommentsQueryData }) => {
+export const Selections = ({
+  data,
+  onReply,
+}: {
+  data: CommentsQueryData;
+  onReply: (args: NewReplyArgs) => unknown;
+}) => {
   const comments: CommentsDataType["comments"] =
     data &&
     (data?.comments as Exclude<(typeof data)["comments"], never[] | undefined>);
@@ -75,15 +82,16 @@ export const Selections = ({ data }: { data: CommentsQueryData }) => {
               coords: { x: selection?.x ?? 0, y: selection?.y ?? 0 },
               selectionRange: selection?.selection,
             }}
+            comment={each}
             userDetails={{
               profilePicURL: "",
               username: "",
               userProfileLink: "",
             }}
             onSubmit={() => null}
+            onReply={onReply}
           />
         );
-        return null;
       })}
     </>
   );

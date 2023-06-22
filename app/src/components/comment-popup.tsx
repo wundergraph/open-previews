@@ -2,17 +2,21 @@ import { CommentIcon } from "./icons/comment";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { CONTROL_ELEMENT_CLASS } from "~/utils/constants/constants";
 import { CommentBox } from "./comment-box";
-import { NewCommentArgs } from "~/App";
+import { NewCommentArgs, NewReplyArgs } from "~/App";
+import { CommentThread } from "./comment-thread";
+import { CommentsWithSelections } from "./selections";
 
 export const CommentPopup = ({
   onSubmit,
   defaultOpen,
-  comments,
+  comment,
+  onReply,
   userDetails,
 }: {
   onSubmit: (data: NewCommentArgs) => unknown;
   defaultOpen?: boolean;
-  comments?: string[];
+  comment?: CommentsWithSelections;
+  onReply: (args: NewReplyArgs) => unknown;
   userDetails: {
     profilePicURL: string;
     userProfileLink: string;
@@ -47,8 +51,14 @@ export const CommentPopup = ({
           className={`DropdownMenuContent ${CONTROL_ELEMENT_CLASS}`}
           sideOffset={5}
         >
-          {comments ? (
-            <div></div>
+          {comment ? (
+            <CommentThread
+              profilePicURL=""
+              userProfileLink=""
+              username=""
+              onSend={onReply}
+              comment={comment}
+            />
           ) : (
             <CommentBox onSubmit={onSubmit} {...userDetails} />
           )}

@@ -57,6 +57,11 @@ export interface NewCommentArgs {
   comment: string;
 }
 
+export interface NewReplyArgs {
+  comment: string;
+  replyToId: string;
+}
+
 function App() {
   const user = useUser();
 
@@ -106,6 +111,16 @@ function App() {
     }
   };
 
+  const createNewReply = ({ comment, replyToId }: NewReplyArgs) => {
+    trigger({
+      body: comment ?? "",
+      discussionId: data?.id,
+      replyToId,
+    }).then(() => {
+      mutate();
+    });
+  };
+
   useEffect(() => {
     const rerender = () => setRandom(Math.random());
 
@@ -121,13 +136,14 @@ function App() {
   return (
     <ShadowRoot>
       <div className={themeClass}>
-        {user.data ? <Selections data={data} /> : null}
+        {user.data ? <Selections data={data} onReply={createNewReply} /> : null}
         <Toolbar />
         {pinDetailsTypeGuard(otherProps) ? (
           <ActiveCommentPin
             pinDetails={otherProps}
             defaultOpen
             onSubmit={createNewThread}
+            onReply={createNewReply}
             userDetails={{
               username: "",
               profilePicURL: "",

@@ -26,8 +26,6 @@ export const initOpenPreviews = (options: OpenPreviewConfig) => {
     document.createElement("open-previews")
   );
 
-  console.log({ options });
-
   setOpenPreviewConfig(options);
 
   ReactDOM.createRoot(root).render(

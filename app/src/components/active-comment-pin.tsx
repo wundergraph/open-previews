@@ -3,13 +3,15 @@ import { CommentPopup } from "./comment-popup";
 import { rangy } from "~/utils/rangy";
 import { Highlight } from "./highlight";
 import { PinDetails } from "~/utils/state/activeCommentPin";
-import { NewCommentArgs } from "~/App";
+import { NewCommentArgs, NewReplyArgs } from "~/App";
+import { CommentsWithSelections } from "./selections";
 
 type ActiveCommentPinProps = {
   pinDetails: PinDetails;
   onSubmit?: (args: NewCommentArgs) => unknown;
   defaultOpen?: boolean;
-  comments?: string[];
+  comment?: CommentsWithSelections;
+  onReply: (args: NewReplyArgs) => unknown;
   userDetails: {
     profilePicURL: string;
     userProfileLink: string;
@@ -25,8 +27,9 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
   pinDetails,
   onSubmit = (props: NewCommentArgs) => null,
   defaultOpen = false,
-  comments,
+  comment,
   userDetails,
+  onReply = (props: NewReplyArgs) => null,
 }) => {
   let rects: DOMRect[] = [];
 
@@ -61,8 +64,9 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
     <div style={{ left: `${pos.x}px`, top: `${pos.y}px`, position: "fixed" }}>
       <CommentPopup
         onSubmit={onSubmit}
+        onReply={onReply}
         defaultOpen={defaultOpen}
-        comments={comments}
+        comment={comment}
         userDetails={userDetails}
       />
       {rects.map((rect, i) => {
