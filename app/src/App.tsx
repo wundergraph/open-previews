@@ -80,6 +80,11 @@ function App() {
 
   const config = useStore($openPreviewConfig);
 
+  const { data: viewer } = useQuery({
+    operationName: "Viewer",
+    enabled: !!user.data,
+  });
+
   const { data, mutate } = useQuery({
     operationName: "Comments",
     input: {
@@ -87,6 +92,7 @@ function App() {
       categoryId: config.categoryId,
       url: window.location.hostname,
     },
+    enabled: !!user.data,
   });
 
   const { trigger } = useMutation({
@@ -141,9 +147,9 @@ function App() {
             data={data}
             onReply={createNewReply}
             userDetails={{
-              username: user.data?.github_viewer.login ?? "",
-              profilePicURL: user.data?.github_viewer.avatarUrl ?? "",
-              userProfileLink: user.data?.github_viewer.url ?? "",
+              username: viewer?.github_viewer?.login ?? "",
+              profilePicURL: viewer?.github_viewer?.avatarUrl ?? "",
+              userProfileLink: viewer?.github_viewer?.url ?? "",
             }}
           />
         ) : null}
@@ -155,13 +161,13 @@ function App() {
             onSubmit={createNewThread}
             onReply={createNewReply}
             userDetails={{
-              username: user.data?.github_viewer.login ?? "",
-              profilePicURL: user.data?.github_viewer.avatarUrl ?? "",
-              userProfileLink: user.data?.github_viewer.url ?? "",
+              username: viewer?.github_viewer?.login ?? "",
+              profilePicURL: viewer?.github_viewer?.avatarUrl ?? "",
+              userProfileLink: viewer?.github_viewer?.url ?? "",
             }}
           />
         ) : null}
-        <LiveHighlighter />
+        {user.data ? <LiveHighlighter /> : null}
       </div>
     </ShadowRoot>
   );
