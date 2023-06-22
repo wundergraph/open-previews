@@ -1,4 +1,4 @@
-import React, { useState, KeyboardEvent } from "react";
+import React, { useState, KeyboardEvent, Fragment } from "react";
 import { CommentsWithSelections } from "./selections";
 import { NewReplyArgs } from "~/App";
 
@@ -30,8 +30,6 @@ export const CommentThread: React.FC<CommentProps> = ({
     setInput(e.target.value);
   };
 
-  console.log({ comment });
-
   const handleSend = () => {
     onSend({
       comment: input,
@@ -50,15 +48,36 @@ export const CommentThread: React.FC<CommentProps> = ({
   return (
     <div
       style={{
-        backgroundColor: "grey",
-        height: "150px",
-        width: "75px",
+        width: "400px",
+        maxHeight: "500px",
+        overflow: "auto",
+        border: "1px solid lightgray",
+        borderRadius: "8px",
+        padding: "10px",
+        boxSizing: "border-box",
+        backgroundColor: "#f8f8f8",
+        color: "black",
       }}
     >
       {comment ? (
         <>
-          <div>
-            <img src={comment?.author?.avatarUrl} alt="profile picture" />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
+            <img
+              src={comment?.author?.avatarUrl}
+              alt="profile picture"
+              style={{
+                width: "50px",
+                height: "50px",
+                borderRadius: "50%",
+                marginRight: "10px",
+              }}
+            />
             <a
               href={comment?.author?.url}
               target="_blank"
@@ -68,7 +87,7 @@ export const CommentThread: React.FC<CommentProps> = ({
             </a>
           </div>
           <div>
-            <p>{comment?.body}</p>
+            <p>{comment?.body?.replace(/<[^>]*>/g, "")}</p>
           </div>
           <div>
             <button>Like</button>
@@ -80,9 +99,24 @@ export const CommentThread: React.FC<CommentProps> = ({
       ) : null}
 
       {comment?.replies?.nodes?.map((reply, index) => (
-        <div key={index}>
-          <div>
-            <img src={reply.author?.avatarUrl} alt="profile picture" />
+        <Fragment key={index}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "10px",
+            }}
+          >
+            <img
+              src={reply.author?.avatarUrl}
+              alt="profile picture"
+              style={{
+                width: "50px",
+                height: "50px",
+                borderRadius: "50%",
+                marginRight: "10px",
+              }}
+            />
             <a
               href={reply.author?.url}
               target="_blank"
@@ -98,20 +132,40 @@ export const CommentThread: React.FC<CommentProps> = ({
             <button>Like</button>
             <button>Reply</button>
           </div>
-        </div>
+        </Fragment>
       ))}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginBottom: "10px",
+        }}
+      >
+        <img
+          src={profilePicURL}
+          alt="profile picture"
+          style={{
+            width: "50px",
+            height: "50px",
+            borderRadius: "50%",
+            marginRight: "10px",
+          }}
+        />
+        <a href={userProfileLink} target="_blank" rel="noopener noreferrer">
+          {username}
+        </a>
+      </div>
       <div>
-        <div>
-          <img src={profilePicURL} alt="profile picture" />
-          <a href={userProfileLink} target="_blank" rel="noopener noreferrer">
-            {username}
-          </a>
-        </div>
         <input
           type="text"
           placeholder="Write a comment..."
           value={input}
-          style={{ color: "black" }}
+          style={{
+            width: "100%",
+            padding: "5px",
+            boxSizing: "border-box",
+            marginBottom: "10px",
+          }}
           onChange={handleInputChange}
           onKeyUp={handleKeyUp}
         />
