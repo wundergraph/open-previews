@@ -136,7 +136,17 @@ function App() {
   return (
     <ShadowRoot>
       <div className={themeClass}>
-        {user.data ? <Selections data={data} onReply={createNewReply} /> : null}
+        {user.data ? (
+          <Selections
+            data={data}
+            onReply={createNewReply}
+            userDetails={{
+              username: user.data?.github_viewer.login ?? "",
+              profilePicURL: user.data?.github_viewer.avatarUrl ?? "",
+              userProfileLink: user.data?.github_viewer.url ?? "",
+            }}
+          />
+        ) : null}
         <Toolbar />
         {pinDetailsTypeGuard(otherProps) ? (
           <ActiveCommentPin
@@ -145,9 +155,9 @@ function App() {
             onSubmit={createNewThread}
             onReply={createNewReply}
             userDetails={{
-              username: "",
-              profilePicURL: "",
-              userProfileLink: "",
+              username: user.data?.github_viewer.login ?? "",
+              profilePicURL: user.data?.github_viewer.avatarUrl ?? "",
+              userProfileLink: user.data?.github_viewer.url ?? "",
             }}
           />
         ) : null}

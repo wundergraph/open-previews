@@ -32,9 +32,15 @@ export type CommentsWithSelections = Exclude<
 export const Selections = ({
   data,
   onReply,
+  userDetails,
 }: {
   data: CommentsQueryData;
   onReply: (args: NewReplyArgs) => unknown;
+  userDetails: {
+    profilePicURL: string;
+    userProfileLink: string;
+    username: string;
+  };
 }) => {
   const comments: CommentsDataType["comments"] =
     data &&
@@ -83,11 +89,7 @@ export const Selections = ({
               selectionRange: selection?.selection,
             }}
             comment={each}
-            userDetails={{
-              profilePicURL: "",
-              username: "",
-              userProfileLink: "",
-            }}
+            userDetails={userDetails}
             onSubmit={() => null}
             onReply={onReply}
           />

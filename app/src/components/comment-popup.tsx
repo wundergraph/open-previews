@@ -53,11 +53,9 @@ export const CommentPopup = ({
         >
           {comment ? (
             <CommentThread
-              profilePicURL=""
-              userProfileLink=""
-              username=""
               onSend={onReply}
               comment={comment}
+              {...userDetails}
             />
           ) : (
             <CommentBox onSubmit={onSubmit} {...userDetails} />

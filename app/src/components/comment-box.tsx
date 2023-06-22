@@ -43,9 +43,36 @@ export const CommentBox: FC<CommentBoxProps> = ({
   };
 
   return (
-    <div>
-      <div>
-        <img src={profilePicURL} alt="profile picture" />
+    <div
+      style={{
+        width: "400px",
+        maxHeight: "500px",
+        overflow: "auto",
+        border: "1px solid lightgray",
+        borderRadius: "8px",
+        padding: "10px",
+        boxSizing: "border-box",
+        backgroundColor: "#f8f8f8",
+        color: "black",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginBottom: "10px",
+        }}
+      >
+        <img
+          src={profilePicURL}
+          alt="profile picture"
+          style={{
+            width: "50px",
+            height: "50px",
+            borderRadius: "50%",
+            marginRight: "10px",
+          }}
+        />
         <a href={userProfileLink} target="_blank" rel="noopener noreferrer">
           {username}
         </a>
@@ -54,9 +81,14 @@ export const CommentBox: FC<CommentBoxProps> = ({
         type="text"
         placeholder="Write a comment..."
         value={commentPinInfo.commentText}
+        style={{
+          width: "100%",
+          padding: "5px",
+          boxSizing: "border-box",
+          marginBottom: "10px",
+        }}
         onChange={handleInputChange}
         onKeyUp={handleKeyUp}
-        style={{ color: "black" }}
       />
       <button onClick={onSend}>Send</button>
     </div>
