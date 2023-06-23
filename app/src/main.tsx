@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
+import "./main.css";
 import App from "./App";
 import { SWRConfig } from "swr";
 import { swrLocalStorageProvider } from "./lib/wundergraph";
