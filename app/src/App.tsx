@@ -65,7 +65,9 @@ export interface NewReplyArgs {
 function App() {
   const user = useUser();
 
-  const [, setRandom] = useState<number>();
+  const [dimension, setDimension] = useState<number>(
+    window.innerHeight + window.innerWidth
+  );
 
   const pinDetails = useStore($activeCommentPin);
 
@@ -128,7 +130,10 @@ function App() {
   };
 
   useEffect(() => {
-    const rerender = () => setRandom(Math.random());
+    const rerender = () =>
+      setDimension(
+        window.innerHeight + window.innerWidth + window.scrollX + window.scrollY
+      );
 
     window.addEventListener("resize", rerender);
     window.addEventListener("scroll", rerender);
@@ -145,6 +150,7 @@ function App() {
         {user.data ? (
           <Selections
             data={data}
+            dimension={dimension}
             onReply={createNewReply}
             userDetails={{
               username: viewer?.github_viewer?.login ?? "",
@@ -158,6 +164,7 @@ function App() {
           <ActiveCommentPin
             pinDetails={otherProps}
             defaultOpen
+            dimension={dimension}
             onSubmit={createNewThread}
             onReply={createNewReply}
             userDetails={{

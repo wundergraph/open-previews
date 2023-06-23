@@ -33,6 +33,7 @@ export const Selections = ({
   data,
   onReply,
   userDetails,
+  dimension,
 }: {
   data: CommentsQueryData;
   onReply: (args: NewReplyArgs) => unknown;
@@ -41,6 +42,7 @@ export const Selections = ({
     userProfileLink: string;
     username: string;
   };
+  dimension: number;
 }) => {
   const comments: CommentsDataType["comments"] =
     data &&
@@ -91,6 +93,7 @@ export const Selections = ({
             comment={each}
             userDetails={userDetails}
             onSubmit={() => null}
+            dimension={dimension}
             onReply={onReply}
           />
         );

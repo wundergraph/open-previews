@@ -17,6 +17,7 @@ type ActiveCommentPinProps = {
     userProfileLink: string;
     username: string;
   };
+  dimension: number;
 };
 
 export type CommentPinHandle = {
@@ -29,6 +30,7 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
   defaultOpen = false,
   comment,
   userDetails,
+  dimension,
   onReply = (props: NewReplyArgs) => null,
 }) => {
   let rects: DOMRect[] = [];
@@ -44,7 +46,8 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
       }
     }
     return [];
-  }, [pinDetails.selectionRange]);
+    // Dimension needed to update selection when screen is resized / scrolled
+  }, [pinDetails.selectionRange, dimension]);
 
   const selection = rects[rects.length - 1];
 
