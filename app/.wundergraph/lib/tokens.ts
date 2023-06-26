@@ -20,6 +20,7 @@ export const encodeUserToken = async (user: User) => {
     accessToken: user.rawAccessToken,
     name: user.name,
     email: user.email,
+    profilePicture: user.profile,
   })
     .setProtectedHeader({ alg: "dir", enc: "A128CBC-HS256" })
     .setIssuedAt()
@@ -35,6 +36,7 @@ interface Token {
   accessToken: string;
   name: string;
   email: string;
+  profilePicture: string;
 }
 
 export const verifyToken = async (

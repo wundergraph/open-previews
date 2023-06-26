@@ -7,14 +7,18 @@ export default createOperation.mutation({
     repository: z.string(),
     body: z.string().optional(),
   }),
-  handler: async ({ input, operations, clientRequest, context }) => {
-    const { accessToken } = await context.getTokenFromRequest(clientRequest);
+  handler: async ({ input, operations }) => {
+    // We execute with our private access token,
+    // This doesn't need to be the user's access token,
+    // unless we run into rate limits.
     const headers = {
-      Authorization: `Bearer ${accessToken}`,
+      "X-Github-Token": `Bearer ${process.env.GITHUB_TOKEN}`,
     };
     const [owner, name] = input.repository.split("/");
 
-    const { data, error: repositoryError } = await operations.query({
+    const client = operations.withHeaders(headers);
+
+    const { data, error: repositoryError } = await client.query({
       operationName: "internal/Repository",
       input: {
         owner,
@@ -26,19 +30,17 @@ export default createOperation.mutation({
       throw new Error("Repository not found", repositoryError);
     }
 
-    const { data: discussion, error } = await operations
-      .withHeaders(headers)
-      .mutate({
-        operationName: "internal/Create",
+    const { data: discussion, error } = await client.mutate({
+      operationName: "internal/Create",
+      input: {
         input: {
-          input: {
-            title: input.url,
-            repositoryId: data.repository.id as string,
-            body: `## ${input.url}\n\n${input.body}`,
-            categoryId: "DIC_kwDOI3kT2M4CXA_L", //input.categoryId,
-          },
+          title: input.url,
+          repositoryId: data.repository.id as string,
+          body: `## ${input.url}\n\n${input.body}`,
+          categoryId: input.categoryId,
         },
-      });
+      },
+    });
 
     if (error) {
       throw error;

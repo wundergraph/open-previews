@@ -21,10 +21,12 @@ const github = introspect.graphql({
     },
   },
   headers(builder) {
-    // addClientRequestHeader("Authorization", "Authorization")
-    return builder
-      .addStaticHeader("Authorization", `Bearer ${process.env.GITHUB_TOKEN}`) // temporary
-      .addStaticHeader("X-Github-Next-Global-ID", "1");
+    return (
+      builder
+        .addClientRequestHeader("Authorization", "X-Github-Token")
+        // .addStaticHeader("Authorization", `Bearer ${process.env.GITHUB_TOKEN}`) // temporary
+        .addStaticHeader("X-Github-Next-Global-ID", "1")
+    );
   },
 });
 

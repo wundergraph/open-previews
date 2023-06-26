@@ -5,12 +5,10 @@ export default createOperation.query({
     url: z.string(),
     repository: z.string(),
   }),
-  handler: async ({ input, clientRequest, operations, context }) => {
-    const accessToken = await context.getTokenFromRequest(clientRequest);
-
+  handler: async ({ input, operations }) => {
     const result = await operations
       .withHeaders({
-        Authorization: `Bearer ${accessToken}`,
+        "X-Github-Token": `Bearer ${process.env.GITHUB_TOKEN}`,
       })
       .query({
         operationName: "internal/Search",

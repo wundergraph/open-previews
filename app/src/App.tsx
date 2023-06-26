@@ -25,7 +25,7 @@ function ShadowRoot(props: { children: React.ReactNode }) {
       rootRef.current = document.createElement("open-previews");
       rootRef.current.classList.add(CONTROL_ELEMENT_CLASS);
       document.body.appendChild(rootRef.current);
-      console.log(styles);
+
       const sheet = new CSSStyleSheet();
       sheet.replaceSync(styles);
 
@@ -82,7 +82,7 @@ function App() {
   const config = useStore($openPreviewConfig);
 
   const { data: viewer } = useQuery({
-    operationName: "Viewer",
+    operationName: "User",
     enabled: !!user.data,
   });
 

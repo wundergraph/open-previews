@@ -39,11 +39,11 @@ importers:
         specifier: ^1.0.4
         version: 1.0.4(@types/react-dom@18.2.1)(@types/react@18.2.0)(react-dom@18.2.0)(react@18.2.0)
       '@wundergraph/sdk':
-        specifier: ^0.165.0
-        version: 0.165.0(@graphql-mesh/store@0.93.1)(react-native@0.72.0)
+        specifier: ^0.166.1
+        version: 0.166.1(@graphql-mesh/store@0.94.1)(react-native@0.72.0)
       '@wundergraph/swr':
-        specifier: ^0.15.10
-        version: 0.15.10(@wundergraph/sdk@0.165.0)(react-dom@18.2.0)(react@18.2.0)(swr@2.1.5)
+        specifier: ^0.15.12
+        version: 0.15.12(@wundergraph/sdk@0.166.1)(react-dom@18.2.0)(react@18.2.0)(swr@2.1.5)
       framer-motion:
         specifier: ^10.12.16
         version: 10.12.16(react-dom@18.2.0)(react@18.2.0)
@@ -2778,21 +2778,40 @@ packages:
     resolution: {integrity: sha512-FzleM9AxZQK2nqsTDtBiY0PMEVWvnKnuu2i09+p6DHvrHsuucoV2j0tmw+kAT3L4hvsLdAIDv6MdGehsPIdT+Q==}
     dev: false
 
-  /@graphql-inspector/core@3.3.0(graphql@16.6.0):
-    resolution: {integrity: sha512-LRtk9sHgj9qqVPIkkThAVq3iZ7QxgHCx6elEwd0eesZBCmaIYQxD/BFu+VT8jr10YfOURBZuAnVdyGu64vYpBg==}
+  /@graphql-inspector/core@5.0.0(graphql@16.6.0):
+    resolution: {integrity: sha512-Pj5F03EdU8K3yfd5uo0BoxG1HSiZhqG5MvAdFDiA60vHfkD/t0UOXveR6vQnbThNrSzJY8vSt0NTwlSURw0kZQ==}
+    engines: {node: '>=16.0.0'}
     peerDependencies:
-      graphql: ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       dependency-graph: 0.11.0
       graphql: 16.6.0
-      object-inspect: 1.10.3
-      tslib: 2.5.0
+      object-inspect: 1.12.3
+      tslib: 2.5.3
     dev: false
 
-  /@graphql-mesh/cross-helpers@0.3.4(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(react-native@0.72.0):
-    resolution: {integrity: sha512-jseNppSNEwNWjcjDDwsxmRBK+ub8tz2qc/ca2ZfCTebuCk/+D3dI3LJ95ceNFOIhInK0g2HVq8BO8lMMX1pQtg==}
+  /@graphql-mesh/cross-helpers@0.4.0(@graphql-tools/utils@10.0.1)(graphql@16.6.0)(react-native@0.72.0):
+    resolution: {integrity: sha512-NgcuwLQelrnl6YmJdXk8GWctY7MUtgyLKBfXsFj1bRhzC6BR/r6DieWKWWrLG8DQu0eNUMtVrI0j0qUrlw7LdQ==}
+    engines: {node: '>=16.0.0'}
     peerDependencies:
-      '@graphql-tools/utils': ^9.2.1
+      '@graphql-tools/utils': ^9.2.1 || ^10.0.0
+      graphql: '*'
+    dependencies:
+      '@graphql-tools/utils': 10.0.1(graphql@16.6.0)
+      graphql: 16.6.0
+      path-browserify: 1.0.1
+      react-native-fs: 2.20.0(react-native@0.72.0)
+      react-native-path: 0.0.5
+    transitivePeerDependencies:
+      - react-native
+      - react-native-windows
+    dev: false
+
+  /@graphql-mesh/cross-helpers@0.4.0(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(react-native@0.72.0):
+    resolution: {integrity: sha512-NgcuwLQelrnl6YmJdXk8GWctY7MUtgyLKBfXsFj1bRhzC6BR/r6DieWKWWrLG8DQu0eNUMtVrI0j0qUrlw7LdQ==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      '@graphql-tools/utils': ^9.2.1 || ^10.0.0
       graphql: '*'
     dependencies:
       '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
@@ -2805,36 +2824,24 @@ packages:
       - react-native-windows
     dev: false
 
-  /@graphql-mesh/store@0.93.1(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-mesh/utils@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0):
-    resolution: {integrity: sha512-OEljVuaZn2htU1rt4Yll/aJmynw3/Kvhd6eE8V0/del0u9iuLJqiKkzFJl8HUSMh0IkO10OnficJnTM0tCmxRw==}
+  /@graphql-mesh/store@0.94.1(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.1)(@graphql-mesh/utils@0.94.1)(@graphql-tools/utils@10.0.1)(graphql@16.6.0)(tslib@2.5.3):
+    resolution: {integrity: sha512-EbHLSPdlRqq0VYjdKXhKCAGdpP0n9qFPduugdGrd35Vk4UaBo4VdBhXQ1vkenAI3VK1VXWjCB+aaC2ikva/2yQ==}
+    engines: {node: '>=16.0.0'}
     peerDependencies:
-      '@graphql-mesh/cross-helpers': ^0.3.4
-      '@graphql-mesh/types': ^0.93.1
-      '@graphql-mesh/utils': ^0.93.1
-      '@graphql-tools/utils': ^9.2.1
+      '@graphql-mesh/cross-helpers': ^0.4.0
+      '@graphql-mesh/types': ^0.94.1
+      '@graphql-mesh/utils': ^0.94.1
+      '@graphql-tools/utils': ^9.2.1 || ^10.0.0
       graphql: '*'
       tslib: ^2.4.0
     dependencies:
-      '@graphql-inspector/core': 3.3.0(graphql@16.6.0)
-      '@graphql-mesh/cross-helpers': 0.3.4(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(react-native@0.72.0)
-      '@graphql-mesh/types': 0.93.1(@graphql-mesh/store@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
-      '@graphql-mesh/utils': 0.93.1(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
-      '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
+      '@graphql-inspector/core': 5.0.0(graphql@16.6.0)
+      '@graphql-mesh/cross-helpers': 0.4.0(@graphql-tools/utils@10.0.1)(graphql@16.6.0)(react-native@0.72.0)
+      '@graphql-mesh/types': 0.94.1(@graphql-mesh/store@0.94.1)(@graphql-tools/utils@10.0.1)(graphql@16.6.0)(tslib@2.5.3)
+      '@graphql-mesh/utils': 0.94.1(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.1)(@graphql-tools/utils@10.0.1)(graphql@16.6.0)(tslib@2.5.3)
+      '@graphql-tools/utils': 10.0.1(graphql@16.6.0)
       graphql: 16.6.0
-      tslib: 2.5.0
-    dev: false
-
-  /@graphql-mesh/string-interpolation@0.4.4(graphql@16.6.0)(tslib@2.5.0):
-    resolution: {integrity: sha512-IotswBYZRaPswOebcr2wuOFuzD3dHIJxVEkPiiQubqjUIR8HhQI22XHJv0WNiQZ65z8NR9+GYWwEDIc2JRCNfQ==}
-    peerDependencies:
-      graphql: '*'
-      tslib: ^2.4.0
-    dependencies:
-      dayjs: 1.11.7
-      graphql: 16.6.0
-      json-pointer: 0.6.2
-      lodash.get: 4.4.2
-      tslib: 2.5.0
+      tslib: 2.5.3
     dev: false
 
   /@graphql-mesh/string-interpolation@0.5.0(graphql@16.6.0)(tslib@2.5.0):
@@ -2851,91 +2858,154 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /@graphql-mesh/types@0.93.1(@graphql-mesh/store@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0):
-    resolution: {integrity: sha512-TxbbLN3Q2GioiOYWqcKDFwMhRya0IP7U5KzPNR4d0263kXRzycshtU2jsKDe3kkLPfZgpxftP2IrL6sbpTIjKg==}
+  /@graphql-mesh/string-interpolation@0.5.0(graphql@16.6.0)(tslib@2.5.3):
+    resolution: {integrity: sha512-fgAc4DXXbAO5H0PtAiAuufnNENzQ8sIkMz9T2aS0l4CIH721o+fAgc9pTyHwdksiK223K/H0Fv+ZiqjB0B97pQ==}
+    engines: {node: '>=16.0.0'}
     peerDependencies:
-      '@graphql-mesh/store': ^0.93.1
-      '@graphql-tools/utils': ^9.2.1
       graphql: '*'
       tslib: ^2.4.0
     dependencies:
-      '@graphql-mesh/store': 0.93.1(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-mesh/utils@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
-      '@graphql-tools/batch-delegate': 8.4.25(graphql@16.6.0)
-      '@graphql-tools/delegate': 9.0.35(graphql@16.6.0)
+      dayjs: 1.11.8
+      graphql: 16.6.0
+      json-pointer: 0.6.2
+      lodash.get: 4.4.2
+      tslib: 2.5.3
+    dev: false
+
+  /@graphql-mesh/types@0.94.0(@graphql-mesh/store@0.94.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0):
+    resolution: {integrity: sha512-LBFKhrb4Pwn6R/TZ/FS5QHQvzxgJGS5P4J6PHjoEfLEK98APqXwBH9Tbxb4wXUH9htUGOtkTWL25fZivwi770A==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      '@graphql-mesh/store': ^0.94.0
+      '@graphql-tools/utils': ^9.2.1 || ^10.0.0
+      graphql: '*'
+      tslib: ^2.4.0
+    dependencies:
+      '@graphql-mesh/store': 0.94.1(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.1)(@graphql-mesh/utils@0.94.1)(@graphql-tools/utils@10.0.1)(graphql@16.6.0)(tslib@2.5.3)
+      '@graphql-tools/batch-delegate': 9.0.0(graphql@16.6.0)
+      '@graphql-tools/delegate': 10.0.0(graphql@16.6.0)
       '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.6.0)
       graphql: 16.6.0
       tslib: 2.5.0
     dev: false
 
-  /@graphql-mesh/utils@0.93.1(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0):
-    resolution: {integrity: sha512-KJiltAtlvVu9PbCvxqRggLf6P046FeArXQKGCr/BRkSm5uT0CYYN+Tvv6lCYXwdi5cQlhwsSK3A5FwtWixAxjw==}
+  /@graphql-mesh/types@0.94.1(@graphql-mesh/store@0.94.1)(@graphql-tools/utils@10.0.1)(graphql@16.6.0)(tslib@2.5.3):
+    resolution: {integrity: sha512-4BOmmxYRE/T5Ll8qK7ZQROTxSetmXz03qNaHiWbEUuKAEXfvrX7n8V0i/phJc3C1dUHxzNLsyJDWnnGz8OTHTg==}
+    engines: {node: '>=16.0.0'}
     peerDependencies:
-      '@graphql-mesh/cross-helpers': ^0.3.4
-      '@graphql-mesh/types': ^0.93.1
-      '@graphql-tools/utils': ^9.2.1
+      '@graphql-mesh/store': ^0.94.1
+      '@graphql-tools/utils': ^9.2.1 || ^10.0.0
       graphql: '*'
       tslib: ^2.4.0
     dependencies:
-      '@graphql-mesh/cross-helpers': 0.3.4(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(react-native@0.72.0)
-      '@graphql-mesh/string-interpolation': 0.4.4(graphql@16.6.0)(tslib@2.5.0)
-      '@graphql-mesh/types': 0.93.1(@graphql-mesh/store@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
-      '@graphql-tools/delegate': 9.0.35(graphql@16.6.0)
+      '@graphql-mesh/store': 0.94.1(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.1)(@graphql-mesh/utils@0.94.1)(@graphql-tools/utils@10.0.1)(graphql@16.6.0)(tslib@2.5.3)
+      '@graphql-tools/batch-delegate': 9.0.0(graphql@16.6.0)
+      '@graphql-tools/delegate': 10.0.0(graphql@16.6.0)
+      '@graphql-tools/utils': 10.0.1(graphql@16.6.0)
+      '@graphql-typed-document-node/core': 3.2.0(graphql@16.6.0)
+      graphql: 16.6.0
+      tslib: 2.5.3
+    dev: false
+
+  /@graphql-mesh/utils@0.94.0(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0):
+    resolution: {integrity: sha512-wuKKkyC043YoX5CEuFb7YllBlOGwZSjAym01bZGzIKhyosqD/e6Y+ii8XsWVgpmC9iLKzheZp6SUTf/nbTbsXw==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      '@graphql-mesh/cross-helpers': ^0.4.0
+      '@graphql-mesh/types': ^0.94.0
+      '@graphql-tools/utils': ^9.2.1 || ^10.0.0
+      graphql: '*'
+      tslib: ^2.4.0
+    dependencies:
+      '@graphql-mesh/cross-helpers': 0.4.0(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(react-native@0.72.0)
+      '@graphql-mesh/string-interpolation': 0.5.0(graphql@16.6.0)(tslib@2.5.0)
+      '@graphql-mesh/types': 0.94.0(@graphql-mesh/store@0.94.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      '@graphql-tools/delegate': 10.0.0(graphql@16.6.0)
       '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
       dset: 3.1.2
       graphql: 16.6.0
       js-yaml: 4.1.0
       lodash.get: 4.4.2
       lodash.topath: 4.5.2
-      tiny-lru: 8.0.2
+      tiny-lru: 11.0.1
       tslib: 2.5.0
     dev: false
 
-  /@graphql-tools/batch-delegate@8.4.25(graphql@16.6.0):
-    resolution: {integrity: sha512-Rn/gLxMZULzo2+l4uKxYzXQYdZykWmKXTGPyyxuiLUu92Odt71IVb0+56WS+Tg0d7WUS0DeRVZWTRT2bZS7Nvw==}
+  /@graphql-mesh/utils@0.94.1(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.1)(@graphql-tools/utils@10.0.1)(graphql@16.6.0)(tslib@2.5.3):
+    resolution: {integrity: sha512-K5cGtD+zmYcikoprovANM0B1MDAHE3tadSM7fDoEbfy//vBCXYfLAVjzgAMVxeS0M7KEH1vVqtHHZJKCvSjAoQ==}
+    engines: {node: '>=16.0.0'}
     peerDependencies:
-      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+      '@graphql-mesh/cross-helpers': ^0.4.0
+      '@graphql-mesh/types': ^0.94.1
+      '@graphql-tools/utils': ^9.2.1 || ^10.0.0
+      graphql: '*'
+      tslib: ^2.4.0
     dependencies:
-      '@graphql-tools/delegate': 9.0.35(graphql@16.6.0)
-      '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
-      dataloader: 2.2.2
+      '@graphql-mesh/cross-helpers': 0.4.0(@graphql-tools/utils@10.0.1)(graphql@16.6.0)(react-native@0.72.0)
+      '@graphql-mesh/string-interpolation': 0.5.0(graphql@16.6.0)(tslib@2.5.3)
+      '@graphql-mesh/types': 0.94.1(@graphql-mesh/store@0.94.1)(@graphql-tools/utils@10.0.1)(graphql@16.6.0)(tslib@2.5.3)
+      '@graphql-tools/delegate': 10.0.0(graphql@16.6.0)
+      '@graphql-tools/utils': 10.0.1(graphql@16.6.0)
+      dset: 3.1.2
       graphql: 16.6.0
-      tslib: 2.5.0
+      js-yaml: 4.1.0
+      lodash.get: 4.4.2
+      lodash.topath: 4.5.2
+      tiny-lru: 11.0.1
+      tslib: 2.5.3
     dev: false
 
-  /@graphql-tools/batch-execute@8.5.22(graphql@16.6.0):
-    resolution: {integrity: sha512-hcV1JaY6NJQFQEwCKrYhpfLK8frSXDbtNMoTur98u10Cmecy1zrqNKSqhEyGetpgHxaJRqszGzKeI3RuroDN6A==}
+  /@graphql-tools/batch-delegate@9.0.0(graphql@16.6.0):
+    resolution: {integrity: sha512-23NmxcHQeKcfhMQyrRPTZfW4/+bSpAyR/qAhRjx+/hikDIa1Uv2XVgV9jIitSgM0OEk/KGPB4VQv+LCOWvAYiw==}
+    engines: {node: '>=16.0.0'}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
+      '@graphql-tools/delegate': 10.0.0(graphql@16.6.0)
+      '@graphql-tools/utils': 10.0.1(graphql@16.6.0)
       dataloader: 2.2.2
       graphql: 16.6.0
       tslib: 2.5.0
       value-or-promise: 1.0.12
     dev: false
 
-  /@graphql-tools/delegate@9.0.35(graphql@16.6.0):
-    resolution: {integrity: sha512-jwPu8NJbzRRMqi4Vp/5QX1vIUeUPpWmlQpOkXQD2r1X45YsVceyUUBnktCrlJlDB4jPRVy7JQGwmYo3KFiOBMA==}
+  /@graphql-tools/batch-execute@9.0.0(graphql@16.6.0):
+    resolution: {integrity: sha512-lT9/1XmPSYzBcEybXPLsuA6C5E0t8438PVUELABcqdvwHgZ3VOOx29MLBEqhr2oewOlDChH6PXNkfxoOoAuzRg==}
+    engines: {node: '>=16.0.0'}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@graphql-tools/batch-execute': 8.5.22(graphql@16.6.0)
-      '@graphql-tools/executor': 0.0.20(graphql@16.6.0)
-      '@graphql-tools/schema': 9.0.19(graphql@16.6.0)
-      '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
+      '@graphql-tools/utils': 10.0.1(graphql@16.6.0)
       dataloader: 2.2.2
       graphql: 16.6.0
       tslib: 2.5.0
       value-or-promise: 1.0.12
     dev: false
 
-  /@graphql-tools/executor@0.0.20(graphql@16.6.0):
-    resolution: {integrity: sha512-GdvNc4vszmfeGvUqlcaH1FjBoguvMYzxAfT6tDd4/LgwymepHhinqLNA5otqwVLW+JETcDaK7xGENzFomuE6TA==}
+  /@graphql-tools/delegate@10.0.0(graphql@16.6.0):
+    resolution: {integrity: sha512-ZW5/7Q0JqUM+guwn8/cM/1Hz16Zvj6WR6r3gnOwoPO7a9bCbe8QTCk4itT/EO+RiGT8RLUPYaunWR9jxfNqqOA==}
+    engines: {node: '>=16.0.0'}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
+      '@graphql-tools/batch-execute': 9.0.0(graphql@16.6.0)
+      '@graphql-tools/executor': 1.1.0(graphql@16.6.0)
+      '@graphql-tools/schema': 10.0.0(graphql@16.6.0)
+      '@graphql-tools/utils': 10.0.1(graphql@16.6.0)
+      dataloader: 2.2.2
+      graphql: 16.6.0
+      tslib: 2.5.0
+      value-or-promise: 1.0.12
+    dev: false
+
+  /@graphql-tools/executor@1.1.0(graphql@16.6.0):
+    resolution: {integrity: sha512-+1wmnaUHETSYxiK/ELsT60x584Rw3QKBB7F/7fJ83HKPnLifmE2Dm/K9Eyt6L0Ppekf1jNUbWBpmBGb8P5hAeg==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+    dependencies:
+      '@graphql-tools/utils': 10.0.1(graphql@16.6.0)
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.6.0)
       '@repeaterjs/repeater': 3.0.4
       graphql: 16.6.0
@@ -2953,14 +3023,28 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /@graphql-tools/merge@8.4.2(graphql@16.6.0):
-    resolution: {integrity: sha512-XbrHAaj8yDuINph+sAfuq3QCZ/tKblrTLOpirK0+CAgNlZUCHs0Fa+xtMUURgwCVThLle1AF7svJCxFizygLsw==}
+  /@graphql-tools/merge@9.0.0(graphql@16.6.0):
+    resolution: {integrity: sha512-J7/xqjkGTTwOJmaJQJ2C+VDBDOWJL3lKrHJN4yMaRLAJH3PosB7GiPRaSDZdErs0+F77sH2MKs2haMMkywzx7Q==}
+    engines: {node: '>=16.0.0'}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
+      '@graphql-tools/utils': 10.0.1(graphql@16.6.0)
       graphql: 16.6.0
       tslib: 2.5.0
+    dev: false
+
+  /@graphql-tools/schema@10.0.0(graphql@16.6.0):
+    resolution: {integrity: sha512-kf3qOXMFcMs2f/S8Y3A8fm/2w+GaHAkfr3Gnhh2LOug/JgpY/ywgFVxO3jOeSpSEdoYcDKLcXVjMigNbY4AdQg==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+    dependencies:
+      '@graphql-tools/merge': 9.0.0(graphql@16.6.0)
+      '@graphql-tools/utils': 10.0.1(graphql@16.6.0)
+      graphql: 16.6.0
+      tslib: 2.5.0
+      value-or-promise: 1.0.12
     dev: false
 
   /@graphql-tools/schema@8.5.1(graphql@16.6.0):
@@ -2975,16 +3059,15 @@ packages:
       value-or-promise: 1.0.11
     dev: false
 
-  /@graphql-tools/schema@9.0.19(graphql@16.6.0):
-    resolution: {integrity: sha512-oBRPoNBtCkk0zbUsyP4GaIzCt8C0aCI4ycIRUL67KK5pOHljKLBBtGT+Jr6hkzA74C8Gco8bpZPe7aWFjiaK2w==}
+  /@graphql-tools/utils@10.0.1(graphql@16.6.0):
+    resolution: {integrity: sha512-i1FozbDGHgdsFA47V/JvQZ0FE8NAy0Eiz7HGCJO2MkNdZAKNnwei66gOq0JWYVFztwpwbVQ09GkKhq7Kjcq5Cw==}
+    engines: {node: '>=16.0.0'}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
     dependencies:
-      '@graphql-tools/merge': 8.4.2(graphql@16.6.0)
-      '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
+      '@graphql-typed-document-node/core': 3.2.0(graphql@16.6.0)
       graphql: 16.6.0
       tslib: 2.5.0
-      value-or-promise: 1.0.12
     dev: false
 
   /@graphql-tools/utils@8.9.0(graphql@16.6.0):
@@ -3250,7 +3333,7 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
 
-  /@omnigraph/json-schema@0.94.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-mesh/utils@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0):
+  /@omnigraph/json-schema@0.94.2(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.0)(@graphql-mesh/utils@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0):
     resolution: {integrity: sha512-I6ORt2gAuvK2gqfTNf/vdNXC5mQGxVXNuJdPfo3is9S5XZWm2yte4D6Yb2BH6gp7PKKX5Q4rZjHVMnwKoJdI7Q==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
@@ -3261,10 +3344,10 @@ packages:
       graphql: '*'
       tslib: ^2.4.0
     dependencies:
-      '@graphql-mesh/cross-helpers': 0.3.4(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(react-native@0.72.0)
+      '@graphql-mesh/cross-helpers': 0.4.0(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(react-native@0.72.0)
       '@graphql-mesh/string-interpolation': 0.5.0(graphql@16.6.0)(tslib@2.5.0)
-      '@graphql-mesh/types': 0.93.1(@graphql-mesh/store@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
-      '@graphql-mesh/utils': 0.93.1(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      '@graphql-mesh/types': 0.94.0(@graphql-mesh/store@0.94.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      '@graphql-mesh/utils': 0.94.0(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
       '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
       '@json-schema-tools/meta-schema': 1.7.0
       '@whatwg-node/fetch': 0.9.4
@@ -3274,7 +3357,7 @@ packages:
       graphql: 16.6.0
       graphql-compose: 9.0.10(graphql@16.6.0)
       graphql-scalars: 1.22.2(graphql@16.6.0)
-      json-machete: 0.94.0(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-mesh/utils@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      json-machete: 0.94.0(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.0)(@graphql-mesh/utils@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
       pascal-case: 3.1.2
       qs: 6.11.2
       to-json-schema: 0.2.5
@@ -3282,7 +3365,7 @@ packages:
       url-join: 4.0.1
     dev: false
 
-  /@omnigraph/openapi@0.94.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-mesh/utils@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0):
+  /@omnigraph/openapi@0.94.2(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.0)(@graphql-mesh/utils@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0):
     resolution: {integrity: sha512-ssWorS1zGiLqpWk1UqD5Vi0TOGftxgH6+aQta6vzCQ5pIwimsShikUI37t084ARiU4T7lXTRMSXpjLaAYGFDVw==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
@@ -3292,21 +3375,21 @@ packages:
       graphql: '*'
       tslib: ^2.4.0
     dependencies:
-      '@graphql-mesh/cross-helpers': 0.3.4(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(react-native@0.72.0)
+      '@graphql-mesh/cross-helpers': 0.4.0(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(react-native@0.72.0)
       '@graphql-mesh/string-interpolation': 0.5.0(graphql@16.6.0)(tslib@2.5.0)
-      '@graphql-mesh/types': 0.93.1(@graphql-mesh/store@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
-      '@graphql-mesh/utils': 0.93.1(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
-      '@omnigraph/json-schema': 0.94.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-mesh/utils@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      '@graphql-mesh/types': 0.94.0(@graphql-mesh/store@0.94.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      '@graphql-mesh/utils': 0.94.0(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      '@omnigraph/json-schema': 0.94.2(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.0)(@graphql-mesh/utils@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
       change-case: 4.1.2
       graphql: 16.6.0
-      json-machete: 0.94.0(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-mesh/utils@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      json-machete: 0.94.0(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.0)(@graphql-mesh/utils@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
       openapi-types: 12.1.0
       tslib: 2.5.0
     transitivePeerDependencies:
       - '@graphql-tools/utils'
     dev: false
 
-  /@omnigraph/soap@0.94.2(@graphql-mesh/types@0.93.1)(@graphql-mesh/utils@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0):
+  /@omnigraph/soap@0.94.2(@graphql-mesh/types@0.94.0)(@graphql-mesh/utils@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0):
     resolution: {integrity: sha512-25JTbBF9InEuEyBMxBhUGkTStoe4P70Zcso3zASFaf/wkXnMlmTnDnIBrWnPGxRg54G5/KipnSRg5O7lUBXwbA==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
@@ -3315,8 +3398,8 @@ packages:
       '@graphql-tools/utils': ^9.2.1 || ^10.0.0
       graphql: '*'
     dependencies:
-      '@graphql-mesh/types': 0.93.1(@graphql-mesh/store@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
-      '@graphql-mesh/utils': 0.93.1(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      '@graphql-mesh/types': 0.94.0(@graphql-mesh/store@0.94.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      '@graphql-mesh/utils': 0.94.0(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
       '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
       fast-xml-parser: 4.2.4
       graphql: 16.6.0
@@ -3487,7 +3570,7 @@ packages:
       '@opentelemetry/propagator-b3': 1.13.0(@opentelemetry/api@1.4.1)
       '@opentelemetry/propagator-jaeger': 1.13.0(@opentelemetry/api@1.4.1)
       '@opentelemetry/sdk-trace-base': 1.13.0(@opentelemetry/api@1.4.1)
-      semver: 7.5.0
+      semver: 7.5.3
     dev: false
 
   /@opentelemetry/semantic-conventions@1.13.0:
@@ -5370,27 +5453,28 @@ packages:
       type-fest: 3.11.0
     dev: false
 
-  /@wundergraph/protobuf@0.116.0:
-    resolution: {integrity: sha512-5yj9VcQQDToz8VFSbKcA9PMo8lq4L+Q2xvdKliTkNyF6KCeGiqw1kHBW9AKNWBY8fvucJv7IyQ1oCP7d8igqAQ==}
+  /@wundergraph/protobuf@0.116.1:
+    resolution: {integrity: sha512-bLOJUkSufKS+NIX6daZKUfwIXbAxAvSlp4WZFd6unYkK1t7MgZqMlZwdP2jodO4AmIgv8RR6MZGWppiDtfn7zA==}
     dependencies:
       long: 5.2.3
       protobufjs: 6.11.3
       ts-proto: 1.147.3
     dev: false
 
-  /@wundergraph/sdk@0.165.0(@graphql-mesh/store@0.93.1)(react-native@0.72.0):
-    resolution: {integrity: sha512-P76XCRsse5MT7JeL92BKp0yeI/yhhOBwCxqbyZV4MJsDmIj2+BwzBz3kCd4IHMSXVQjBlbtvavBpo2DChP86wA==}
+  /@wundergraph/sdk@0.166.1(@graphql-mesh/store@0.94.1)(react-native@0.72.0):
+    resolution: {integrity: sha512-rmVY/kNkYOVS5Z6tRB7O25kOyDcYXpBnCrE3yZMMenMyRT4pAhnOMKi6jkieUJhIrFbRwIUQOYcYnw+oujuKMA==}
     hasBin: true
     dependencies:
       '@fastify/formbody': 7.4.0
-      '@graphql-mesh/cross-helpers': 0.3.4(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(react-native@0.72.0)
-      '@graphql-mesh/types': 0.93.1(@graphql-mesh/store@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
-      '@graphql-mesh/utils': 0.93.1(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      '@graphql-mesh/cross-helpers': 0.4.0(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(react-native@0.72.0)
+      '@graphql-mesh/types': 0.94.0(@graphql-mesh/store@0.94.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      '@graphql-mesh/utils': 0.94.0(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      '@graphql-tools/merge': 9.0.0(graphql@16.6.0)
       '@graphql-tools/schema': 8.5.1(graphql@16.6.0)
       '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
-      '@omnigraph/json-schema': 0.94.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-mesh/utils@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
-      '@omnigraph/openapi': 0.94.2(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-mesh/utils@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
-      '@omnigraph/soap': 0.94.2(@graphql-mesh/types@0.93.1)(@graphql-mesh/utils@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)
+      '@omnigraph/json-schema': 0.94.2(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.0)(@graphql-mesh/utils@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      '@omnigraph/openapi': 0.94.2(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.0)(@graphql-mesh/utils@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      '@omnigraph/soap': 0.94.2(@graphql-mesh/types@0.94.0)(@graphql-mesh/utils@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)
       '@opentelemetry/api': 1.4.1
       '@opentelemetry/core': 1.13.0(@opentelemetry/api@1.4.1)
       '@opentelemetry/exporter-trace-otlp-proto': 0.39.1(@opentelemetry/api@1.4.1)
@@ -5401,9 +5485,9 @@ packages:
       '@prisma/generator-helper': 3.15.2
       '@whatwg-node/fetch': 0.9.4
       '@wundergraph/orm': 0.2.0
-      '@wundergraph/protobuf': 0.116.0
+      '@wundergraph/protobuf': 0.116.1
       '@wundergraph/straightforward': 4.2.5
-      '@wundergraph/wunderctl': 0.159.0
+      '@wundergraph/wunderctl': 0.160.0
       axios: 0.26.1(debug@4.3.4)
       axios-retry: 3.5.0
       close-with-grace: 1.2.0
@@ -5425,7 +5509,7 @@ packages:
       lodash: 4.17.21
       long: 5.2.3
       object-hash: 2.2.0
-      openapi-types: 10.0.0
+      openapi-types: 12.1.0
       pino: 8.14.1
       pino-pretty: 10.0.0
       postman-collection: 4.1.7
@@ -5461,23 +5545,23 @@ packages:
       - supports-color
     dev: false
 
-  /@wundergraph/swr@0.15.10(@wundergraph/sdk@0.165.0)(react-dom@18.2.0)(react@18.2.0)(swr@2.1.5):
-    resolution: {integrity: sha512-4IysK4PV1CqYZA209tTlfGuxhktKdP5+HoN91944EymlbyNlQvM0Hwr5b3Xuqda25oCOx3Fk0LqDGAOJhAihPA==}
+  /@wundergraph/swr@0.15.12(@wundergraph/sdk@0.166.1)(react-dom@18.2.0)(react@18.2.0)(swr@2.1.5):
+    resolution: {integrity: sha512-QefnMki75UvbgzcqrmsJunFM0X/7pO9PKqKiXT55+N9JKtdK378UNR+hCvn+K31yqp5rRuGLqMjV7Hsehjjqtw==}
     peerDependencies:
       '@wundergraph/sdk': '>=0.110.0'
       react: ^16.8.0 || ^17.0.2 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.2 || ^18.0.0
       swr: ^2.1.5
     dependencies:
-      '@wundergraph/sdk': 0.165.0(@graphql-mesh/store@0.93.1)(react-native@0.72.0)
+      '@wundergraph/sdk': 0.166.1(@graphql-mesh/store@0.94.1)(react-native@0.72.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-ssr-prepass: 1.5.0(react@18.2.0)
       swr: 2.1.5(react@18.2.0)
     dev: false
 
-  /@wundergraph/wunderctl@0.159.0:
-    resolution: {integrity: sha512-epmYxGydCqzsKqFqjFr+bgPtCMVRbTtnnNlM3YSI0fFyECE+JLcTx8MD2uL6VgATBwYhzzxBLq7iZKy6SI81Ew==}
+  /@wundergraph/wunderctl@0.160.0:
+    resolution: {integrity: sha512-0WjHlLwcxc2gMtNc17kYPBYq/OS8k1ZkyW/qwLxlPLOaIXEvTk7+fK+BLX0TTf+SVVzaCB2f8YQQdOfmk0cFBQ==}
     hasBin: true
     requiresBuild: true
     dependencies:
@@ -6226,7 +6310,7 @@ packages:
     resolution: {integrity: sha512-c27loCv9QkZinsa5ProX751khO9DJl/AcB5c2KNtA6NRvHKS0PgLfcftz72KVq504vB0Gku5s2kUZzDBvQWvHg==}
     engines: {node: '>=4'}
     dependencies:
-      tslib: 2.5.0
+      tslib: 2.5.3
     dev: false
 
   /astral-regex@1.0.0:
@@ -7281,10 +7365,6 @@ packages:
     resolution: {integrity: sha512-2P0p0pFGzHS5EMnhdxQi7aJN+iMheud0UhG4dlE1DLAlvL8JHjJJTX/CSm4JXwV0Ka5nGk3zC5mcb5bUQUxxMA==}
     dev: false
 
-  /dayjs@1.11.7:
-    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
-    dev: false
-
   /dayjs@1.11.8:
     resolution: {integrity: sha512-LcgxzFoWMEPO7ggRv1Y2N31hUf2R0Vj7fuy/m+Bg1K8rr+KAs1AEy4y9jd5DXe8pbHgX+srkHNS7TH6Q6ZhYeQ==}
     dev: false
@@ -8123,7 +8203,7 @@ packages:
       proxy-addr: 2.0.7
       rfdc: 1.3.0
       secure-json-parse: 2.7.0
-      semver: 7.5.0
+      semver: 7.5.3
       tiny-lru: 11.0.1
     transitivePeerDependencies:
       - supports-color
@@ -9238,7 +9318,7 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
 
-  /json-machete@0.94.0(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-mesh/utils@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0):
+  /json-machete@0.94.0(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.0)(@graphql-mesh/utils@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0):
     resolution: {integrity: sha512-f3QUti6GVE+dKa7256OCdNHY/DR8G9sYutvu+YC5O8UgCYsuWC8j9+9NqzbP07KToRUVE2n0Zn2tss2D84GdMQ==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
@@ -9249,9 +9329,9 @@ packages:
       graphql: '*'
       tslib: ^2.4.0
     dependencies:
-      '@graphql-mesh/cross-helpers': 0.3.4(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(react-native@0.72.0)
-      '@graphql-mesh/types': 0.93.1(@graphql-mesh/store@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
-      '@graphql-mesh/utils': 0.93.1(@graphql-mesh/cross-helpers@0.3.4)(@graphql-mesh/types@0.93.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      '@graphql-mesh/cross-helpers': 0.4.0(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(react-native@0.72.0)
+      '@graphql-mesh/types': 0.94.0(@graphql-mesh/store@0.94.1)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
+      '@graphql-mesh/utils': 0.94.0(@graphql-mesh/cross-helpers@0.4.0)(@graphql-mesh/types@0.94.0)(@graphql-tools/utils@9.2.1)(graphql@16.6.0)(tslib@2.5.0)
       '@graphql-tools/utils': 9.2.1(graphql@16.6.0)
       '@json-schema-tools/meta-schema': 1.7.0
       '@whatwg-node/fetch': 0.9.4
@@ -10818,10 +10898,6 @@ packages:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
     engines: {node: '>= 6'}
 
-  /object-inspect@1.10.3:
-    resolution: {integrity: sha512-e5mCJlSH7poANfC8z8S9s9S2IN5/4Zb3aZ33f5s8YqoazCFzNLloLU8r5VCG+G7WoqLvAAZoVMcy3tp/3X0Plw==}
-    dev: false
-
   /object-inspect@1.12.3:
     resolution: {integrity: sha512-geUvdk7c+eizMNUDkRpW1wJwgfOiOeHbxBR/hLXK1aT6zmVSO0jsQcs7fj6MGw89jC/cjGfLcNOrtMYtGqm81g==}
     dev: false
@@ -10907,10 +10983,6 @@ packages:
       is-inside-container: 1.0.0
       is-wsl: 2.2.0
     dev: true
-
-  /openapi-types@10.0.0:
-    resolution: {integrity: sha512-Y8xOCT2eiKGYDzMW9R4x5cmfc3vGaaI4EL2pwhDmodWw1HlK18YcZ4uJxc7Rdp7/gGzAygzH9SXr6GKYIXbRcQ==}
-    dev: false
 
   /openapi-types@12.1.0:
     resolution: {integrity: sha512-XpeCy01X6L5EpP+6Hc3jWN7rMZJ+/k1lwki/kTmWzbVhdPie3jd5O2ZtedEx8Yp58icJ0osVldLMrTB/zslQXA==}
@@ -11976,7 +12048,7 @@ packages:
       ast-types: 0.15.2
       esprima: 4.0.1
       source-map: 0.6.1
-      tslib: 2.5.0
+      tslib: 2.5.3
     dev: false
 
   /redent@4.0.0:
@@ -12356,7 +12428,6 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
-    dev: true
 
   /send@0.18.0:
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==}
@@ -13098,11 +13169,6 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /tiny-lru@8.0.2:
-    resolution: {integrity: sha512-ApGvZ6vVvTNdsmt676grvCkUCGwzG9IqXma5Z07xJgiC5L7akUMof5U8G2JTI9Rz/ovtVhJBlY6mNhEvtjzOIg==}
-    engines: {node: '>=6'}
-    dev: false
-
   /titleize@3.0.0:
     resolution: {integrity: sha512-KxVu8EYHDPBdUYdKZdKtU2aj2XfEx9AfjXxE/Aj0vT06w2icA09Vus1rh6eSu1y01akYg6BjIK/hxyLJINoMLQ==}
     engines: {node: '>=12'}
@@ -13222,7 +13288,7 @@ packages:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
       '@types/node': 16.18.32
-      acorn: 8.8.2
+      acorn: 8.9.0
       acorn-walk: 8.2.0
       arg: 4.1.3
       create-require: 1.1.1
@@ -13301,6 +13367,10 @@ packages:
 
   /tslib@2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
+
+  /tslib@2.5.3:
+    resolution: {integrity: sha512-mSxlJJwl3BMEQCUNnxXBU9jP4JBktcEGhURcPR6VQVlnP0FdDEsIaz0C35dXNGLyRfrATNofF0F5p2KPxQgB+w==}
+    dev: false
 
   /tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}

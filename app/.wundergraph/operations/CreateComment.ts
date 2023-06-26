@@ -1,4 +1,8 @@
-import { createOperation, z } from "../generated/wundergraph.factory";
+import {
+  AuthorizationError,
+  createOperation,
+  z,
+} from "../generated/wundergraph.factory";
 
 export default createOperation.mutation({
   input: z.object({
@@ -17,6 +21,10 @@ export default createOperation.mutation({
   }),
   handler: async ({ input, operations, clientRequest, context }) => {
     const { accessToken } = await context.getTokenFromRequest(clientRequest);
+    console.log("ACCESS", accessToken);
+    if (!accessToken) {
+      throw new AuthorizationError();
+    }
 
     const jsonMeta = JSON.stringify(input.meta ?? {});
 
@@ -28,7 +36,7 @@ export default createOperation.mutation({
 
     const result = await operations
       .withHeaders({
-        Authorization: `Bearer ${accessToken}`,
+        "X-Github-Token": `Bearer ${accessToken}`, // we post on the user's behalf.
       })
       .mutate({
         operationName: "internal/Comment",
