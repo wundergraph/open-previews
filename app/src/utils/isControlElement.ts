@@ -11,7 +11,7 @@ export const isControlElement = (
 
   // Check if element has the class
   // @ts-expect-error
-  if (element.classList.contains(CONTROL_ELEMENT_CLASS)) {
+  if (element.classList?.contains(CONTROL_ELEMENT_CLASS)) {
     return true;
   }
 

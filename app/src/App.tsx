@@ -2,17 +2,17 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { Toolbar } from "./components/toolbar";
 import { Selections } from "./components/selections";
-import { Config, OpenPreviewConfig } from "./providers/config";
 import { themeClass } from "./theme";
-import {
-  ActiveCommentPin,
-  CommentPinHandle,
-} from "./components/active-comment-pin";
-import { useEffect, useRef, useState } from "react";
+import { ActiveCommentPin } from "./components/active-comment-pin";
+import { useEffect, useState } from "react";
 import { addClickListener } from "./utils";
 import { LiveHighlighter } from "./components/live-highlighter";
 import { CONTROL_ELEMENT_CLASS } from "./utils/constants/constants";
 import { useUser } from "./hooks/use-user";
+import { useStore } from "@nanostores/react";
+import { $activeCommentPin, PinDetails } from "./utils/state/activeCommentPin";
+import { useMutation, useQuery } from "./lib/wundergraph";
+import { $openPreviewConfig } from "./utils/state/openPreviewConfig";
 
 const styles = "__STYLES__";
 
@@ -45,31 +45,95 @@ function ShadowRoot(props: { children: React.ReactNode }) {
   return null;
 }
 
-function App(props: OpenPreviewConfig) {
+const pinDetailsTypeGuard = (props: PinDetails | {}): props is PinDetails => {
+  // @ts-expect-error
+  if (props?.element && props?.coords) {
+    return true;
+  }
+  return false;
+};
+
+export interface NewCommentArgs {
+  comment: string;
+}
+
+export interface NewReplyArgs {
+  comment: string;
+  replyToId: string;
+}
+
+function App() {
   const user = useUser();
 
-  console.log(user);
+  const [dimension, setDimension] = useState<number>(
+    window.innerHeight + window.innerWidth
+  );
 
-  const activePinRef = useRef<CommentPinHandle | null>(null);
+  const pinDetails = useStore($activeCommentPin);
 
-  const [, setRandom] = useState<number>();
+  const { commentText, isOpen, ...otherProps } = pinDetails;
 
   useEffect(() => {
-    const unsubscribe = addClickListener(activePinRef.current);
+    const unsubscribe = addClickListener();
     return () => {
       unsubscribe();
     };
-  }, [activePinRef.current]);
+  }, []);
+
+  const config = useStore($openPreviewConfig);
+
+  const { data: viewer } = useQuery({
+    operationName: "Viewer",
+    enabled: !!user.data,
+  });
+
+  const { data, mutate } = useQuery({
+    operationName: "Comments",
+    input: {
+      repository: config.repository,
+      categoryId: config.categoryId,
+      url: window.location.hostname,
+    },
+    enabled: !!user.data,
+  });
+
+  const { trigger } = useMutation({
+    operationName: "CreateComment",
+  });
+
+  const createNewThread = ({ comment }: NewCommentArgs) => {
+    if (pinDetailsTypeGuard(otherProps)) {
+      trigger({
+        body: comment ?? "",
+        discussionId: data?.id,
+        meta: {
+          path: JSON.stringify(otherProps.targetElement?.path ?? "{}"),
+          x: otherProps.coords.x,
+          y: otherProps.coords.y,
+          resolved: false,
+          selection: otherProps.selectionRange,
+        },
+      }).then(() => {
+        mutate();
+      });
+    }
+  };
+
+  const createNewReply = ({ comment, replyToId }: NewReplyArgs) => {
+    trigger({
+      body: comment ?? "",
+      discussionId: data?.id,
+      replyToId,
+    }).then(() => {
+      mutate();
+    });
+  };
 
   useEffect(() => {
-    const rerender = () => setRandom(Math.random());
-
-    /**
-     * Re-render once to access the activePinRef
-     */
-    setTimeout(() => {
-      rerender();
-    }, 500);
+    const rerender = () =>
+      setDimension(
+        window.innerHeight + window.innerWidth + window.scrollX + window.scrollY
+      );
 
     window.addEventListener("resize", rerender);
     window.addEventListener("scroll", rerender);
@@ -82,14 +146,36 @@ function App(props: OpenPreviewConfig) {
 
   return (
     <ShadowRoot>
-      <Config value={props}>
-        <div className={themeClass}>
-          {user.data ? <Selections /> : null}
-          <Toolbar />
-          <ActiveCommentPin ref={activePinRef} />
-          <LiveHighlighter commentHandler={activePinRef} />
-        </div>
-      </Config>
+      <div className={themeClass}>
+        {user.data ? (
+          <Selections
+            data={data}
+            dimension={dimension}
+            onReply={createNewReply}
+            userDetails={{
+              username: viewer?.github_viewer?.login ?? "",
+              profilePicURL: viewer?.github_viewer?.avatarUrl ?? "",
+              userProfileLink: viewer?.github_viewer?.url ?? "",
+            }}
+          />
+        ) : null}
+        <Toolbar />
+        {pinDetailsTypeGuard(otherProps) ? (
+          <ActiveCommentPin
+            pinDetails={otherProps}
+            defaultOpen
+            dimension={dimension}
+            onSubmit={createNewThread}
+            onReply={createNewReply}
+            userDetails={{
+              username: viewer?.github_viewer?.login ?? "",
+              profilePicURL: viewer?.github_viewer?.avatarUrl ?? "",
+              userProfileLink: viewer?.github_viewer?.url ?? "",
+            }}
+          />
+        ) : null}
+        {user.data ? <LiveHighlighter /> : null}
+      </div>
     </ShadowRoot>
   );
 }

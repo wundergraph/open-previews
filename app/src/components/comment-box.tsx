@@ -1,87 +1,96 @@
-import { styled } from "@macaron-css/react";
-import { CommentIcon } from "./icons/comment";
+import { useStore } from "@nanostores/react";
+import { ChangeEvent, FC, KeyboardEvent } from "react";
+import { NewCommentArgs } from "~/App";
 import {
-  Popover,
-  PopoverAnchor,
-  PopoverArrow,
-  PopoverContent,
-  PopoverPortal,
-  PopoverTrigger,
-} from "./ui/popover";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { theme } from "~/theme";
-import { PlusIcon } from "./icons/plus";
-import { Button, IconButton } from "./ui/button";
-import { style } from "@macaron-css/core";
+  $activeCommentPin,
+  clearActivePinComment,
+  removeActiveCommentPin,
+  updateActivePinCommentText,
+} from "~/utils/state/activeCommentPin";
 
-const CommentPin = styled("button", {
-  base: {
-    all: "unset",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "32px",
-    width: "32px",
-    borderRadius: "100%",
-    borderTopLeftRadius: 0,
-    backgroundColor: theme.color.yellowDark.yellow10,
-    cursor: "pointer",
-  },
-});
+export interface CommentBoxProps {
+  onSubmit: (data: NewCommentArgs) => unknown;
+  profilePicURL: string;
+  userProfileLink: string;
+  username: string;
+}
 
-const Textarea = styled("textarea", {
-  base: {
-    border: 0,
-    background: "transparent",
-    outline: 0,
-    color: "white",
-    width: "100%",
-    fontFamily: "inherit",
-    minHeight: "60px",
-  },
-});
-
-export const CommentBox = (props: {
-  onSubmit: (data: FormData) => unknown;
-  defaultOpen?: boolean;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => unknown;
+export const CommentBox: FC<CommentBoxProps> = ({
+  onSubmit,
+  profilePicURL,
+  userProfileLink,
+  username,
 }) => {
-  const { onSubmit, defaultOpen, open, onOpenChange } = props;
+  const commentPinInfo = useStore($activeCommentPin);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit?.(new FormData(e.target));
+  const onSend = () => {
+    removeActiveCommentPin();
+    clearActivePinComment();
+    onSubmit({
+      comment: commentPinInfo.commentText,
+    });
   };
 
-  const handleKeyUp = (e) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    updateActivePinCommentText(event.target.value);
+  };
+
+  const handleKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && e.shiftKey) {
       e.preventDefault();
-      handleSubmit(e);
+      onSend();
     }
   };
 
   return (
-    <Popover defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange}>
-      <PopoverTrigger asChild>
-        <CommentPin aria-label="open-comments">
-          <PlusIcon />
-        </CommentPin>
-      </PopoverTrigger>
-      <PopoverContent side="right" align="start" sideOffset={10}>
-        <form onSubmit={handleSubmit}>
-          <Textarea
-            name="comment"
-            placeholder="Write a comment..."
-            onKeyUp={handleKeyUp}
-          />
-          <div
-            className={style({ display: "flex", justifyContent: "flex-end" })}
-          >
-            <Button type="submit">Send</Button>
-          </div>
-        </form>
-      </PopoverContent>
-    </Popover>
+    <div
+      style={{
+        width: "400px",
+        maxHeight: "500px",
+        overflow: "auto",
+        border: "1px solid lightgray",
+        borderRadius: "8px",
+        padding: "10px",
+        boxSizing: "border-box",
+        backgroundColor: "#f8f8f8",
+        color: "black",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginBottom: "10px",
+        }}
+      >
+        <img
+          src={profilePicURL}
+          alt="profile picture"
+          style={{
+            width: "50px",
+            height: "50px",
+            borderRadius: "50%",
+            marginRight: "10px",
+          }}
+        />
+        <a href={userProfileLink} target="_blank" rel="noopener noreferrer">
+          {username}
+        </a>
+      </div>
+      <input
+        type="text"
+        placeholder="Write a comment..."
+        value={commentPinInfo.commentText}
+        style={{
+          width: "100%",
+          padding: "5px",
+          boxSizing: "border-box",
+          marginBottom: "10px",
+        }}
+        onChange={handleInputChange}
+        onKeyUp={handleKeyUp}
+      />
+      <button onClick={onSend}>Send</button>
+    </div>
   );
 };

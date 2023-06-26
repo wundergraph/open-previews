@@ -14,6 +14,11 @@ query Search($query: String!) {
                 login
               }
               body
+              author {
+                avatarUrl
+                url
+                login
+              }
               createdAt
               databaseId
               discussion {
@@ -27,6 +32,34 @@ query Search($query: String!) {
               publishedAt
               updatedAt
               url
+              replies(first: 45) {
+                nodes {
+                  ... on github_DiscussionComment {
+                    author {
+                      login
+                    }
+                    body
+                    author {
+                      avatarUrl
+                      url
+                      login
+                    }
+                    createdAt
+                    databaseId
+                    discussion {
+                      databaseId
+                    }
+                    editor {
+                      login
+                    }
+                    id
+                    lastEditedAt
+                    publishedAt
+                    updatedAt
+                    url
+                  }
+                }
+              }
             }
           }
         }

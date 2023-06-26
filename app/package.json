@@ -13,6 +13,7 @@
     "dist"
   ],
   "scripts": {
+    "prepare": "panda codegen",
     "dev": "concurrently \"npm run dev:vite\" \"npm run wundergraph\" \"npm run browser\"",
     "check": "tsc --noEmit",
     "clean": "rimraf ./.next",
@@ -50,6 +51,7 @@
     "swr": "^2.1.5"
   },
   "devDependencies": {
+    "@pandacss/dev": "^0.4.0",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/node-fetch": "^2.6.2",
     "@types/react": "^18.0.15",

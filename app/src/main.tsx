@@ -1,18 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
+import "./main.css";
 import App from "./App";
+import { SWRConfig } from "swr";
+import { swrLocalStorageProvider } from "./lib/wundergraph";
+import {
+  OpenPreviewConfig,
+  setOpenPreviewConfig,
+} from "./utils/state/openPreviewConfig";
 
-export const OpenPreviews = App;
+export const OpenPreviews = (props: OpenPreviewConfig) => {
+  useEffect(() => {
+    setOpenPreviewConfig(props);
+  }, [props.categoryId, props.repository]);
 
-export const initOpenPreviews = (options: any) => {
+  return (
+    <SWRConfig value={{ provider: swrLocalStorageProvider }}>
+      <App />
+    </SWRConfig>
+  );
+};
+
+export const initOpenPreviews = (options: OpenPreviewConfig) => {
   const root = document.insertBefore(
     document.body,
     document.createElement("open-previews")
   );
 
+  setOpenPreviewConfig(options);
+
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
-      <App {...options} />
+      <SWRConfig value={{ provider: swrLocalStorageProvider }}>
+        <App />
+      </SWRConfig>
     </React.StrictMode>
   );
 };

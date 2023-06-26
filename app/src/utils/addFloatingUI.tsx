@@ -3,7 +3,7 @@ import { SelectionRange } from "./pathBuilder";
 import { createHighlightDivs } from "./createHighlightDivs";
 import { rangy } from "./rangy";
 import { createRoot } from "react-dom/client";
-import { CommentBox } from "~/components/comment-box";
+import { CommentPopup } from "~/components/comment-popup";
 
 export const addFloatingUI = (
   element: HTMLElement,
@@ -52,7 +52,16 @@ export const addFloatingUI = (
 
   const root = createRoot(dummyElement);
 
-  root.render(<CommentBox onSubmit={() => null} />);
+  root.render(
+    <CommentPopup
+      userDetails={{
+        profilePicURL: "",
+        username: "",
+        userProfileLink: "",
+      }}
+      onSubmit={() => null}
+    />
+  );
 
   return () => dummyElement.remove();
 };

@@ -1,74 +1,53 @@
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import { PositionData, SelectionRange } from "~/utils/pathBuilder";
-import { CommentBox } from "./comment-box";
+import { FC, useMemo } from "react";
+import { CommentPopup } from "./comment-popup";
 import { rangy } from "~/utils/rangy";
-import { addSelection } from "~/utils/state/activeSelections";
 import { Highlight } from "./highlight";
-
-type PinDetails = {
-  targetElement?: PositionData;
-  element: HTMLElement;
-  coords: { x: number; y: number };
-  selectionRange?: SelectionRange;
-};
+import { PinDetails } from "~/utils/state/activeCommentPin";
+import { NewCommentArgs, NewReplyArgs } from "~/App";
+import { CommentsWithSelections } from "./selections";
 
 type ActiveCommentPinProps = {
-  pinDetails?: PinDetails;
-  onSubmit?: (data: FormData) => unknown;
+  pinDetails: PinDetails;
+  onSubmit?: (args: NewCommentArgs) => unknown;
+  defaultOpen?: boolean;
+  comment?: CommentsWithSelections;
+  onReply: (args: NewReplyArgs) => unknown;
+  userDetails: {
+    profilePicURL: string;
+    userProfileLink: string;
+    username: string;
+  };
+  dimension: number;
 };
 
 export type CommentPinHandle = {
   addCommentPin: (args: PinDetails) => void;
 };
 
-export const ActiveCommentPin = forwardRef<
-  CommentPinHandle,
-  ActiveCommentPinProps
->((props, ref) => {
-  const [pinDetails, setPinDetails] = useState<PinDetails | undefined>(
-    props.pinDetails
-  );
-  const [open, setOpen] = useState(true);
-
-  // @TODO let's move this to nanostores?
-  const addCommentPin = ({
-    element,
-    coords,
-    targetElement,
-    selectionRange,
-  }: PinDetails) => {
-    setOpen(true);
-    setPinDetails({
-      element,
-      coords,
-      selectionRange,
-      targetElement,
-    });
-  };
-
-  useImperativeHandle(
-    ref,
-    () => {
-      return {
-        addCommentPin,
-      };
-    },
-    []
-  );
-
-  if (!pinDetails) return null;
-
+export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
+  pinDetails,
+  onSubmit = (props: NewCommentArgs) => null,
+  defaultOpen = false,
+  comment,
+  userDetails,
+  dimension,
+  onReply = (props: NewReplyArgs) => null,
+}) => {
   let rects: DOMRect[] = [];
 
-  if (pinDetails.selectionRange) {
-    try {
-      const range = rangy.deserializeRange(pinDetails.selectionRange);
-      rects = Array.from(range.nativeRange.getClientRects());
-    } catch (e) {
-      console.error(e);
-      // for now do nothing...
+  rects = useMemo(() => {
+    if (pinDetails.selectionRange) {
+      try {
+        const range = rangy.deserializeRange(pinDetails.selectionRange);
+        return Array.from(range.nativeRange.getClientRects());
+      } catch {
+        // for now do nothing...
+        return [];
+      }
     }
-  }
+    return [];
+    // Dimension needed to update selection when screen is resized / scrolled
+  }, [pinDetails.selectionRange, dimension]);
 
   const selection = rects[rects.length - 1];
 
@@ -87,19 +66,14 @@ export const ActiveCommentPin = forwardRef<
     };
   }
 
-  const persistCommentBox = async () => {
-    if (pinDetails.targetElement) {
-      const timestamp = new Date().toISOString();
-      addSelection(timestamp, pinDetails.targetElement);
-    }
-  };
-
   return (
     <div style={{ left: `${pos.x}px`, top: `${pos.y}px`, position: "fixed" }}>
-      <CommentBox
-        onSubmit={props.onSubmit ?? persistCommentBox}
-        open={open}
-        onOpenChange={setOpen}
+      <CommentPopup
+        onSubmit={onSubmit}
+        onReply={onReply}
+        defaultOpen={defaultOpen}
+        comment={comment}
+        userDetails={userDetails}
       />
       {rects.map((rect, i) => {
         return (
@@ -116,4 +90,4 @@ export const ActiveCommentPin = forwardRef<
       })}
     </div>
   );
-});
+};

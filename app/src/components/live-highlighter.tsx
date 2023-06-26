@@ -1,18 +1,21 @@
 import { FC, useEffect, useState } from "react";
 import { rangy } from "~/utils/rangy";
-import { CommentPinHandle } from "./active-comment-pin";
 import { pathBuilder } from "~/utils/pathBuilder";
 import { findElementFromPath } from "~/utils/findElementFromPath";
 import { Highlight } from "./highlight";
+import { addActiveCommentPin } from "~/utils/state/activeCommentPin";
+import { isControlElement } from "~/utils/isControlElement";
 
-export const LiveHighlighter: FC<{
-  commentHandler: React.MutableRefObject<CommentPinHandle | null>;
-}> = ({ commentHandler }) => {
+export const LiveHighlighter: FC = () => {
   const [isHightlightActive, setIsHighlightActive] = useState(false);
   const [activeRange, setActiveRange] = useState<any>();
 
   useEffect(() => {
-    const liveHighlighter = () => {
+    const liveHighlighter = (event: Event) => {
+      if (event.target && isControlElement(event.target)) {
+        // Element is part of open previews - do not trigger any highlights
+        return;
+      }
       const selection = rangy.getSelection();
       if (selection.toString().length) {
         const selectionRange = rangy.serializeSelection(selection, true);
@@ -23,11 +26,15 @@ export const LiveHighlighter: FC<{
     };
 
     const transitionToComments = (event: MouseEvent) => {
+      if (event.target && isControlElement(event.target)) {
+        // Element is part of open previews - do not trigger any comments
+        return;
+      }
       const selection = rangy.getSelection();
       if (selection.toString().length) {
         const targetElement = pathBuilder(event);
         const clickedElement = findElementFromPath(targetElement.path);
-        commentHandler.current?.addCommentPin({
+        addActiveCommentPin({
           element: clickedElement!,
           coords: {
             x: targetElement.x,

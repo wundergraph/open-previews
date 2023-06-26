@@ -125,10 +125,8 @@ const ToolbarPositioner = (props) => {
 };
 
 export const Toolbar = () => {
-  const { token, login, logout } = useAuth();
-  const { data: user } = useUser({
-    enabled: !!token,
-  });
+  const { login, logout } = useAuth();
+  const { data: user } = useUser();
   const isCommentModeOn = useStore($commentMode);
 
   const [{ x, y }, setCoordinates] = React.useState<{ x: number; y: number }>({
