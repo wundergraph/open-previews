@@ -1,6 +1,9 @@
 import { User } from "@wundergraph/sdk/client";
 import { createSecretKey } from "node:crypto";
-import jwt from "jsonwebtoken";
+
+import jose from "jose";
+
+const tokenExp = process.env.TOKEN_EXP || "2h";
 
 const getSecret = () => {
   if (!process.env.JWT_SECRET) {
@@ -13,12 +16,19 @@ const getSecret = () => {
 export const encodeUserToken = async (user: User) => {
   const secret = getSecret();
 
-  // @todo this is not encoded.
-  return jwt.sign(
-    { accessToken: user.rawAccessToken, name: user.name, email: user.email },
-    secret,
-    { expiresIn: "2h" }
-  );
+  const jwt = await new jose.EncryptJWT({
+    accessToken: user.rawAccessToken,
+    name: user.name,
+    email: user.email,
+  })
+    .setProtectedHeader({ alg: "dir", enc: "A128CBC-HS256" })
+    .setIssuedAt()
+    .setIssuer("urn:open-previews")
+    .setAudience("urn:open-previews:user")
+    .setExpirationTime(tokenExp)
+    .encrypt(secret);
+
+  return jwt;
 };
 
 interface Token {
@@ -32,8 +42,11 @@ export const verifyToken = async (
   ignoreExpiration?: boolean
 ): Promise<Token> => {
   const secret = getSecret();
-  const decoded = jwt.verify(token, secret, {
-    ignoreExpiration,
-  }) as Token;
-  return decoded;
+  const { payload } = await jose.jwtDecrypt(token, secret, {
+    issuer: "urn:open-previews",
+    audience: "urn:open-previews:user",
+    maxTokenAge: ignoreExpiration ? undefined : tokenExp,
+  });
+
+  return payload as unknown as Token;
 };

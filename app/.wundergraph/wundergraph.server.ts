@@ -26,7 +26,6 @@ export default configureWunderGraphServer(() => ({
     authentication: {
       mutatingPostAuthentication: async ({ user }) => {
         const token = await encodeUserToken(user);
-        console.log("mutatingPostAuthentication", user, token);
         return {
           user: {
             ...user,
