@@ -1,30 +1,44 @@
-import { styled } from "@macaron-css/react";
-import { style } from "@macaron-css/core";
 import { useStore } from "@nanostores/react";
 import { $commentMode, toggleCommentMode } from "~/utils/state/commentMode";
 import { LoginIcon } from "./icons/login";
 import { DndContext, PointerSensor, useDraggable } from "@dnd-kit/core";
 
 import * as ToolbarPrimitive from "@radix-ui/react-toolbar";
-import { theme } from "~/theme";
 import { CommentIcon } from "./icons/comment";
 import { XIcon } from "./icons/x";
 import React from "react";
 import { useUser } from "~/hooks/use-user";
 import { useAuth } from "~/lib/auth";
+import { styled } from "../../styled-system/jsx";
+import { css } from "../../styled-system/css";
+
+const Test = styled("div", {
+  base: {
+    display: "flex",
+    padding: "8px",
+    minWidth: "max-content",
+    borderRadius: "25px",
+    bg: "gray.600",
+    border: "1px solid",
+    borderColor: "gray.600",
+    backgroundBlendMode: "color-burn",
+    backdropBlur: "base",
+    zIndex: "base",
+  },
+});
 
 const ToolbarRoot = styled(ToolbarPrimitive.Root, {
   base: {
     display: "flex",
     padding: "8px",
     minWidth: "max-content",
-    borderRadius: 25,
-    backgroundColor: theme.color.grayDarkA.grayA6,
+    borderRadius: "25px",
+    bg: "gray.600",
     border: "1px solid",
-    borderColor: theme.color.grayDarkA.grayA7,
+    borderColor: "gray.600",
     backgroundBlendMode: "color-burn",
-    backdropFilter: "blur(20px)",
-    zIndex: theme.zIndex.base,
+    backdropBlur: "base",
+    zIndex: "base",
   },
 });
 
@@ -33,10 +47,10 @@ const itemStyles = {
   color: "white",
   backgroundColor: "transparent",
   border: 0,
-  height: 32,
-  minWidth: 32,
+  height: "32px",
+  minWidth: "32px",
   padding: "0 4px",
-  borderRadius: 25,
+  borderRadius: "25px",
   display: "inline-flex",
   fontSize: 14,
   lineHeight: 1,
@@ -49,13 +63,15 @@ const itemStyles = {
 const ToolbarToggleItem = styled(ToolbarPrimitive.ToggleItem, {
   base: {
     ...itemStyles,
-    ":hover": { backgroundColor: theme.color.grayDark.gray9 },
-    ":focus": {
-      position: "relative",
-      boxShadow: `0 0 0 2px ${theme.color.pink.pink8}`,
+    _hover: {
+      backgroundColor: "grayDark.gray9",
     },
-    selectors: {
-      "&[data-state=on]": { backgroundColor: theme.color.grayDark.gray10 },
+    _focus: {
+      position: "relative",
+      boxShadow: `0 0 0 2px {colors.pink.pink8}`,
+    },
+    '&[data-state="on"]': {
+      backgroundColor: "grayDark.gray10",
     },
   },
 });
@@ -63,7 +79,7 @@ const ToolbarToggleItem = styled(ToolbarPrimitive.ToggleItem, {
 const ToolbarSeparator = styled(ToolbarPrimitive.Separator, {
   base: {
     width: 1,
-    backgroundColor: theme.color.grayDark.gray9,
+    backgroundColor: "grayDark.gray9",
     margin: "0 8px",
   },
 });
@@ -75,10 +91,10 @@ const ToolbarLink = styled(ToolbarPrimitive.Link, {
     display: "inline-flex",
     justifyContent: "center",
     alignItems: "center",
-    ":hover": { backgroundColor: theme.color.grayDark.gray9 },
-    ":focus-visible": {
+    _hover: { backgroundColor: "grayDark.gray9" },
+    _focusVisible: {
       position: "relative",
-      boxShadow: `0 0 0 2px ${theme.color.pink.pink5}`,
+      boxShadow: `0 0 0 2px {colors.pink.pink6}`,
     },
   },
 });
@@ -86,10 +102,12 @@ const ToolbarLink = styled(ToolbarPrimitive.Link, {
 const ToolbarButton = styled(ToolbarPrimitive.Button, {
   base: {
     ...itemStyles,
-    ":hover": { backgroundColor: theme.color.grayDark.gray9 },
-    ":focus-visible": {
+    _hover: {
+      backgroundColor: "grayDark.gray9",
+    },
+    _focusVisible: {
       position: "relative",
-      boxShadow: `0 0 0 2px ${theme.color.pink.pink5}`,
+      boxShadow: "0 0 0 2px {colors.pink.pink6}",
     },
   },
 });
@@ -109,7 +127,7 @@ const ToolbarPositioner = (props) => {
       style={
         {
           position: "fixed",
-          zIndex: theme.zIndex.base,
+          zIndex: "base",
           left: x,
           top: y,
           "--translate-x": `${transform?.x ?? 0}px`,
@@ -178,7 +196,7 @@ export const Toolbar = () => {
             </>
           ) : (
             <ToolbarButton onClick={() => login()}>
-              <LoginIcon className={style({ marginRight: "4px" })} /> Log in to
+              <LoginIcon className={css({ marginRight: "4px" })} /> Log in to
               comment
             </ToolbarButton>
           )}

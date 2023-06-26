@@ -384,7 +384,7 @@ const context = {
     breakpoints: { keys: breakpointKeys }
   },
   utility: {
-    prefix: undefined,
+    prefix: "op",
     transform,
     hasShorthand,
     resolveShorthand,

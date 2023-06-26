@@ -9,7 +9,10 @@ const injectCSS = (file) => {
 
     const scriptPath = `${dist}/${file}`;
     const scriptContents = fs.readFileSync(scriptPath).toString();
-    fs.writeFileSync(scriptPath, scriptContents.replace("__STYLES__", styles));
+    fs.writeFileSync(
+      scriptPath,
+      scriptContents.replace("__STYLES__", styles.replace("\\1f43c", "🐼"))
+    );
   } catch {
     console.warn("Could not inject CSS into", file);
   }

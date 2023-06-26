@@ -2,7 +2,6 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 import { Toolbar } from "./components/toolbar";
 import { Selections } from "./components/selections";
-import { themeClass } from "./theme";
 import { ActiveCommentPin } from "./components/active-comment-pin";
 import { useEffect, useState } from "react";
 import { addClickListener } from "./utils";
@@ -14,7 +13,7 @@ import { $activeCommentPin, PinDetails } from "./utils/state/activeCommentPin";
 import { useMutation, useQuery } from "./lib/wundergraph";
 import { $openPreviewConfig } from "./utils/state/openPreviewConfig";
 
-const styles = "__STYLES__";
+const styles = `__STYLES__`;
 
 function ShadowRoot(props: { children: React.ReactNode }) {
   const rootRef = React.useRef<HTMLElement>();
@@ -26,7 +25,7 @@ function ShadowRoot(props: { children: React.ReactNode }) {
       rootRef.current = document.createElement("open-previews");
       rootRef.current.classList.add(CONTROL_ELEMENT_CLASS);
       document.body.appendChild(rootRef.current);
-
+      console.log(styles);
       const sheet = new CSSStyleSheet();
       sheet.replaceSync(styles);
 
@@ -146,7 +145,7 @@ function App() {
 
   return (
     <ShadowRoot>
-      <div className={themeClass}>
+      <div>
         {user.data ? (
           <Selections
             data={data}

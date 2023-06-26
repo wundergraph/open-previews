@@ -1,10 +1,9 @@
-import { styled } from "@macaron-css/react";
-import { theme } from "~/theme";
+import { styled } from "../../styled-system/jsx";
 
 export const Highlight = styled("div", {
   base: {
     position: "fixed",
-    backgroundColor: theme.color.pink.pink10,
+    backgroundColor: "pink.100",
     opacity: "0.5",
     pointerEvents: "none",
   },
