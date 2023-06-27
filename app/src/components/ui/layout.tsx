@@ -1,13 +1,9 @@
-import { styled } from "@macaron-css/react";
-import { vars } from "~/theme";
-
-export const Flex = styled("div", { base: { display: "flex" } });
+import { styled } from "../../../styled-system/jsx";
 
 export const Text = styled("p", {
   base: {
     margin: 0,
-    // color: mauve.mauve12,
-    fontSize: 15,
+    fontSize: "md",
     lineHeight: "19px",
     fontWeight: 500,
   },

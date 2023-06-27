@@ -7,18 +7,20 @@ import {
   removeActiveCommentPin,
   updateActivePinCommentText,
 } from "~/utils/state/activeCommentPin";
+import { Button } from "./ui/button";
+import { Textarea } from "./ui/forms";
+import { Avatar } from "./ui/avatar";
+import { Stack } from "../../styled-system/jsx";
 
 export interface CommentBoxProps {
   onSubmit: (data: NewCommentArgs) => unknown;
-  profilePicURL: string;
-  userProfileLink: string;
+  profilePicture: string;
   username: string;
 }
 
 export const CommentBox: FC<CommentBoxProps> = ({
   onSubmit,
-  profilePicURL,
-  userProfileLink,
+  profilePicture,
   username,
 }) => {
   const commentPinInfo = useStore($activeCommentPin);
@@ -31,11 +33,11 @@ export const CommentBox: FC<CommentBoxProps> = ({
     });
   };
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     updateActivePinCommentText(event.target.value);
   };
 
-  const handleKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyUp = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && e.shiftKey) {
       e.preventDefault();
       onSend();
@@ -43,54 +45,18 @@ export const CommentBox: FC<CommentBoxProps> = ({
   };
 
   return (
-    <div
-      style={{
-        width: "400px",
-        maxHeight: "500px",
-        overflow: "auto",
-        border: "1px solid lightgray",
-        borderRadius: "8px",
-        padding: "10px",
-        boxSizing: "border-box",
-        backgroundColor: "#f8f8f8",
-        color: "black",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginBottom: "10px",
-        }}
-      >
-        <img
-          src={profilePicURL}
-          alt="profile picture"
-          style={{
-            width: "50px",
-            height: "50px",
-            borderRadius: "50%",
-            marginRight: "10px",
-          }}
-        />
-        <a href={userProfileLink} target="_blank" rel="noopener noreferrer">
-          {username}
-        </a>
-      </div>
-      <input
-        type="text"
+    <div>
+      <Stack mb="10px" direction="row" alignItems="center">
+        <Avatar src="profilePicture" name={username} />
+        <span>{username}</span>
+      </Stack>
+      <Textarea
         placeholder="Write a comment..."
         value={commentPinInfo.commentText}
-        style={{
-          width: "100%",
-          padding: "5px",
-          boxSizing: "border-box",
-          marginBottom: "10px",
-        }}
         onChange={handleInputChange}
         onKeyUp={handleKeyUp}
       />
-      <button onClick={onSend}>Send</button>
+      <Button onClick={onSend}>Send</Button>
     </div>
   );
 };

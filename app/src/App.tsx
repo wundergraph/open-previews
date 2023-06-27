@@ -12,6 +12,8 @@ import { useStore } from "@nanostores/react";
 import { $activeCommentPin, PinDetails } from "./utils/state/activeCommentPin";
 import { useMutation, useQuery } from "./lib/wundergraph";
 import { $openPreviewConfig } from "./utils/state/openPreviewConfig";
+import { cva } from "../styled-system/css";
+import "./main.css";
 
 const styles = `__STYLES__`;
 
@@ -27,8 +29,8 @@ function ShadowRoot(props: { children: React.ReactNode }) {
       document.body.appendChild(rootRef.current);
 
       const sheet = new CSSStyleSheet();
-      sheet.replaceSync(styles);
-
+      sheet.replaceSync(styles.replace("'\\", "\\\\"));
+      console.log(styles.replace("'\\", "\\\\"));
       const root = rootRef.current.attachShadow({ mode: "open" });
 
       root.adoptedStyleSheets = [sheet];
@@ -61,6 +63,15 @@ export interface NewReplyArgs {
   replyToId: string;
 }
 
+const testRecipe = cva({
+  base: {
+    bg: "red.100",
+    position: "fixed",
+    inset: "0",
+    zIndex: 1000,
+  },
+});
+
 function App() {
   const user = useUser();
 
@@ -80,11 +91,6 @@ function App() {
   }, []);
 
   const config = useStore($openPreviewConfig);
-
-  const { data: viewer } = useQuery({
-    operationName: "User",
-    enabled: !!user.data,
-  });
 
   const { data, mutate } = useQuery({
     operationName: "Comments",
@@ -152,9 +158,8 @@ function App() {
             dimension={dimension}
             onReply={createNewReply}
             userDetails={{
-              username: viewer?.github_viewer?.login ?? "",
-              profilePicURL: viewer?.github_viewer?.avatarUrl ?? "",
-              userProfileLink: viewer?.github_viewer?.url ?? "",
+              username: user.data.name ?? "",
+              profilePicture: user.data.profilePicture ?? "",
             }}
           />
         ) : null}
@@ -167,9 +172,8 @@ function App() {
             onSubmit={createNewThread}
             onReply={createNewReply}
             userDetails={{
-              username: viewer?.github_viewer?.login ?? "",
-              profilePicURL: viewer?.github_viewer?.avatarUrl ?? "",
-              userProfileLink: viewer?.github_viewer?.url ?? "",
+              username: user.data?.name ?? "",
+              profilePicture: user.data?.profilePicture ?? "",
             }}
           />
         ) : null}
@@ -180,3 +184,25 @@ function App() {
 }
 
 export default App;
+
+// import { cva } from '../styled-system/css'
+import { styled } from "../styled-system/jsx";
+
+const buttonStyle = cva({
+  base: {
+    color: "bg.muted",
+    textAlign: "center",
+  },
+  variants: {
+    size: {
+      small: {
+        fontSize: "1rem",
+      },
+      large: {
+        fontSize: "2rem",
+      },
+    },
+  },
+});
+
+const Button = styled("button", buttonStyle);

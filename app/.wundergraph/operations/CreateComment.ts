@@ -21,7 +21,7 @@ export default createOperation.mutation({
   }),
   handler: async ({ input, operations, clientRequest, context }) => {
     const { accessToken } = await context.getTokenFromRequest(clientRequest);
-    console.log("ACCESS", accessToken);
+
     if (!accessToken) {
       throw new AuthorizationError();
     }

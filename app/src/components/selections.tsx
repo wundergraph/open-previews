@@ -38,8 +38,7 @@ export const Selections = ({
   data: CommentsQueryData;
   onReply: (args: NewReplyArgs) => unknown;
   userDetails: {
-    profilePicURL: string;
-    userProfileLink: string;
+    profilePicture: string;
     username: string;
   };
   dimension: number;

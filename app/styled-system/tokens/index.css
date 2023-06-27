@@ -59,11 +59,11 @@
   --op-font-sizes-7xl: 4.5rem;
   --op-font-sizes-8xl: 6rem;
   --op-font-sizes-9xl: 8rem;
-  --op-shadows-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --op-shadows-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --op-shadows-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --op-shadows-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --op-shadows-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --op-shadows-xs: 0px 0px 1px rgba(48, 49, 51, 0.05), 0px 1px 2px rgba(48, 49, 51, 0.1);
+  --op-shadows-sm: 0px 0px 1px rgba(48, 49, 51, 0.05), 0px 2px 4px rgba(48, 49, 51, 0.1);
+  --op-shadows-md: 0px 0px 1px rgba(48, 49, 51, 0.05), 0px 4px 8px rgba(48, 49, 51, 0.1);
+  --op-shadows-lg: 0px 0px 1px rgba(48, 49, 51, 0.05), 0px 8px 16px rgba(48, 49, 51, 0.1);
+  --op-shadows-xl: 0px 0px 1px rgba(48, 49, 51, 0.05), 0px 16px 24px rgba(48, 49, 51, 0.1);
   --op-shadows-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --op-shadows-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
   --op-colors-current: currentColor;
@@ -413,12 +413,27 @@
   --op-animations-ping: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
   --op-animations-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --op-animations-bounce: bounce 1s infinite;
-  --op-z-index-base: 20000;
   --op-breakpoints-sm: 640px;
   --op-breakpoints-md: 768px;
   --op-breakpoints-lg: 1024px;
   --op-breakpoints-xl: 1280px;
   --op-breakpoints-2xl: 1536px;
+  --op-colors-fg-default: #111827;
+  --op-colors-fg-emphasized: #374151;
+  --op-colors-fg-muted: #6b7280;
+  --op-colors-fg-subtle: #9ca3af;
+  --op-colors-fg-placeholder: #4b5563;
+  --op-colors-fg-inverted-default: white;
+  --op-colors-bg-canvas: var(--op-colors-gray-25);
+  --op-colors-bg-surface: #f9fafb;
+  --op-colors-bg-muted: #e5e7eb;
+  --op-colors-bg-subtle: #f3f4f6;
+  --op-colors-accent-default: #fb923c;
+  --op-colors-accent-emphasized: #f97316;
+  --op-colors-accent-muted: #fb923c;
+  --op-colors-accent-subtle: #fff7ed;
+  --op-colors-border-default: #e5e7eb;
+  --op-colors-border-emphasized: #d1d5db;
   --op-colors-color-palette-50: var(--op-colors-color-palette-50);
   --op-colors-color-palette-100: var(--op-colors-color-palette-100);
   --op-colors-color-palette-200: var(--op-colors-color-palette-200);
@@ -429,7 +444,38 @@
   --op-colors-color-palette-700: var(--op-colors-color-palette-700);
   --op-colors-color-palette-800: var(--op-colors-color-palette-800);
   --op-colors-color-palette-900: var(--op-colors-color-palette-900);
-  --op-colors-color-palette-950: var(--op-colors-color-palette-950)
+  --op-colors-color-palette-950: var(--op-colors-color-palette-950);
+  --op-colors-color-palette-default: var(--op-colors-color-palette-default);
+  --op-colors-color-palette-emphasized: var(--op-colors-color-palette-emphasized);
+  --op-colors-color-palette-muted: var(--op-colors-color-palette-muted);
+  --op-colors-color-palette-subtle: var(--op-colors-color-palette-subtle);
+  --op-colors-color-palette-placeholder: var(--op-colors-color-palette-placeholder);
+  --op-colors-color-palette-canvas: var(--op-colors-color-palette-canvas);
+  --op-colors-color-palette-surface: var(--op-colors-color-palette-surface)
+}
+
+.dark {
+  --op-colors-fg-default: white;
+  --op-colors-fg-emphasized: #e5e7eb;
+  --op-colors-fg-muted: #9ca3af;
+  --op-colors-fg-subtle: #6b7280;
+  --op-colors-fg-placeholder: #9ca3af;
+  --op-colors-fg-inverted-default: #000;
+  --op-colors-bg-canvas: #111827;
+  --op-colors-bg-surface: #4b5563;
+  --op-colors-bg-muted: #9ca3af;
+  --op-colors-bg-subtle: #6b7280;
+  --op-colors-accent-default: #fb923c;
+  --op-colors-accent-emphasized: #f97316;
+  --op-colors-accent-muted: #fdba74;
+  --op-colors-accent-subtle: #7c2d12;
+  --op-colors-border-default: #9ca3af;
+  --op-colors-border-emphasized: #d1d5db;
+  --op-shadows-xs: 0px 0px 1px #0D0D0D, 0px 1px 2px rgba(13, 13, 13, 0.9);
+  --op-shadows-sm: 0px 0px 1px #0D0D0D, 0px 2px 4px rgba(13, 13, 13, 0.9);
+  --op-shadows-md: 0px 0px 1px #0D0D0D, 0px 4px 8px rgba(13, 13, 13, 0.9);
+  --op-shadows-lg: 0px 0px 1px #0D0D0D, 0px 8px 16px rgba(13, 13, 13, 0.9);
+  --op-shadows-xl: 0px 0px 1px #0D0D0D, 0px 16px 24px rgba(13, 13, 13, 0.9)
 }
   }
   

@@ -1,4 +1,4 @@
-import { styled } from "@macaron-css/react";
+import { styled } from "../../../styled-system/jsx";
 
 export const Fieldset = styled("fieldset", {
   base: {
@@ -11,9 +11,8 @@ export const Fieldset = styled("fieldset", {
 
 export const Label = styled("label", {
   base: {
-    fontSize: 13,
-    // color: violet.violet11,
-    width: 75,
+    fontSize: "sm",
+    width: "75px",
   },
 });
 
@@ -25,14 +24,24 @@ export const Input = styled("input", {
     alignItems: "center",
     justifyContent: "center",
     flex: "1",
-    borderRadius: 4,
+    borderRadius: "4px",
     padding: "0 10px",
-    fontSize: 13,
+    fontSize: "sm",
     lineHeight: 1,
-    // color: violet.violet11,
-    // boxShadow: `0 0 0 1px ${violet.violet7}`,
-    height: 25,
+    boxShadow: `sm`,
+    height: "25px",
+    _focus: { boxShadow: `0 0 0 2px token(colors.pink.500)` },
+  },
+});
 
-    // '&:focus': { boxShadow: `0 0 0 2px ${violet.violet8}` },
+export const Textarea = styled("textarea", {
+  base: {
+    border: 0,
+    background: "transparent",
+    outline: 0,
+    color: "inherit",
+    width: "100%",
+    fontFamily: "inherit",
+    minHeight: "60px",
   },
 });

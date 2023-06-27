@@ -236,23 +236,23 @@ const tokens = {
     "variable": "var(--op-font-sizes-9xl)"
   },
   "shadows.xs": {
-    "value": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+    "value": "var(--op-shadows-xs)",
     "variable": "var(--op-shadows-xs)"
   },
   "shadows.sm": {
-    "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+    "value": "var(--op-shadows-sm)",
     "variable": "var(--op-shadows-sm)"
   },
   "shadows.md": {
-    "value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+    "value": "var(--op-shadows-md)",
     "variable": "var(--op-shadows-md)"
   },
   "shadows.lg": {
-    "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+    "value": "var(--op-shadows-lg)",
     "variable": "var(--op-shadows-lg)"
   },
   "shadows.xl": {
-    "value": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+    "value": "var(--op-shadows-xl)",
     "variable": "var(--op-shadows-xl)"
   },
   "shadows.2xl": {
@@ -1651,10 +1651,6 @@ const tokens = {
     "value": "bounce 1s infinite",
     "variable": "var(--op-animations-bounce)"
   },
-  "zIndex.base": {
-    "value": 20000,
-    "variable": "var(--op-z-index-base)"
-  },
   "breakpoints.sm": {
     "value": "640px",
     "variable": "var(--op-breakpoints-sm)"
@@ -1674,6 +1670,70 @@ const tokens = {
   "breakpoints.2xl": {
     "value": "1536px",
     "variable": "var(--op-breakpoints-2xl)"
+  },
+  "colors.fg.default": {
+    "value": "var(--op-colors-fg-default)",
+    "variable": "var(--op-colors-fg-default)"
+  },
+  "colors.fg.emphasized": {
+    "value": "var(--op-colors-fg-emphasized)",
+    "variable": "var(--op-colors-fg-emphasized)"
+  },
+  "colors.fg.muted": {
+    "value": "var(--op-colors-fg-muted)",
+    "variable": "var(--op-colors-fg-muted)"
+  },
+  "colors.fg.subtle": {
+    "value": "var(--op-colors-fg-subtle)",
+    "variable": "var(--op-colors-fg-subtle)"
+  },
+  "colors.fg.placeholder": {
+    "value": "var(--op-colors-fg-placeholder)",
+    "variable": "var(--op-colors-fg-placeholder)"
+  },
+  "colors.fg.inverted.default": {
+    "value": "var(--op-colors-fg-inverted-default)",
+    "variable": "var(--op-colors-fg-inverted-default)"
+  },
+  "colors.bg.canvas": {
+    "value": "var(--op-colors-bg-canvas)",
+    "variable": "var(--op-colors-bg-canvas)"
+  },
+  "colors.bg.surface": {
+    "value": "var(--op-colors-bg-surface)",
+    "variable": "var(--op-colors-bg-surface)"
+  },
+  "colors.bg.muted": {
+    "value": "var(--op-colors-bg-muted)",
+    "variable": "var(--op-colors-bg-muted)"
+  },
+  "colors.bg.subtle": {
+    "value": "var(--op-colors-bg-subtle)",
+    "variable": "var(--op-colors-bg-subtle)"
+  },
+  "colors.accent.default": {
+    "value": "var(--op-colors-accent-default)",
+    "variable": "var(--op-colors-accent-default)"
+  },
+  "colors.accent.emphasized": {
+    "value": "var(--op-colors-accent-emphasized)",
+    "variable": "var(--op-colors-accent-emphasized)"
+  },
+  "colors.accent.muted": {
+    "value": "var(--op-colors-accent-muted)",
+    "variable": "var(--op-colors-accent-muted)"
+  },
+  "colors.accent.subtle": {
+    "value": "var(--op-colors-accent-subtle)",
+    "variable": "var(--op-colors-accent-subtle)"
+  },
+  "colors.border.default": {
+    "value": "var(--op-colors-border-default)",
+    "variable": "var(--op-colors-border-default)"
+  },
+  "colors.border.emphasized": {
+    "value": "var(--op-colors-border-emphasized)",
+    "variable": "var(--op-colors-border-emphasized)"
   },
   "spacing.-1": {
     "value": "calc(var(--op-spacing-1) * -1)",
@@ -1850,6 +1910,34 @@ const tokens = {
   "colors.colorPalette.950": {
     "value": "var(--op-colors-color-palette-950)",
     "variable": "var(--op-colors-color-palette-950)"
+  },
+  "colors.colorPalette.default": {
+    "value": "var(--op-colors-color-palette-default)",
+    "variable": "var(--op-colors-color-palette-default)"
+  },
+  "colors.colorPalette.emphasized": {
+    "value": "var(--op-colors-color-palette-emphasized)",
+    "variable": "var(--op-colors-color-palette-emphasized)"
+  },
+  "colors.colorPalette.muted": {
+    "value": "var(--op-colors-color-palette-muted)",
+    "variable": "var(--op-colors-color-palette-muted)"
+  },
+  "colors.colorPalette.subtle": {
+    "value": "var(--op-colors-color-palette-subtle)",
+    "variable": "var(--op-colors-color-palette-subtle)"
+  },
+  "colors.colorPalette.placeholder": {
+    "value": "var(--op-colors-color-palette-placeholder)",
+    "variable": "var(--op-colors-color-palette-placeholder)"
+  },
+  "colors.colorPalette.canvas": {
+    "value": "var(--op-colors-color-palette-canvas)",
+    "variable": "var(--op-colors-color-palette-canvas)"
+  },
+  "colors.colorPalette.surface": {
+    "value": "var(--op-colors-color-palette-surface)",
+    "variable": "var(--op-colors-color-palette-surface)"
   }
 }
 

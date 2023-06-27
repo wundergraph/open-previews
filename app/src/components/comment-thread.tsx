@@ -11,16 +11,14 @@ interface CommentType {
 
 interface CommentProps {
   username: string;
-  profilePicURL: string;
-  userProfileLink: string;
+  profilePicture: string;
   comment?: CommentsWithSelections;
   onSend: (args: NewReplyArgs) => unknown;
 }
 
 export const CommentThread: React.FC<CommentProps> = ({
   username,
-  profilePicURL,
-  userProfileLink,
+  profilePicture,
   comment,
   onSend,
 }) => {
@@ -142,7 +140,7 @@ export const CommentThread: React.FC<CommentProps> = ({
         }}
       >
         <img
-          src={profilePicURL}
+          src={profilePicture}
           alt="profile picture"
           style={{
             width: "50px",
@@ -151,9 +149,7 @@ export const CommentThread: React.FC<CommentProps> = ({
             marginRight: "10px",
           }}
         />
-        <a href={userProfileLink} target="_blank" rel="noopener noreferrer">
-          {username}
-        </a>
+        <span>{username}</span>
       </div>
       <div>
         <input
