@@ -1,6 +1,7 @@
 import React, { useState, KeyboardEvent, Fragment } from "react";
 import { CommentsWithSelections } from "./selections";
 import { NewReplyArgs } from "~/App";
+import { DISCUSSION_OPEN_IN_PREVIEW_TEXT } from "~/utils/constants/constants";
 
 interface CommentType {
   username: string;
@@ -45,6 +46,11 @@ export const CommentThread: React.FC<CommentProps> = ({
     }
   };
 
+  const previewlinkRegex = new RegExp(
+    `\\[${DISCUSSION_OPEN_IN_PREVIEW_TEXT}\\]\\(.*?\\)`,
+    "g"
+  );
+
   return (
     <div
       style={{
@@ -87,7 +93,11 @@ export const CommentThread: React.FC<CommentProps> = ({
             </a>
           </div>
           <div>
-            <p>{comment?.body?.replace(/<[^>]*>/g, "")}</p>
+            <p>
+              {comment?.body
+                ?.replace(/<[^>]*>/g, "")
+                .replace(previewlinkRegex, "")}
+            </p>
           </div>
           <div>
             <button>Like</button>
