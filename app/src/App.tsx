@@ -82,7 +82,7 @@ function App() {
   const config = useStore($openPreviewConfig);
 
   const { data: viewer } = useQuery({
-    operationName: "User",
+    operationName: "Viewer",
     enabled: !!user.data,
   });
 
