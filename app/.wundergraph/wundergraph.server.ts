@@ -39,6 +39,27 @@ export default configureWunderGraphServer(() => ({
           status: "ok",
         };
       },
+      // we don't use this at the moment.
+      revalidate: async ({ user }) => {
+        try {
+          const token = await verifyToken(user.customClaims?.token, true); // we refresh it
+          return {
+            status: "ok",
+            user: {
+              ...user,
+              customClaims: {
+                ...user.customClaims,
+                token,
+              },
+            },
+          };
+        } catch (e) {
+          return {
+            status: "deny",
+            message: "Token is invalid",
+          };
+        }
+      },
     },
   },
   queries: {},
