@@ -6,8 +6,11 @@ import React, {
   useEffect,
 } from "react";
 import { CommentsWithSelections } from "./selections";
-import { NewReplyArgs } from "~/App";
-import { DISCUSSION_OPEN_IN_PREVIEW_TEXT } from "~/utils/constants/constants";
+import { NewReplyArgs, ResolveCommentArgs } from "~/App";
+import {
+  DISCUSSION_PENDING_STATE,
+  DISCUSSION_RESOLVED_STATE,
+} from "~/utils/constants/constants";
 
 interface CommentType {
   username: string;
@@ -21,6 +24,7 @@ interface CommentProps {
   profilePicture: string;
   comment?: CommentsWithSelections;
   onSend: (args: NewReplyArgs) => unknown;
+  onResolve: (args: ResolveCommentArgs) => unknown;
 }
 
 export const CommentThread: React.FC<CommentProps> = ({
@@ -28,6 +32,7 @@ export const CommentThread: React.FC<CommentProps> = ({
   profilePicture,
   comment,
   onSend,
+  onResolve,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -61,6 +66,21 @@ export const CommentThread: React.FC<CommentProps> = ({
   if (chunks.length > 1) chunks.pop();
 
   const commentWithoutMeta = chunks.join("\n\n");
+
+  const resolveComment = () => {
+    alert("clicked button!");
+
+    const updatedBody =
+      comment?.body.replace(
+        DISCUSSION_PENDING_STATE,
+        DISCUSSION_RESOLVED_STATE
+      ) ?? "";
+
+    onResolve({
+      comment: updatedBody,
+      id: comment?.id ?? "",
+    });
+  };
 
   return (
     <div
@@ -107,7 +127,7 @@ export const CommentThread: React.FC<CommentProps> = ({
             <p>{commentWithoutMeta}</p>
           </div>
           <div>
-            <button>Like</button>
+            <button onClick={resolveComment}>Mark as Resolved ✅</button>
           </div>
           <div>
             <p>Total comments: {(comment.replies.nodes?.length ?? 0) + 1}</p>

@@ -62,6 +62,11 @@ export interface NewReplyArgs {
   replyToId: string;
 }
 
+export interface ResolveCommentArgs {
+  comment: string;
+  id: string;
+}
+
 const testRecipe = cva({
   base: {
     bg: "red.100",
@@ -101,13 +106,26 @@ function App() {
     enabled: !!user.data,
   });
 
-  const { trigger } = useMutation({
+  const { trigger: createComment } = useMutation({
     operationName: "CreateComment",
   });
 
+  const { trigger: updateComment } = useMutation({
+    operationName: "UpdateComment",
+  });
+
+  const resolveComment = ({ comment, id }: ResolveCommentArgs) => {
+    updateComment({
+      body: comment,
+      commentId: id,
+    }).then(() => {
+      mutate();
+    });
+  };
+
   const createNewThread = ({ comment }: NewCommentArgs) => {
     if (pinDetailsTypeGuard(otherProps)) {
-      trigger({
+      createComment({
         body: comment ?? "",
         discussionId: data?.id,
         meta: {
@@ -125,7 +143,7 @@ function App() {
   };
 
   const createNewReply = ({ comment, replyToId }: NewReplyArgs) => {
-    trigger({
+    createComment({
       body: comment ?? "",
       discussionId: data?.id,
       replyToId,
@@ -156,6 +174,7 @@ function App() {
           <Selections
             data={data}
             dimension={dimension}
+            onResolve={resolveComment}
             onReply={createNewReply}
             userDetails={{
               username: user.data.name ?? "",
@@ -168,6 +187,7 @@ function App() {
           <ActiveCommentPin
             pinDetails={otherProps}
             defaultOpen
+            onResolve={resolveComment}
             dimension={dimension}
             onSubmit={createNewThread}
             onReply={createNewReply}

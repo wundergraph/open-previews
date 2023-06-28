@@ -1,7 +1,8 @@
 import { useQuery } from "~/lib/wundergraph";
 import { ActiveCommentPin } from "./active-comment-pin";
 import { findElementFromPath } from "~/utils/findElementFromPath";
-import { NewReplyArgs } from "~/App";
+import { NewReplyArgs, ResolveCommentArgs } from "~/App";
+import { DISCUSSION_PENDING_STATE } from "~/utils/constants/constants";
 
 export type CommentMeta = {
   path: string;
@@ -34,6 +35,7 @@ export const Selections = ({
   onReply,
   userDetails,
   dimension,
+  onResolve,
 }: {
   data: CommentsQueryData;
   onReply: (args: NewReplyArgs) => unknown;
@@ -42,6 +44,7 @@ export const Selections = ({
     username: string;
   };
   dimension: number;
+  onResolve: (args: ResolveCommentArgs) => unknown;
 }) => {
   const comments: CommentsDataType["comments"] =
     data &&
@@ -70,9 +73,19 @@ export const Selections = ({
       };
     }) ?? [];
 
+  const unResolvedCommentsWithSelections = commentsWithSelections.filter(
+    (each) => {
+      const { body } = each;
+      const chunks = body.split(/\n{2,}/) ?? [];
+      const metaText = chunks[chunks.length - 1] ?? "";
+
+      return metaText.includes(DISCUSSION_PENDING_STATE);
+    }
+  );
+
   return (
     <>
-      {commentsWithSelections.map((each) => {
+      {unResolvedCommentsWithSelections.map((each) => {
         const selection = each?.selection;
         let path = [];
         try {
@@ -94,6 +107,7 @@ export const Selections = ({
             onSubmit={() => null}
             dimension={dimension}
             onReply={onReply}
+            onResolve={onResolve}
           />
         );
       })}

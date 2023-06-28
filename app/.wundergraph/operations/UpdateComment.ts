@@ -33,7 +33,7 @@ export default createOperation.mutation({
 
     const result = await operations
       .withHeaders({
-        Authorization: `Bearer ${accessToken}`,
+        "X-Github-Token": `Bearer ${accessToken}`, // we post on the user's behalf.
       })
       .mutate({
         operationName: "internal/UpdateComment",

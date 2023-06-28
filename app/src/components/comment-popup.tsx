@@ -3,7 +3,7 @@ import {
   DISCUSSION_OPEN_IN_PREVIEW_TEXT,
 } from "~/utils/constants/constants";
 import { CommentBox } from "./comment-box";
-import { NewCommentArgs, NewReplyArgs } from "~/App";
+import { NewCommentArgs, NewReplyArgs, ResolveCommentArgs } from "~/App";
 import { CommentThread } from "./comment-thread";
 import { CommentsWithSelections } from "./selections";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
@@ -29,12 +29,14 @@ export const CommentPopup = ({
   defaultOpen,
   comment,
   onReply,
+  onResolve,
   userDetails,
 }: {
   onSubmit: (data: NewCommentArgs) => unknown;
   defaultOpen?: boolean;
   comment?: CommentsWithSelections;
   onReply: (args: NewReplyArgs) => unknown;
+  onResolve: (args: ResolveCommentArgs) => unknown;
   userDetails: {
     profilePicture: string;
     username: string;
@@ -69,7 +71,12 @@ export const CommentPopup = ({
         className={`DropdownMenuContent ${CONTROL_ELEMENT_CLASS}`}
       >
         {comment ? (
-          <CommentThread onSend={onReply} comment={comment} {...userDetails} />
+          <CommentThread
+            onResolve={onResolve}
+            onSend={onReply}
+            comment={comment}
+            {...userDetails}
+          />
         ) : (
           <CommentBox onSubmit={onSubmit} {...userDetails} />
         )}
