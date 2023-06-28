@@ -1,5 +1,4 @@
-import { styled } from "@macaron-css/react";
-import { theme } from "~/theme";
+import { styled } from "../../../styled-system/jsx";
 
 export const IconButton = styled("button", {
   base: {
@@ -11,30 +10,45 @@ export const IconButton = styled("button", {
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    color: theme.color.green.green11,
+    color: "gray.500",
     backgroundColor: "white",
     boxShadow: `0 2px 10px rgba(0, 0, 0, 0.12)`,
-    ":hover": { backgroundColor: theme.color.green.green3 },
-    ":focus": { boxShadow: `0 0 0 2px black` },
+    _hover: { backgroundColor: "gray.200" },
+    _focus: { boxShadow: `0 0 0 2px black` },
   },
 });
 
 export const Button = styled("button", {
   base: {
-    all: "unset",
     fontFamily: "inherit",
-    borderRadius: "4px",
-    height: 26,
-    paddingLeft: 4,
-    paddingRight: 4,
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    color: "black",
-    backgroundColor: "white",
-    fontSize: "14px",
-    boxShadow: `0 2px 10px rgba(0, 0, 0, 0.12)`,
-    ":hover": { backgroundColor: theme.color.green.green3 },
-    ":focus": { boxShadow: `0 0 0 2px black` },
+    color: "inherit",
+    bg: "gray.400",
+    boxShadow: "sm",
+    _hover: { backgroundColor: "gray.500" },
+    _focus: { boxShadow: "none" },
+  },
+  variants: {
+    size: {
+      sm: {
+        borderRadius: "4px",
+        height: "24px",
+        paddingLeft: "4px",
+        paddingRight: "4px",
+        fontSize: "13px",
+      },
+      md: {
+        borderRadius: "5px",
+        height: "32px",
+        paddingLeft: "8px",
+        paddingRight: "8px",
+        fontSize: "14px",
+      },
+    },
+  },
+  defaultVariants: {
+    size: "sm",
   },
 });

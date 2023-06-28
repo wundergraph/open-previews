@@ -25,4 +25,44 @@
             animation-timing-function: cubic-bezier(0,0,0.2,1)
         }
     }
+    @keyframes slideUpAndFade {
+        0% {
+            opacity: 0;
+            transform: translateY(2px)
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0)
+        }
+    }
+    @keyframes slideRightAndFade {
+        0% {
+            opacity: 0;
+            transform: translateX(-2px)
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0)
+        }
+    }
+    @keyframes slideDownAndFade {
+        0% {
+            opacity: 0;
+            transform: translateY(-2px)
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0)
+        }
+    }
+    @keyframes slideLeftAndFade {
+        0% {
+            opacity: 0;
+            transform: translateX(2px)
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0)
+        }
+    }
 }

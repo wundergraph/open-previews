@@ -1,5 +1,3 @@
-import { CommentIcon } from "./icons/comment";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {
   CONTROL_ELEMENT_CLASS,
   DISCUSSION_OPEN_IN_PREVIEW_TEXT,
@@ -8,7 +6,23 @@ import { CommentBox } from "./comment-box";
 import { NewCommentArgs, NewReplyArgs } from "~/App";
 import { CommentThread } from "./comment-thread";
 import { CommentsWithSelections } from "./selections";
-import { useEffect } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { styled } from "../../styled-system/jsx";
+import { PlusIcon } from "./icons/plus";
+
+const CommentPin = styled("button", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "28px",
+    width: "28px",
+    borderRadius: "100%",
+    backgroundColor: "yellow.400",
+    cursor: "pointer",
+    zIndex: "popover",
+  },
+});
 
 export const CommentPopup = ({
   onSubmit,
@@ -22,8 +36,7 @@ export const CommentPopup = ({
   comment?: CommentsWithSelections;
   onReply: (args: NewReplyArgs) => unknown;
   userDetails: {
-    profilePicURL: string;
-    userProfileLink: string;
+    profilePicture: string;
     username: string;
   };
 }) => {
@@ -44,28 +57,24 @@ export const CommentPopup = ({
   }
 
   return (
-    <DropdownMenu.Root defaultOpen={defaultOpen}>
-      <DropdownMenu.Trigger asChild>
-        <button aria-label="open-comments">
-          <CommentIcon />
-        </button>
-      </DropdownMenu.Trigger>
-      <DropdownMenu.Portal>
-        <DropdownMenu.Content
-          className={`DropdownMenuContent ${CONTROL_ELEMENT_CLASS}`}
-          sideOffset={5}
-        >
-          {comment ? (
-            <CommentThread
-              onSend={onReply}
-              comment={comment}
-              {...userDetails}
-            />
-          ) : (
-            <CommentBox onSubmit={onSubmit} {...userDetails} />
-          )}
-        </DropdownMenu.Content>
-      </DropdownMenu.Portal>
-    </DropdownMenu.Root>
+    <Popover defaultOpen={defaultOpen}>
+      <PopoverTrigger asChild>
+        <CommentPin aria-label="open-comments">
+          <PlusIcon />
+        </CommentPin>
+      </PopoverTrigger>
+      <PopoverContent
+        side="right"
+        align="start"
+        sideOffset={10}
+        className={`DropdownMenuContent ${CONTROL_ELEMENT_CLASS}`}
+      >
+        {comment ? (
+          <CommentThread onSend={onReply} comment={comment} {...userDetails} />
+        ) : (
+          <CommentBox onSubmit={onSubmit} {...userDetails} />
+        )}
+      </PopoverContent>
+    </Popover>
   );
 };

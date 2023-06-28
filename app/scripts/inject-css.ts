@@ -6,15 +6,19 @@ const dist = path.resolve(__dirname, "../dist");
 const injectCSS = (file) => {
   try {
     const styles = fs.readFileSync(`${dist}/style.css`).toString().trim();
+    const replaced = styles
+      .replace("\\1f43c", "🐼")
+      .replace(":where(:root,:host)", ":host")
+      .replace(/\\/g, "\\\\");
 
     const scriptPath = `${dist}/${file}`;
     const scriptContents = fs.readFileSync(scriptPath).toString();
     fs.writeFileSync(
       scriptPath,
-      scriptContents.replace("__STYLES__", styles.replace("\\1f43c", "🐼"))
+      scriptContents.replace("__STYLES__", replaced)
     );
-  } catch {
-    console.warn("Could not inject CSS into", file);
+  } catch (e) {
+    console.warn("Could not inject CSS into", file, e.message);
   }
 };
 
