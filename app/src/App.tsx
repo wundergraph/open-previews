@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
-import { Toolbar } from "./components/toolbar";
+import { Navbar } from "./components/navbar";
 import { Selections } from "./components/selections";
 import { ActiveCommentPin } from "./components/active-comment-pin";
 import { useEffect, useState } from "react";
@@ -12,7 +12,6 @@ import { useStore } from "@nanostores/react";
 import { $activeCommentPin, PinDetails } from "./utils/state/activeCommentPin";
 import { useMutation, useQuery } from "./lib/wundergraph";
 import { $openPreviewConfig } from "./utils/state/openPreviewConfig";
-import { cva } from "../styled-system/css";
 import "./main.css";
 
 const styles = `__STYLES__`;
@@ -67,15 +66,6 @@ export interface ResolveCommentArgs {
   comment: string;
   id: string;
 }
-
-const testRecipe = cva({
-  base: {
-    bg: "red.100",
-    position: "fixed",
-    inset: "0",
-    zIndex: 1000,
-  },
-});
 
 function App() {
   const user = useUser();
@@ -191,7 +181,7 @@ function App() {
             userDetails={userDetails}
           />
         ) : null}
-        <Toolbar />
+        <Navbar />
         {pinDetailsTypeGuard(otherProps) ? (
           <ActiveCommentPin
             pinDetails={otherProps}

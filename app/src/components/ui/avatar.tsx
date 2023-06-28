@@ -12,7 +12,7 @@ const getInitials = (name: string) => {
 export const Avatar = (props) => (
   <AvatarRoot>
     <AvatarImage src={props.src} alt={props.name} />
-    <AvatarFallback delayMs={600}>{getInitials(props.name)}</AvatarFallback>
+    <AvatarFallback delayMs={0}>{getInitials(props.name)}</AvatarFallback>
   </AvatarRoot>
 );
 
@@ -25,7 +25,6 @@ export const AvatarRoot = styled(AvatarPrimitive.Root, {
     overflow: "hidden",
     userSelect: "none",
     borderRadius: "100%",
-    bg: "bg.muted",
   },
   variants: {
     size: {
@@ -60,10 +59,13 @@ export const AvatarFallback = styled(AvatarPrimitive.Fallback, {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "white",
-    color: "pink.500",
-    fontSize: 15,
+    color: "gray.500",
+    fontSize: "14px",
     lineHeight: 1,
     fontWeight: 500,
+    bg: "gray.300",
+    _dark: {
+      bg: "gray.400",
+    },
   },
 });

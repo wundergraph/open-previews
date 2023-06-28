@@ -1,5 +1,6 @@
 import * as ToolbarPrimitive from "@radix-ui/react-toolbar";
 import { styled } from "../../../styled-system/jsx";
+import { SystemStyleObject } from "../../../styled-system/types";
 
 export const Toolbar = styled(ToolbarPrimitive.Root, {
   base: {
@@ -15,15 +16,14 @@ export const Toolbar = styled(ToolbarPrimitive.Root, {
   },
 });
 
-const itemStyles = {
+const itemStyles: SystemStyleObject = {
   flex: "0 0 auto",
   color: "muted",
   backgroundColor: "transparent",
   border: 0,
   height: "32px",
   minWidth: "32px",
-  padding: "0 4px",
-  borderRadius: "25px",
+  borderRadius: "32px",
   display: "inline-flex",
   fontSize: "14px",
   lineHeight: "1",
@@ -31,6 +31,13 @@ const itemStyles = {
   justifyContent: "center",
   cursor: "pointer",
   transition: "all 0.2s ease",
+  _hover: {
+    backgroundColor: "bg.muted",
+  },
+  _focusVisible: {
+    position: "relative",
+    boxShadow: "0 0 0 2px token(colors.pink.500)",
+  },
 };
 
 export const ToolbarToggleItem = styled(ToolbarPrimitive.ToggleItem, {
@@ -53,7 +60,7 @@ export const ToolbarSeparator = styled(ToolbarPrimitive.Separator, {
   base: {
     width: "1px",
     backgroundColor: "border.default",
-    margin: "0 8px",
+    margin: "4px 12px",
   },
 });
 
@@ -64,24 +71,19 @@ export const ToolbarLink = styled(ToolbarPrimitive.Link, {
     display: "inline-flex",
     justifyContent: "center",
     alignItems: "center",
-    _hover: { backgroundColor: "bg.muted" },
-    _focusVisible: {
-      position: "relative",
-      boxShadow: "0 0 0 2px token(colors.pink.500)",
-    },
   },
 });
 
 export const ToolbarButton = styled(ToolbarPrimitive.Button, {
   base: {
     ...itemStyles,
-    _hover: {
-      backgroundColor: "bg.muted",
-    },
-    _focusVisible: {
-      position: "relative",
-      boxShadow: "0 0 0 2px token(colors.pink.500)",
-    },
+    padding: "0 12px",
+  },
+});
+
+export const ToolbarIconButton = styled(ToolbarPrimitive.Button, {
+  base: {
+    ...itemStyles,
   },
 });
 
