@@ -43,5 +43,6 @@ export const Textarea = styled("textarea", {
     width: "100%",
     fontFamily: "inherit",
     minHeight: "60px",
+    padding: "8px 12px",
   },
 });

@@ -115,11 +115,7 @@ export const Navbar = () => {
               </ToolbarToggleGroup>
               <ToolbarSeparator />
               <ToolbarIconButton onClick={() => logout()}>
-                <Avatar
-                  src={user.profilePicture}
-                  name={user.name}
-                  size="24px"
-                />
+                <Avatar src={user.profilePicture} name={user.name} size="md" />
               </ToolbarIconButton>
             </>
           ) : (
@@ -179,7 +175,9 @@ const HamburgerMenu = () => {
                 Add commenting functionality and collaborate with your team on
                 any page.
               </Text>
-              <Link href="https://openpreviews.com">Learn more</Link>
+              <Link href="https://openpreviews.com" target="_blank noopener">
+                Learn more
+              </Link>
             </Stack>
             <DropdownMenuSeparator />
             <DropdownMenuItem>

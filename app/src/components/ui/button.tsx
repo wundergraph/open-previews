@@ -2,19 +2,43 @@ import { styled } from "../../../styled-system/jsx";
 
 export const IconButton = styled("button", {
   base: {
-    all: "unset",
     fontFamily: "inherit",
-    borderRadius: "100%",
-    height: 35,
-    width: 35,
+    flexShrink: 0,
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    color: "gray.500",
-    backgroundColor: "white",
-    boxShadow: `0 2px 10px rgba(0, 0, 0, 0.12)`,
-    _hover: { backgroundColor: "gray.200" },
+    color: "fg.default",
+    cursor: "pointer",
     _focus: { boxShadow: `0 0 0 2px black` },
+  },
+  variants: {
+    size: {
+      sm: {
+        borderRadius: "24px",
+        height: "24px",
+        width: "24px",
+        fontSize: "13px",
+      },
+      md: {
+        borderRadius: "32px",
+        height: "32px",
+        width: "32px",
+        fontSize: "14px",
+      },
+    },
+    variant: {
+      ghost: {
+        backgroundColor: "transparent",
+        _hover: { backgroundColor: "gray.200" },
+      },
+      default: {
+        _hover: { backgroundColor: "gray.200" },
+      },
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+    size: "md",
   },
 });
 
@@ -25,9 +49,10 @@ export const Button = styled("button", {
     alignItems: "center",
     justifyContent: "center",
     color: "inherit",
-    bg: "gray.400",
+    bg: "gray.300",
     boxShadow: "sm",
-    _hover: { backgroundColor: "gray.500" },
+    cursor: "pointer",
+    _hover: { backgroundColor: "gray.400" },
     _focus: { boxShadow: "none" },
   },
   variants: {

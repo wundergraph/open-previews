@@ -6,6 +6,7 @@ import { PinDetails } from "~/utils/state/activeCommentPin";
 import { NewCommentArgs, NewReplyArgs, ResolveCommentArgs } from "~/App";
 import { CommentsWithSelections } from "./selections";
 import { UserDisplayDetails } from "./comment-thread";
+import { Stack } from "../../styled-system/jsx";
 
 type ActiveCommentPinProps = {
   pinDetails: PinDetails;
@@ -66,7 +67,14 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
   }
 
   return (
-    <div style={{ left: `${pos.x}px`, top: `${pos.y}px`, position: "fixed" }}>
+    <div
+      style={{
+        left: `${pos.x}px`,
+        top: `${pos.y}px`,
+        position: "fixed",
+        zIndex: "200010",
+      }}
+    >
       <CommentPopup
         onSubmit={onSubmit}
         onReply={onReply}
