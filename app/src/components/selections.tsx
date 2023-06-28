@@ -4,6 +4,7 @@ import { findElementFromPath } from "~/utils/findElementFromPath";
 import { NewReplyArgs, ResolveCommentArgs } from "~/App";
 import { DISCUSSION_PENDING_STATE } from "~/utils/constants/constants";
 import { UserDisplayDetails } from "./comment-thread";
+import { useHash } from "~/hooks/use-hash";
 
 export type CommentMeta = {
   path: string;
@@ -44,6 +45,8 @@ export const Selections = ({
   dimension: number;
   onResolve: (args: ResolveCommentArgs) => unknown;
 }) => {
+  const [hash] = useHash();
+
   const comments: CommentsDataType["comments"] =
     data &&
     (data?.comments as Exclude<(typeof data)["comments"], never[] | undefined>);
@@ -77,7 +80,11 @@ export const Selections = ({
       const chunks = body.split(/\n{2,}/) ?? [];
       const metaText = chunks[chunks.length - 1] ?? "";
 
-      return metaText.includes(DISCUSSION_PENDING_STATE);
+      return (
+        metaText.includes(DISCUSSION_PENDING_STATE) ||
+        // Add the comment box if the hash is present in the url
+        (hash && body.includes(hash))
+      );
     }
   );
 
