@@ -1,10 +1,14 @@
 import { CommentIcon } from "./icons/comment";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { CONTROL_ELEMENT_CLASS } from "~/utils/constants/constants";
+import {
+  CONTROL_ELEMENT_CLASS,
+  DISCUSSION_OPEN_IN_PREVIEW_TEXT,
+} from "~/utils/constants/constants";
 import { CommentBox } from "./comment-box";
 import { NewCommentArgs, NewReplyArgs } from "~/App";
 import { CommentThread } from "./comment-thread";
 import { CommentsWithSelections } from "./selections";
+import { useEffect } from "react";
 
 export const CommentPopup = ({
   onSubmit,
@@ -23,21 +27,21 @@ export const CommentPopup = ({
     username: string;
   };
 }) => {
-  // const { trigger } = useMutation({
-  //   operationName: "CreateComment",
-  // });
+  // Auto-open comment from discussion
+  if (comment?.body) {
+    const previewlinkRegex = new RegExp(
+      `\\[${DISCUSSION_OPEN_IN_PREVIEW_TEXT}]\\(([^)]+)\\)`
+    );
 
-  // trigger({
-  //   body: "Comment from previews",
-  //   meta: {
-  //     path: "",
-  //     x: 0,
-  //     y: 0,
-  //     selection: "",
-  //   },
-  //   discussionId: "D_kwDOI3kT2M4AUHqB",
-  // replyToId: "DC_kwDOI3kT2M4AXyjb",
-  // });
+    const match = previewlinkRegex.exec(comment.body);
+    if (match && match[1]) {
+      const url = match[1];
+      console.log({ url, hash: window.location.hash });
+      if (window.location.hash && url.endsWith(window.location.hash)) {
+        defaultOpen = true;
+      }
+    }
+  }
 
   return (
     <DropdownMenu.Root defaultOpen={defaultOpen}>

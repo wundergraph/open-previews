@@ -12,9 +12,13 @@ export default createOperation.query({
       throw new AuthorizationError();
     }
 
-    const { data } = await operations.query({
-      operationName: "internal/Viewer",
-    });
+    const { data } = await operations
+      .withHeaders({
+        "X-Github-Token": `Bearer ${accessToken}`, // we post on the user's behalf.
+      })
+      .query({
+        operationName: "internal/Viewer",
+      });
 
     return data;
   },
