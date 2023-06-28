@@ -102,6 +102,7 @@ function App() {
         body: comment ?? "",
         discussionId: data?.id,
         meta: {
+          href: window.location.href,
           path: JSON.stringify(otherProps.targetElement?.path ?? "{}"),
           x: otherProps.coords.x,
           y: otherProps.coords.y,

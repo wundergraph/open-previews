@@ -1,6 +1,13 @@
-import React, { useState, KeyboardEvent, Fragment } from "react";
+import React, {
+  useState,
+  KeyboardEvent,
+  Fragment,
+  useRef,
+  useEffect,
+} from "react";
 import { CommentsWithSelections } from "./selections";
 import { NewReplyArgs } from "~/App";
+import { DISCUSSION_OPEN_IN_PREVIEW_TEXT } from "~/utils/constants/constants";
 
 interface CommentType {
   username: string;
@@ -22,7 +29,13 @@ export const CommentThread: React.FC<CommentProps> = ({
   comment,
   onSend,
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const [input, setInput] = useState("");
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
@@ -42,6 +55,11 @@ export const CommentThread: React.FC<CommentProps> = ({
       handleSend();
     }
   };
+
+  const previewlinkRegex = new RegExp(
+    `\\[${DISCUSSION_OPEN_IN_PREVIEW_TEXT}\\]\\(.*?\\)`,
+    "g"
+  );
 
   return (
     <div
@@ -85,7 +103,11 @@ export const CommentThread: React.FC<CommentProps> = ({
             </a>
           </div>
           <div>
-            <p>{comment?.body?.replace(/<[^>]*>/g, "")}</p>
+            <p>
+              {comment?.body
+                ?.replace(/<[^>]*>/g, "")
+                .replace(previewlinkRegex, "")}
+            </p>
           </div>
           <div>
             <button>Like</button>
@@ -155,6 +177,7 @@ export const CommentThread: React.FC<CommentProps> = ({
         <input
           type="text"
           placeholder="Write a comment..."
+          ref={inputRef}
           value={input}
           style={{
             width: "100%",

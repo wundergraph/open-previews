@@ -1,4 +1,7 @@
-import { CONTROL_ELEMENT_CLASS } from "~/utils/constants/constants";
+import {
+  CONTROL_ELEMENT_CLASS,
+  DISCUSSION_OPEN_IN_PREVIEW_TEXT,
+} from "~/utils/constants/constants";
 import { CommentBox } from "./comment-box";
 import { NewCommentArgs, NewReplyArgs } from "~/App";
 import { CommentThread } from "./comment-thread";
@@ -37,6 +40,21 @@ export const CommentPopup = ({
     username: string;
   };
 }) => {
+  // Auto-open comment from discussion
+  if (comment?.body) {
+    const previewlinkRegex = new RegExp(
+      `\\[${DISCUSSION_OPEN_IN_PREVIEW_TEXT}]\\(([^)]+)\\)`
+    );
+
+    const match = previewlinkRegex.exec(comment.body);
+    if (match && match[1]) {
+      const url = match[1];
+      if (window.location.hash && url.endsWith(window.location.hash)) {
+        defaultOpen = true;
+      }
+    }
+  }
+
   return (
     <Popover defaultOpen={defaultOpen}>
       <PopoverTrigger asChild>

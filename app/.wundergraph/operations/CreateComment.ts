@@ -1,3 +1,4 @@
+import { DISCUSSION_OPEN_IN_PREVIEW_TEXT } from "../../src/utils/constants/constants";
 import {
   AuthorizationError,
   createOperation,
@@ -11,6 +12,7 @@ export default createOperation.mutation({
     body: z.string(),
     meta: z
       .object({
+        href: z.string(),
         path: z.string(),
         x: z.number(),
         y: z.number(),
@@ -26,12 +28,19 @@ export default createOperation.mutation({
       throw new AuthorizationError();
     }
 
-    const jsonMeta = JSON.stringify(input.meta ?? {});
+    const timestamp = Date.now();
+
+    const meta = {
+      ...(input.meta ?? {}),
+      timestamp,
+    };
+
+    const jsonMeta = JSON.stringify(meta ?? {});
 
     const encodedJsonMeta = encodeURIComponent(jsonMeta);
 
     const body = input.meta
-      ? `${input.body} <div data-comment-meta="${encodedJsonMeta}" />`
+      ? `${input.body} [${DISCUSSION_OPEN_IN_PREVIEW_TEXT}](${input.meta.href}#${timestamp}) <div data-comment-meta="${encodedJsonMeta}" />`
       : input.body;
 
     const result = await operations

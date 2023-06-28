@@ -1,8 +1,8 @@
 import { useStore } from "@nanostores/react";
-import { ChangeEvent, FC, KeyboardEvent } from "react";
+import { ChangeEvent, FC, KeyboardEvent, useEffect, useRef } from "react";
 import { NewCommentArgs } from "~/App";
 import {
-  $activeCommentPin,
+  $activePinCommentText,
   clearActivePinComment,
   removeActiveCommentPin,
   updateActivePinCommentText,
@@ -23,13 +23,21 @@ export const CommentBox: FC<CommentBoxProps> = ({
   profilePicture,
   username,
 }) => {
-  const commentPinInfo = useStore($activeCommentPin);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 300);
+  }, []);
+
+  const commentText = useStore($activePinCommentText);
 
   const onSend = () => {
     removeActiveCommentPin();
     clearActivePinComment();
     onSubmit({
-      comment: commentPinInfo.commentText,
+      comment: commentText,
     });
   };
 
@@ -51,8 +59,9 @@ export const CommentBox: FC<CommentBoxProps> = ({
         <span>{username}</span>
       </Stack>
       <Textarea
+        ref={inputRef}
         placeholder="Write a comment..."
-        value={commentPinInfo.commentText}
+        value={commentText}
         onChange={handleInputChange}
         onKeyUp={handleKeyUp}
       />

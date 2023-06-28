@@ -10,40 +10,31 @@ export type PinDetails = {
 
 type PinOpenStatus = {
   isOpen: boolean;
-  commentText: string;
+};
+
+export const $activePinCommentText = atom<string>("");
+
+export const clearActivePinComment = () => {
+  $activePinCommentText.set("");
+};
+
+export const updateActivePinCommentText = (commentText: string) => {
+  $activePinCommentText.set(commentText);
 };
 
 export const $activeCommentPin = atom<
   (PinDetails & PinOpenStatus) | PinOpenStatus
 >({
   isOpen: false,
-  commentText: "",
 });
 
 export const addActiveCommentPin = (arg: PinDetails) => {
-  const commentText = $activeCommentPin.get().commentText;
   $activeCommentPin.set({
     ...arg,
     isOpen: true,
-    commentText,
   });
 };
 
 export const removeActiveCommentPin = () => {
-  const commentText = $activeCommentPin.get().commentText;
-  $activeCommentPin.set({ isOpen: false, commentText });
-};
-
-export const clearActivePinComment = () => {
-  $activeCommentPin.set({
-    ...$activeCommentPin.get(),
-    commentText: "",
-  });
-};
-
-export const updateActivePinCommentText = (commentText: string) => {
-  $activeCommentPin.set({
-    ...$activeCommentPin.get(),
-    commentText,
-  });
+  $activeCommentPin.set({ isOpen: false });
 };
