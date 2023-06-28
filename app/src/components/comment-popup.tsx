@@ -1,5 +1,3 @@
-import { CommentIcon } from "./icons/comment";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { CONTROL_ELEMENT_CLASS } from "~/utils/constants/constants";
 import { CommentBox } from "./comment-box";
 import { NewCommentArgs, NewReplyArgs } from "~/App";

@@ -86,26 +86,26 @@ export default defineConfig({
           accent: {
             default: {
               value: {
-                base: "{colors.orange.400}",
-                _dark: "{colors.orange.400}",
+                base: "{colors.pink.400}",
+                _dark: "{colors.pink.400}",
               },
             },
             emphasized: {
               value: {
-                base: "{colors.orange.500}",
-                _dark: "{colors.orange.500}",
+                base: "{colors.pink.500}",
+                _dark: "{colors.pink.500}",
               },
             },
             muted: {
               value: {
-                base: "{colors.orange.400}",
-                _dark: "{colors.orange.300}",
+                base: "{colors.pink.400}",
+                _dark: "{colors.pink.300}",
               },
             },
             subtle: {
               value: {
-                base: "{colors.orange.50}",
-                _dark: "{colors.orange.900}",
+                base: "{colors.pink.50}",
+                _dark: "{colors.pink.900}",
               },
             },
           },

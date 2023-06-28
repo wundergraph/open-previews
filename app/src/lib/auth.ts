@@ -1,32 +1,28 @@
 import React from "react";
 import { openWindow } from "~/utils/open-window";
 import { client } from "./wundergraph";
+import { $sessionToken } from "~/utils/state/sessionToken";
+import { useStore } from "@nanostores/react";
 
 const gatewayUrl = import.meta.env.GATEWAY_URL || "http://localhost:9991";
 
-const setSessionToken = (token: string | null) => {
+$sessionToken.subscribe((token) => {
   if (token === null) {
     client.setExtraHeaders({
       "x-session-token": "",
     });
-    return token;
+    return;
   }
 
-  localStorage.setItem("openpreviews.token", token);
   client.setExtraHeaders({
     "x-session-token": token,
   });
-
-  return token;
-};
+});
 
 export const useAuth = () => {
   const [popup, setPopup] = React.useState<Window | null>(null);
   const state = React.useMemo(() => Math.random().toString(36), []);
-  const [token, setToken] = React.useState<string | null>(
-    setSessionToken(localStorage.getItem("openpreviews.token"))
-  );
-
+  const token = useStore($sessionToken);
   const login = () => {
     const params = new URLSearchParams({
       redirect_uri: `${gatewayUrl}/webhooks/github-callback?state=${state}`,
@@ -36,7 +32,7 @@ export const useAuth = () => {
   };
 
   const logout = () => {
-    setToken(() => setSessionToken(null));
+    $sessionToken.set(null);
   };
 
   const onMessage = (event: MessageEvent) => {
@@ -49,16 +45,13 @@ export const useAuth = () => {
     }
 
     if (event.data.id === "openpreviews.success") {
-      setToken(() => {
-        return setSessionToken(event.data.token);
-      });
-      // popup?.close();
+      $sessionToken.set(event.data.token);
+      popup?.close();
       setPopup(null);
     }
 
     if (event.data.id === "openpreviews.failed") {
-      // popup?.close();
-      console.log(event.data);
+      popup?.close();
       setPopup(null);
     }
   };
