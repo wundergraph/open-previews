@@ -35,6 +35,7 @@ import { Link, Text } from "./ui/layout";
 import { EyeCloseIcon } from "./icons/eye-close";
 import { BranchIcon } from "./icons/branch";
 import { LogoutIcon } from "./icons/logout";
+import { toggleDiscussionsOverlayMode } from "~/utils/state/discussionsOverlayMode";
 
 const NavbarPositioner = (props) => {
   const { x, y, ...rest } = props;
@@ -169,6 +170,13 @@ const HamburgerMenu = () => {
                 <LogoutIcon />
               </DropdownMenuIcon>
               Log out
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => toggleDiscussionsOverlayMode()}>
+              <DropdownMenuIcon>
+                <BranchIcon />
+              </DropdownMenuIcon>
+              All Discussions
             </DropdownMenuItem>
           </>
         ) : (

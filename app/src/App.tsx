@@ -13,6 +13,7 @@ import { $activeCommentPin, PinDetails } from "./utils/state/activeCommentPin";
 import { useMutation, useQuery } from "./lib/wundergraph";
 import { $openPreviewConfig } from "./utils/state/openPreviewConfig";
 import "./main.css";
+import { AllDiscussions } from "./components/all-discussions";
 
 const styles = `__STYLES__`;
 
@@ -172,6 +173,7 @@ function App() {
   return (
     <ShadowRoot>
       <div>
+        {data?.comments ? <AllDiscussions comments={data?.comments} /> : null}
         {user.data ? (
           <Selections
             data={data}

@@ -11,6 +11,7 @@ import {
   DISCUSSION_PENDING_STATE,
   DISCUSSION_RESOLVED_STATE,
 } from "~/utils/constants/constants";
+import { cleanCommentText } from "~/utils/cleanCommentText";
 
 interface CommentType {
   username: string;
@@ -66,18 +67,18 @@ export const CommentThread: React.FC<CommentProps> = ({
     }
   };
 
-  const chunks = comment?.body.split(/\n{2,}/) ?? [];
-
-  if (chunks.length > 1) chunks.pop();
-
-  const commentWithoutMeta = chunks.join("\n\n");
+  const isResolved = comment?.body.includes(DISCUSSION_RESOLVED_STATE);
 
   const resolveComment = () => {
-    const updatedBody =
-      comment?.body.replace(
-        DISCUSSION_PENDING_STATE,
-        DISCUSSION_RESOLVED_STATE
-      ) ?? "";
+    const updatedBody = isResolved
+      ? comment?.body.replace(
+          DISCUSSION_RESOLVED_STATE,
+          DISCUSSION_PENDING_STATE
+        ) ?? ""
+      : comment?.body.replace(
+          DISCUSSION_PENDING_STATE,
+          DISCUSSION_RESOLVED_STATE
+        ) ?? "";
 
     onResolve({
       comment: updatedBody,
@@ -127,11 +128,13 @@ export const CommentThread: React.FC<CommentProps> = ({
             </a>
           </div>
           <div>
-            <p>{commentWithoutMeta}</p>
+            <p>{cleanCommentText(comment.body)}</p>
           </div>
           {username === comment.author?.login ? (
             <div>
-              <button onClick={resolveComment}>Mark as Resolved ✅</button>
+              <button onClick={resolveComment}>
+                {isResolved ? `Mark as Pending ⏳` : `Mark as Resolved ✅`}
+              </button>
             </div>
           ) : null}
           <div>

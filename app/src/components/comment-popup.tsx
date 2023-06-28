@@ -9,6 +9,8 @@ import { CommentsWithSelections } from "./selections";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { styled } from "../../styled-system/jsx";
 import { PlusIcon } from "./icons/plus";
+import { getUrlFromCommentText } from "~/utils/getUrlFromCommentText";
+import { useHash } from "~/hooks/use-hash";
 
 const CommentPin = styled("button", {
   base: {
@@ -39,23 +41,18 @@ export const CommentPopup = ({
   onResolve: (args: ResolveCommentArgs) => unknown;
   userDetails: UserDisplayDetails;
 }) => {
+  const [hash] = useHash();
+
   // Auto-open comment from discussion
   if (comment?.body) {
-    const previewlinkRegex = new RegExp(
-      `\\[${DISCUSSION_OPEN_IN_PREVIEW_TEXT}]\\(([^)]+)\\)`
-    );
-
-    const match = previewlinkRegex.exec(comment.body);
-    if (match && match[1]) {
-      const url = match[1];
-      if (window.location.hash && url.endsWith(window.location.hash)) {
-        defaultOpen = true;
-      }
+    const url = getUrlFromCommentText(comment.body) ?? "";
+    if (window.location.hash && url.endsWith(window.location.hash)) {
+      defaultOpen = true;
     }
   }
 
   return (
-    <Popover defaultOpen={defaultOpen}>
+    <Popover key={hash} defaultOpen={defaultOpen}>
       <PopoverTrigger asChild>
         <CommentPin aria-label="open-comments">
           <PlusIcon />
