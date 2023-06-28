@@ -6,8 +6,11 @@ import React, {
   useEffect,
 } from "react";
 import { CommentsWithSelections } from "./selections";
-import { NewReplyArgs } from "~/App";
-import { DISCUSSION_OPEN_IN_PREVIEW_TEXT } from "~/utils/constants/constants";
+import { NewReplyArgs, ResolveCommentArgs } from "~/App";
+import {
+  DISCUSSION_PENDING_STATE,
+  DISCUSSION_RESOLVED_STATE,
+} from "~/utils/constants/constants";
 
 interface CommentType {
   username: string;
@@ -16,18 +19,25 @@ interface CommentType {
   userProfileLink: string;
 }
 
-interface CommentProps {
+export interface UserDisplayDetails {
   username: string;
-  profilePicture: string;
+  profilePicURL: string;
+  userProfileLink: string;
+}
+
+type CommentProps = {
   comment?: CommentsWithSelections;
   onSend: (args: NewReplyArgs) => unknown;
-}
+  onResolve: (args: ResolveCommentArgs) => unknown;
+} & UserDisplayDetails;
 
 export const CommentThread: React.FC<CommentProps> = ({
   username,
-  profilePicture,
+  profilePicURL,
+  userProfileLink,
   comment,
   onSend,
+  onResolve,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -56,10 +66,24 @@ export const CommentThread: React.FC<CommentProps> = ({
     }
   };
 
-  const previewlinkRegex = new RegExp(
-    `\\[${DISCUSSION_OPEN_IN_PREVIEW_TEXT}\\]\\(.*?\\)`,
-    "g"
-  );
+  const chunks = comment?.body.split(/\n{2,}/) ?? [];
+
+  if (chunks.length > 1) chunks.pop();
+
+  const commentWithoutMeta = chunks.join("\n\n");
+
+  const resolveComment = () => {
+    const updatedBody =
+      comment?.body.replace(
+        DISCUSSION_PENDING_STATE,
+        DISCUSSION_RESOLVED_STATE
+      ) ?? "";
+
+    onResolve({
+      comment: updatedBody,
+      id: comment?.id ?? "",
+    });
+  };
 
   return (
     <div
@@ -103,15 +127,13 @@ export const CommentThread: React.FC<CommentProps> = ({
             </a>
           </div>
           <div>
-            <p>
-              {comment?.body
-                ?.replace(/<[^>]*>/g, "")
-                .replace(previewlinkRegex, "")}
-            </p>
+            <p>{commentWithoutMeta}</p>
           </div>
-          <div>
-            <button>Like</button>
-          </div>
+          {username === comment.author?.login ? (
+            <div>
+              <button onClick={resolveComment}>Mark as Resolved ✅</button>
+            </div>
+          ) : null}
           <div>
             <p>Total comments: {(comment.replies.nodes?.length ?? 0) + 1}</p>
           </div>
@@ -162,7 +184,7 @@ export const CommentThread: React.FC<CommentProps> = ({
         }}
       >
         <img
-          src={profilePicture}
+          src={profilePicURL}
           alt="profile picture"
           style={{
             width: "50px",
@@ -171,7 +193,9 @@ export const CommentThread: React.FC<CommentProps> = ({
             marginRight: "10px",
           }}
         />
-        <span>{username}</span>
+        <a href={userProfileLink} target="_blank" rel="noopener noreferrer">
+          {username}
+        </a>
       </div>
       <div>
         <input

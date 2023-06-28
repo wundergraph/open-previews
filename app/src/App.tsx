@@ -62,6 +62,11 @@ export interface NewReplyArgs {
   replyToId: string;
 }
 
+export interface ResolveCommentArgs {
+  comment: string;
+  id: string;
+}
+
 function App() {
   const user = useUser();
 
@@ -71,7 +76,7 @@ function App() {
 
   const pinDetails = useStore($activeCommentPin);
 
-  const { commentText, isOpen, ...otherProps } = pinDetails;
+  const { isOpen, ...otherProps } = pinDetails;
 
   useEffect(() => {
     const unsubscribe = addClickListener();
@@ -92,13 +97,31 @@ function App() {
     enabled: !!user.data,
   });
 
-  const { trigger } = useMutation({
+  const { data: viewer } = useQuery({
+    operationName: "Viewer",
+    enabled: !!user.data,
+  });
+
+  const { trigger: createComment } = useMutation({
     operationName: "CreateComment",
   });
 
+  const { trigger: updateComment } = useMutation({
+    operationName: "UpdateComment",
+  });
+
+  const resolveComment = ({ comment, id }: ResolveCommentArgs) => {
+    updateComment({
+      body: comment,
+      commentId: id,
+    }).then(() => {
+      mutate();
+    });
+  };
+
   const createNewThread = ({ comment }: NewCommentArgs) => {
     if (pinDetailsTypeGuard(otherProps)) {
-      trigger({
+      createComment({
         body: comment ?? "",
         discussionId: data?.id,
         meta: {
@@ -116,7 +139,7 @@ function App() {
   };
 
   const createNewReply = ({ comment, replyToId }: NewReplyArgs) => {
-    trigger({
+    createComment({
       body: comment ?? "",
       discussionId: data?.id,
       replyToId,
@@ -140,6 +163,12 @@ function App() {
     };
   }, []);
 
+  const userDetails = {
+    username: viewer?.github_viewer?.login ?? "",
+    profilePicURL: viewer?.github_viewer?.avatarUrl ?? "",
+    userProfileLink: viewer?.github_viewer?.url ?? "",
+  };
+
   return (
     <ShadowRoot>
       <div>
@@ -147,11 +176,9 @@ function App() {
           <Selections
             data={data}
             dimension={dimension}
+            onResolve={resolveComment}
             onReply={createNewReply}
-            userDetails={{
-              username: user.data.name ?? "",
-              profilePicture: user.data.profilePicture ?? "",
-            }}
+            userDetails={userDetails}
           />
         ) : null}
         <Navbar />
@@ -159,13 +186,11 @@ function App() {
           <ActiveCommentPin
             pinDetails={otherProps}
             defaultOpen
+            onResolve={resolveComment}
             dimension={dimension}
             onSubmit={createNewThread}
             onReply={createNewReply}
-            userDetails={{
-              username: user.data?.name ?? "",
-              profilePicture: user.data?.profilePicture ?? "",
-            }}
+            userDetails={userDetails}
           />
         ) : null}
         {user.data ? <LiveHighlighter /> : null}

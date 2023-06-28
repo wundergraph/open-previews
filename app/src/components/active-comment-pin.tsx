@@ -3,8 +3,9 @@ import { CommentPopup } from "./comment-popup";
 import { rangy } from "~/utils/rangy";
 import { Highlight } from "./highlight";
 import { PinDetails } from "~/utils/state/activeCommentPin";
-import { NewCommentArgs, NewReplyArgs } from "~/App";
+import { NewCommentArgs, NewReplyArgs, ResolveCommentArgs } from "~/App";
 import { CommentsWithSelections } from "./selections";
+import { UserDisplayDetails } from "./comment-thread";
 
 type ActiveCommentPinProps = {
   pinDetails: PinDetails;
@@ -12,11 +13,9 @@ type ActiveCommentPinProps = {
   defaultOpen?: boolean;
   comment?: CommentsWithSelections;
   onReply: (args: NewReplyArgs) => unknown;
-  userDetails: {
-    profilePicture: string;
-    username: string;
-  };
+  userDetails: UserDisplayDetails;
   dimension: number;
+  onResolve: (args: ResolveCommentArgs) => unknown;
 };
 
 export type CommentPinHandle = {
@@ -30,6 +29,7 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
   comment,
   userDetails,
   dimension,
+  onResolve = (props: ResolveCommentArgs) => null,
   onReply = (props: NewReplyArgs) => null,
 }) => {
   let rects: DOMRect[] = [];
@@ -70,6 +70,7 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
       <CommentPopup
         onSubmit={onSubmit}
         onReply={onReply}
+        onResolve={onResolve}
         defaultOpen={defaultOpen}
         comment={comment}
         userDetails={userDetails}

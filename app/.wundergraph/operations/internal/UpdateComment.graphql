@@ -1,0 +1,11 @@
+mutation updateComment($commentId: ID!, $body: String!) {
+  github_updateDiscussionComment(
+    input: { commentId: $commentId, body: $body }
+  ) {
+    clientMutationId
+    comment {
+      id
+      body
+    }
+  }
+}
