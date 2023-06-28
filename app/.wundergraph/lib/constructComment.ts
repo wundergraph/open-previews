@@ -1,4 +1,8 @@
-import { DISCUSSION_OPEN_IN_PREVIEW_TEXT } from "../../src/utils/constants/constants";
+import {
+  DISCUSSION_OPEN_IN_PREVIEW_TEXT,
+  DISCUSSION_PENDING_STATE,
+  DISCUSSION_RESOLVED_STATE,
+} from "../../src/utils/constants/constants";
 
 export const constructComment = ({
   body,
@@ -22,7 +26,7 @@ export const constructComment = ({
   return `${body}
 
 ${
-  meta.resolved ? "Resolved ✅" : "Pending ⏳"
+  meta.resolved ? DISCUSSION_RESOLVED_STATE : DISCUSSION_PENDING_STATE
 } | [${DISCUSSION_OPEN_IN_PREVIEW_TEXT}](${meta.href}#${
     meta.timestamp
   }) <div data-comment-meta="${encodedJsonMeta}" />`;

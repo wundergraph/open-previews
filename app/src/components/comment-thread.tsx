@@ -56,10 +56,11 @@ export const CommentThread: React.FC<CommentProps> = ({
     }
   };
 
-  const previewlinkRegex = new RegExp(
-    `\\[${DISCUSSION_OPEN_IN_PREVIEW_TEXT}\\]\\(.*?\\)`,
-    "g"
-  );
+  const chunks = comment?.body.split(/\n{2,}/) ?? [];
+
+  if (chunks.length > 1) chunks.pop();
+
+  const commentWithoutMeta = chunks.join("\n\n");
 
   return (
     <div
@@ -103,11 +104,7 @@ export const CommentThread: React.FC<CommentProps> = ({
             </a>
           </div>
           <div>
-            <p>
-              {comment?.body
-                ?.replace(/<[^>]*>/g, "")
-                .replace(previewlinkRegex, "")}
-            </p>
+            <p>{commentWithoutMeta}</p>
           </div>
           <div>
             <button>Like</button>
