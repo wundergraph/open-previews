@@ -2,6 +2,8 @@ import React from "react";
 import { openWindow } from "~/utils/open-window";
 import { client } from "./wundergraph";
 
+const gatewayUrl = import.meta.env.GATEWAY_URL || "http://localhost:9991";
+
 const setSessionToken = (token: string | null) => {
   if (token === null) {
     client.setExtraHeaders({
@@ -27,9 +29,9 @@ export const useAuth = () => {
 
   const login = () => {
     const params = new URLSearchParams({
-      redirect_uri: `http://localhost:9991/webhooks/github-callback?state=${state}`,
+      redirect_uri: `${gatewayUrl}/webhooks/github-callback?state=${state}`,
     });
-    const url = `http://localhost:9991/auth/cookie/authorize/github?${params.toString()}`;
+    const url = `${gatewayUrl}/auth/cookie/authorize/github?${params.toString()}`;
     setPopup(openWindow(url, "mozillaWindow", 800, 600));
   };
 
@@ -38,7 +40,7 @@ export const useAuth = () => {
   };
 
   const onMessage = (event: MessageEvent) => {
-    if (event.origin !== "http://localhost:9991") {
+    if (event.origin !== gatewayUrl) {
       return;
     }
 
@@ -50,12 +52,13 @@ export const useAuth = () => {
       setToken(() => {
         return setSessionToken(event.data.token);
       });
-      popup?.close();
+      // popup?.close();
       setPopup(null);
     }
 
     if (event.data.id === "openpreviews.failed") {
-      popup?.close();
+      // popup?.close();
+      console.log(event.data);
       setPopup(null);
     }
   };
