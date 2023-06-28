@@ -26,7 +26,6 @@ export const encodeUserToken = async (user: User) => {
     .setIssuedAt()
     .setIssuer("urn:open-previews")
     .setAudience("urn:open-previews:user")
-    .setExpirationTime(tokenExp)
     .encrypt(secret);
 
   return jwt;

@@ -30,7 +30,7 @@ function ShadowRoot(props: { children: React.ReactNode }) {
 
       const sheet = new CSSStyleSheet();
       sheet.replaceSync(styles.replace("'\\", "\\\\"));
-      console.log(styles.replace("'\\", "\\\\"));
+
       const root = rootRef.current.attachShadow({ mode: "open" });
 
       root.adoptedStyleSheets = [sheet];
@@ -62,15 +62,6 @@ export interface NewReplyArgs {
   comment: string;
   replyToId: string;
 }
-
-const testRecipe = cva({
-  base: {
-    bg: "red.100",
-    position: "fixed",
-    inset: "0",
-    zIndex: 1000,
-  },
-});
 
 function App() {
   const user = useUser();
@@ -184,25 +175,3 @@ function App() {
 }
 
 export default App;
-
-// import { cva } from '../styled-system/css'
-import { styled } from "../styled-system/jsx";
-
-const buttonStyle = cva({
-  base: {
-    color: "bg.muted",
-    textAlign: "center",
-  },
-  variants: {
-    size: {
-      small: {
-        fontSize: "1rem",
-      },
-      large: {
-        fontSize: "2rem",
-      },
-    },
-  },
-});
-
-const Button = styled("button", buttonStyle);
