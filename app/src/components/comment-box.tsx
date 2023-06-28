@@ -1,5 +1,5 @@
 import { useStore } from "@nanostores/react";
-import { ChangeEvent, FC, KeyboardEvent } from "react";
+import { ChangeEvent, FC, KeyboardEvent, useEffect, useRef } from "react";
 import { NewCommentArgs } from "~/App";
 import {
   $activeCommentPin,
@@ -21,6 +21,14 @@ export const CommentBox: FC<CommentBoxProps> = ({
   userProfileLink,
   username,
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 300);
+  }, []);
+
   const commentPinInfo = useStore($activeCommentPin);
 
   const onSend = () => {
@@ -79,6 +87,7 @@ export const CommentBox: FC<CommentBoxProps> = ({
       </div>
       <input
         type="text"
+        ref={inputRef}
         placeholder="Write a comment..."
         value={commentPinInfo.commentText}
         style={{
