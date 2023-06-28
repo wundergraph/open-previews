@@ -49,7 +49,6 @@ export const CommentPopup = ({
     const match = previewlinkRegex.exec(comment.body);
     if (match && match[1]) {
       const url = match[1];
-      console.log({ url, hash: window.location.hash });
       if (window.location.hash && url.endsWith(window.location.hash)) {
         defaultOpen = true;
       }

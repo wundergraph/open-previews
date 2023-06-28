@@ -30,7 +30,6 @@ function ShadowRoot(props: { children: React.ReactNode }) {
 
       const sheet = new CSSStyleSheet();
       sheet.replaceSync(styles.replace("'\\", "\\\\"));
-      console.log(styles.replace("'\\", "\\\\"));
       const root = rootRef.current.attachShadow({ mode: "open" });
 
       root.adoptedStyleSheets = [sheet];

@@ -2,7 +2,7 @@ import { useStore } from "@nanostores/react";
 import { ChangeEvent, FC, KeyboardEvent, useEffect, useRef } from "react";
 import { NewCommentArgs } from "~/App";
 import {
-  $activeCommentPin,
+  $activePinCommentText,
   clearActivePinComment,
   removeActiveCommentPin,
   updateActivePinCommentText,
@@ -31,13 +31,13 @@ export const CommentBox: FC<CommentBoxProps> = ({
     }, 300);
   }, []);
 
-  const commentPinInfo = useStore($activeCommentPin);
+  const commentText = useStore($activePinCommentText);
 
   const onSend = () => {
     removeActiveCommentPin();
     clearActivePinComment();
     onSubmit({
-      comment: commentPinInfo.commentText,
+      comment: commentText,
     });
   };
 
@@ -61,7 +61,7 @@ export const CommentBox: FC<CommentBoxProps> = ({
       <Textarea
         ref={inputRef}
         placeholder="Write a comment..."
-        value={commentPinInfo.commentText}
+        value={commentText}
         onChange={handleInputChange}
         onKeyUp={handleKeyUp}
       />
