@@ -80,7 +80,7 @@ function App() {
 
   const pinDetails = useStore($activeCommentPin);
 
-  const { commentText, isOpen, ...otherProps } = pinDetails;
+  const { isOpen, ...otherProps } = pinDetails;
 
   useEffect(() => {
     const unsubscribe = addClickListener();

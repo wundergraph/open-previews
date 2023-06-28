@@ -1,14 +1,9 @@
+import { createOperation, z } from "../generated/wundergraph.factory";
 import { constructComment } from "../lib/constructComment";
-import {
-  AuthorizationError,
-  createOperation,
-  z,
-} from "../generated/wundergraph.factory";
 
 export default createOperation.mutation({
   input: z.object({
-    discussionId: z.string(),
-    replyToId: z.string().optional(),
+    commentId: z.string(),
     body: z.string(),
     meta: z
       .object({
@@ -16,17 +11,13 @@ export default createOperation.mutation({
         path: z.string(),
         x: z.number(),
         y: z.number(),
-        resolved: z.boolean().optional(),
+        resolved: z.boolean(),
         selection: z.string().optional(),
       })
       .optional(),
   }),
   handler: async ({ input, operations, clientRequest, context }) => {
     const { accessToken } = await context.getTokenFromRequest(clientRequest);
-
-    if (!accessToken) {
-      throw new AuthorizationError();
-    }
 
     const timestamp = Date.now();
 
@@ -42,14 +33,13 @@ export default createOperation.mutation({
 
     const result = await operations
       .withHeaders({
-        "X-Github-Token": `Bearer ${accessToken}`, // we post on the user's behalf.
+        Authorization: `Bearer ${accessToken}`,
       })
       .mutate({
-        operationName: "internal/Comment",
+        operationName: "internal/UpdateComment",
         input: {
-          discussionId: input.discussionId,
+          commentId: input.commentId,
           body,
-          replyToId: input.replyToId,
         },
       });
 
