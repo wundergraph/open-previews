@@ -3,6 +3,7 @@ import { ActiveCommentPin } from "./active-comment-pin";
 import { findElementFromPath } from "~/utils/findElementFromPath";
 import { NewReplyArgs, ResolveCommentArgs } from "~/App";
 import { DISCUSSION_PENDING_STATE } from "~/utils/constants/constants";
+import { UserDisplayDetails } from "./comment-thread";
 
 export type CommentMeta = {
   path: string;
@@ -39,10 +40,7 @@ export const Selections = ({
 }: {
   data: CommentsQueryData;
   onReply: (args: NewReplyArgs) => unknown;
-  userDetails: {
-    profilePicture: string;
-    username: string;
-  };
+  userDetails: UserDisplayDetails;
   dimension: number;
   onResolve: (args: ResolveCommentArgs) => unknown;
 }) => {

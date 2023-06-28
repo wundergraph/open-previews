@@ -19,17 +19,22 @@ interface CommentType {
   userProfileLink: string;
 }
 
-interface CommentProps {
+export interface UserDisplayDetails {
   username: string;
-  profilePicture: string;
+  profilePicURL: string;
+  userProfileLink: string;
+}
+
+type CommentProps = {
   comment?: CommentsWithSelections;
   onSend: (args: NewReplyArgs) => unknown;
   onResolve: (args: ResolveCommentArgs) => unknown;
-}
+} & UserDisplayDetails;
 
 export const CommentThread: React.FC<CommentProps> = ({
   username,
-  profilePicture,
+  profilePicURL,
+  userProfileLink,
   comment,
   onSend,
   onResolve,
@@ -68,8 +73,6 @@ export const CommentThread: React.FC<CommentProps> = ({
   const commentWithoutMeta = chunks.join("\n\n");
 
   const resolveComment = () => {
-    alert("clicked button!");
-
     const updatedBody =
       comment?.body.replace(
         DISCUSSION_PENDING_STATE,
@@ -126,9 +129,11 @@ export const CommentThread: React.FC<CommentProps> = ({
           <div>
             <p>{commentWithoutMeta}</p>
           </div>
-          <div>
-            <button onClick={resolveComment}>Mark as Resolved ✅</button>
-          </div>
+          {username === comment.author?.login ? (
+            <div>
+              <button onClick={resolveComment}>Mark as Resolved ✅</button>
+            </div>
+          ) : null}
           <div>
             <p>Total comments: {(comment.replies.nodes?.length ?? 0) + 1}</p>
           </div>
@@ -179,7 +184,7 @@ export const CommentThread: React.FC<CommentProps> = ({
         }}
       >
         <img
-          src={profilePicture}
+          src={profilePicURL}
           alt="profile picture"
           style={{
             width: "50px",
@@ -188,7 +193,9 @@ export const CommentThread: React.FC<CommentProps> = ({
             marginRight: "10px",
           }}
         />
-        <span>{username}</span>
+        <a href={userProfileLink} target="_blank" rel="noopener noreferrer">
+          {username}
+        </a>
       </div>
       <div>
         <input

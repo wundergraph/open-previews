@@ -4,7 +4,7 @@ import {
 } from "~/utils/constants/constants";
 import { CommentBox } from "./comment-box";
 import { NewCommentArgs, NewReplyArgs, ResolveCommentArgs } from "~/App";
-import { CommentThread } from "./comment-thread";
+import { CommentThread, UserDisplayDetails } from "./comment-thread";
 import { CommentsWithSelections } from "./selections";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { styled } from "../../styled-system/jsx";
@@ -37,10 +37,7 @@ export const CommentPopup = ({
   comment?: CommentsWithSelections;
   onReply: (args: NewReplyArgs) => unknown;
   onResolve: (args: ResolveCommentArgs) => unknown;
-  userDetails: {
-    profilePicture: string;
-    username: string;
-  };
+  userDetails: UserDisplayDetails;
 }) => {
   // Auto-open comment from discussion
   if (comment?.body) {

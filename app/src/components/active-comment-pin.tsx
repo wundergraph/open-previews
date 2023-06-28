@@ -5,6 +5,7 @@ import { Highlight } from "./highlight";
 import { PinDetails } from "~/utils/state/activeCommentPin";
 import { NewCommentArgs, NewReplyArgs, ResolveCommentArgs } from "~/App";
 import { CommentsWithSelections } from "./selections";
+import { UserDisplayDetails } from "./comment-thread";
 
 type ActiveCommentPinProps = {
   pinDetails: PinDetails;
@@ -12,10 +13,7 @@ type ActiveCommentPinProps = {
   defaultOpen?: boolean;
   comment?: CommentsWithSelections;
   onReply: (args: NewReplyArgs) => unknown;
-  userDetails: {
-    profilePicture: string;
-    username: string;
-  };
+  userDetails: UserDisplayDetails;
   dimension: number;
   onResolve: (args: ResolveCommentArgs) => unknown;
 };

@@ -11,16 +11,16 @@ import { Button } from "./ui/button";
 import { Textarea } from "./ui/forms";
 import { Avatar } from "./ui/avatar";
 import { Stack } from "../../styled-system/jsx";
+import { UserDisplayDetails } from "./comment-thread";
 
-export interface CommentBoxProps {
+export interface CommentBoxProps extends UserDisplayDetails {
   onSubmit: (data: NewCommentArgs) => unknown;
-  profilePicture: string;
-  username: string;
 }
 
 export const CommentBox: FC<CommentBoxProps> = ({
   onSubmit,
-  profilePicture,
+  profilePicURL,
+  userProfileLink,
   username,
 }) => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -55,8 +55,10 @@ export const CommentBox: FC<CommentBoxProps> = ({
   return (
     <div>
       <Stack mb="10px" direction="row" alignItems="center">
-        <Avatar src="profilePicture" name={username} />
-        <span>{username}</span>
+        <Avatar src={profilePicURL} name={username} />
+        <a href={userProfileLink} target="_blank" rel="noopener noreferrer">
+          {username}
+        </a>
       </Stack>
       <Textarea
         ref={inputRef}

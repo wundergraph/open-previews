@@ -106,6 +106,11 @@ function App() {
     enabled: !!user.data,
   });
 
+  const { data: viewer } = useQuery({
+    operationName: "Viewer",
+    enabled: !!user.data,
+  });
+
   const { trigger: createComment } = useMutation({
     operationName: "CreateComment",
   });
@@ -167,6 +172,12 @@ function App() {
     };
   }, []);
 
+  const userDetails = {
+    username: viewer?.github_viewer?.login ?? "",
+    profilePicURL: viewer?.github_viewer?.avatarUrl ?? "",
+    userProfileLink: viewer?.github_viewer?.url ?? "",
+  };
+
   return (
     <ShadowRoot>
       <div>
@@ -176,10 +187,7 @@ function App() {
             dimension={dimension}
             onResolve={resolveComment}
             onReply={createNewReply}
-            userDetails={{
-              username: user.data.name ?? "",
-              profilePicture: user.data.profilePicture ?? "",
-            }}
+            userDetails={userDetails}
           />
         ) : null}
         <Toolbar />
@@ -191,10 +199,7 @@ function App() {
             dimension={dimension}
             onSubmit={createNewThread}
             onReply={createNewReply}
-            userDetails={{
-              username: user.data?.name ?? "",
-              profilePicture: user.data?.profilePicture ?? "",
-            }}
+            userDetails={userDetails}
           />
         ) : null}
         {user.data ? <LiveHighlighter /> : null}
