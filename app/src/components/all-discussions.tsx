@@ -3,6 +3,7 @@ import { CommentsDataType } from "./selections";
 import { FC } from "react";
 import { cleanCommentText } from "~/utils/cleanCommentText";
 import { getUrlFromCommentText } from "~/utils/getUrlFromCommentText";
+import { DISCUSSION_RESOLVED_STATE } from "~/utils/constants/constants";
 
 const TAGS = Array.from({ length: 50 }).map(
   (_, i, a) => `v1.2.0-beta.${a.length - i}`
@@ -27,7 +28,13 @@ export const AllDiscussions: FC<AllDiscussionsProps> = ({ comments }) => {
       <div className="Text">All Discussions</div>
       {comments?.map((comment) => {
         const url = getUrlFromCommentText(comment.body);
-
+        let pathname: string | undefined;
+        try {
+          let urlObject = new URL(url ?? "");
+          pathname = urlObject.pathname;
+        } catch {
+          // do nothing
+        }
         return (
           <a href={url} key={comment.id}>
             <div
@@ -49,7 +56,12 @@ export const AllDiscussions: FC<AllDiscussionsProps> = ({ comments }) => {
               />
               <span>{comment?.author?.login}</span>
             </div>
-            {cleanCommentText(comment.body)}
+            <p>
+              Route: {pathname}
+              Status:
+              {comment.body.includes(DISCUSSION_RESOLVED_STATE) ? "✅" : "⏳"}
+            </p>
+            <p>{cleanCommentText(comment.body)}</p>
           </a>
         );
       })}
