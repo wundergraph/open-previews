@@ -4,8 +4,8 @@ export const Text = styled("p", {
   base: {
     margin: 0,
     fontSize: "sm",
-    lineHeight: "19px",
-    fontWeight: 500,
+    lineHeight: "loose",
+    fontWeight: "normal",
   },
 });
 

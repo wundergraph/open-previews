@@ -6,7 +6,12 @@ import { CommentBox } from "./comment-box";
 import { NewCommentArgs, NewReplyArgs, ResolveCommentArgs } from "~/App";
 import { CommentThread, UserDisplayDetails } from "./comment-thread";
 import { CommentsWithSelections } from "./selections";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import {
+  Popover,
+  PopoverArrow,
+  PopoverContent,
+  PopoverTrigger,
+} from "./ui/popover";
 import { styled } from "../../styled-system/jsx";
 import { PlusIcon } from "./icons/plus";
 import { getUrlFromCommentText } from "~/utils/getUrlFromCommentText";
@@ -20,9 +25,27 @@ const CommentPin = styled("button", {
     height: "28px",
     width: "28px",
     borderRadius: "100%",
-    backgroundColor: "yellow.400",
     cursor: "pointer",
     zIndex: "popover",
+    fontSize: "sm",
+    fontWeight: "medium",
+    boxShadow: "md",
+  },
+  variants: {
+    variant: {
+      default: {
+        backgroundColor: "gray.600",
+        color: "white",
+        borderWidth: "2px",
+        borderColor: "white",
+      },
+      new: {
+        backgroundColor: "yellow.400",
+      },
+    },
+  },
+  defaultVariants: {
+    variant: "default",
   },
 });
 
@@ -55,15 +78,17 @@ export const CommentPopup = ({
     <Popover key={hash} defaultOpen={defaultOpen}>
       <PopoverTrigger asChild>
         <CommentPin aria-label="open-comments">
-          <PlusIcon />
+          {comment ? comment.replies?.nodes?.length || 1 : <PlusIcon />}
         </CommentPin>
       </PopoverTrigger>
       <PopoverContent
         side="right"
         align="start"
-        sideOffset={10}
+        sideOffset={4}
+        p="0"
         className={`DropdownMenuContent ${CONTROL_ELEMENT_CLASS}`}
       >
+        <PopoverArrow />
         {comment ? (
           <CommentThread
             onResolve={onResolve}

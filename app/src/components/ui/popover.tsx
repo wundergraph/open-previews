@@ -13,7 +13,7 @@ export const PopoverPortal = PopoverPrimitives.Portal;
 export const PopoverContent = styled(PopoverPrimitives.Content, {
   base: {
     borderRadius: "4px",
-    padding: "4px",
+    padding: "8px",
     minWidth: "260px",
     backgroundColor: "bg.surface",
     backdropFilter: "blur(20px)",

@@ -12,6 +12,14 @@ import {
   DISCUSSION_RESOLVED_STATE,
 } from "~/utils/constants/constants";
 import { cleanCommentText } from "~/utils/cleanCommentText";
+import { Avatar } from "./ui/avatar";
+import { Box, Flex, Stack } from "../../styled-system/jsx";
+import { Link, Text } from "./ui/layout";
+import { Button, IconButton } from "./ui/button";
+import { Textarea } from "./ui/forms";
+import { ReplyIcon } from "./icons/reply";
+import { LikeIcon } from "./icons/like";
+import { CheckIcon } from "./icons/check";
 
 interface CommentType {
   username: string;
@@ -40,7 +48,7 @@ export const CommentThread: React.FC<CommentProps> = ({
   onSend,
   onResolve,
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const [input, setInput] = useState("");
 
@@ -48,7 +56,7 @@ export const CommentThread: React.FC<CommentProps> = ({
     inputRef.current?.focus();
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
   };
 
@@ -60,7 +68,7 @@ export const CommentThread: React.FC<CommentProps> = ({
     setInput("");
   };
 
-  const handleKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyUp = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && e.shiftKey) {
       e.preventDefault();
       handleSend();
@@ -87,46 +95,40 @@ export const CommentThread: React.FC<CommentProps> = ({
   };
 
   return (
-    <div
-      style={{
-        width: "400px",
-        maxHeight: "500px",
-        overflow: "auto",
-        border: "1px solid lightgray",
-        borderRadius: "8px",
-        padding: "10px",
-        boxSizing: "border-box",
-        backgroundColor: "#f8f8f8",
-        color: "black",
-      }}
-    >
+    <div>
       {comment ? (
-        <>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "10px",
-            }}
-          >
-            <img
+        <Box
+          bg="bg.subtle"
+          borderBottom="1px solid"
+          borderColor="border.default"
+          py="8px"
+          px="12px"
+        >
+          <Stack mb="8px" direction="row" alignItems="center">
+            <Avatar
               src={comment?.author?.avatarUrl}
-              alt="profile picture"
-              style={{
-                width: "50px",
-                height: "50px",
-                borderRadius: "50%",
-                marginRight: "10px",
-              }}
+              name={comment?.author?.login}
+              size="sm"
             />
-            <a
+
+            <Link
               href={comment?.author?.url}
               target="_blank"
               rel="noopener noreferrer"
+              color="fg.default"
+              fontWeight="medium"
             >
               {comment?.author?.login}
-            </a>
-          </div>
+            </Link>
+
+            <Stack direction="row" flex="1" justifyContent="flex-end">
+              {username === comment.author?.login ? (
+                <IconButton onClick={resolveComment} aria-label="Resolve">
+                  <CheckIcon />
+                </IconButton>
+              ) : null}
+            </Stack>
+          </Stack>
           <div>
             <p>{cleanCommentText(comment.body)}</p>
           </div>
@@ -140,82 +142,64 @@ export const CommentThread: React.FC<CommentProps> = ({
           <div>
             <p>Total comments: {(comment.replies.nodes?.length ?? 0) + 1}</p>
           </div>
-        </>
+          <Text color="fg.muted" fontSize="sm">
+            {comment.replies.nodes?.length ?? 0} replies
+          </Text>
+        </Box>
       ) : null}
 
       {comment?.replies?.nodes?.map((reply, index) => (
-        <Fragment key={index}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "10px",
-            }}
-          >
-            <img
-              src={reply.author?.avatarUrl}
-              alt="profile picture"
-              style={{
-                width: "50px",
-                height: "50px",
-                borderRadius: "50%",
-                marginRight: "10px",
-              }}
+        <Box
+          bg="bg.subtle"
+          borderBottom="1px solid"
+          borderColor="border.default"
+          py="8px"
+          px="12px"
+          key={index}
+        >
+          <Stack mb="8px" direction="row" alignItems="center">
+            <Avatar
+              src={reply?.author?.avatarUrl}
+              name={reply?.author?.login}
+              size="sm"
             />
-            <a
-              href={reply.author?.url}
+
+            <Link
+              href={reply?.author?.url}
               target="_blank"
               rel="noopener noreferrer"
+              color="fg.default"
+              fontWeight="medium"
             >
-              {reply.author?.login}
-            </a>
-          </div>
+              {reply?.author?.login}
+            </Link>
+
+            <Stack direction="row" flex="1" justifyContent="flex-end" gap="4px">
+              <IconButton aria-label="Like">
+                <LikeIcon />
+              </IconButton>
+              <IconButton aria-label="Reply">
+                <ReplyIcon />
+              </IconButton>
+            </Stack>
+          </Stack>
           <div>
             <p>{reply.body}</p>
           </div>
-          <div>
-            <button>Like</button>
-            <button>Reply</button>
-          </div>
-        </Fragment>
+        </Box>
       ))}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginBottom: "10px",
-        }}
-      >
-        <img
-          src={profilePicURL}
-          alt="profile picture"
-          style={{
-            width: "50px",
-            height: "50px",
-            borderRadius: "50%",
-            marginRight: "10px",
-          }}
-        />
-        <a href={userProfileLink} target="_blank" rel="noopener noreferrer">
-          {username}
-        </a>
-      </div>
+
       <div>
-        <input
-          type="text"
-          placeholder="Write a comment..."
+        <Textarea
           ref={inputRef}
+          placeholder="Write a comment..."
           value={input}
-          style={{
-            width: "100%",
-            padding: "5px",
-            boxSizing: "border-box",
-            marginBottom: "10px",
-          }}
           onChange={handleInputChange}
           onKeyUp={handleKeyUp}
         />
-        <button onClick={handleSend}>Send</button>
+        <Flex flexDirection="row" justifyContent="flex-end" py="4px" px="8px">
+          <Button onClick={handleSend}>Send</Button>
+        </Flex>
       </div>
     </div>
   );

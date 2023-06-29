@@ -10,7 +10,7 @@ import {
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/forms";
 import { Avatar } from "./ui/avatar";
-import { Stack } from "../../styled-system/jsx";
+import { Box, Flex, Stack } from "../../styled-system/jsx";
 import { UserDisplayDetails } from "./comment-thread";
 
 export interface CommentBoxProps extends UserDisplayDetails {
@@ -53,8 +53,21 @@ export const CommentBox: FC<CommentBoxProps> = ({
   };
 
   return (
-    <div>
-      <Stack mb="10px" direction="row" alignItems="center">
+    <Box
+      bg="bg.subtle"
+      borderBottom="1px solid"
+      borderColor="border.default"
+      py="8px"
+      px="12px"
+    >
+      <Stack
+        pb="8px"
+        mb="8px"
+        direction="row"
+        alignItems="center"
+        borderBottom="1px solid"
+        borderColor="border.default"
+      >
         <Avatar src={profilePicURL} name={username} />
         <a href={userProfileLink} target="_blank" rel="noopener noreferrer">
           {username}
@@ -67,7 +80,9 @@ export const CommentBox: FC<CommentBoxProps> = ({
         onChange={handleInputChange}
         onKeyUp={handleKeyUp}
       />
-      <Button onClick={onSend}>Send</Button>
-    </div>
+      <Flex flexDirection="row" justifyContent="flex-end" py="4px" px="12px">
+        <Button onClick={onSend}>Send</Button>
+      </Flex>
+    </Box>
   );
 };
