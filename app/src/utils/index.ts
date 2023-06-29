@@ -2,12 +2,21 @@ import { $commentMode, toggleCommentMode } from "./state/commentMode";
 import { isControlElement } from "./isControlElement";
 import { addCommentBox } from "./addCommentBox";
 import { removeActiveCommentPin } from "./state/activeCommentPin";
+import {
+  $discussionsOverlayMode,
+  toggleDiscussionsOverlayMode,
+} from "./state/discussionsOverlayMode";
 
 export const addClickListener = (): (() => void) => {
   const listener = async (event: MouseEvent) => {
     if (event.target && isControlElement(event.target)) {
       // Element is part of open previews - do not trigger any events
       return;
+    }
+
+    if ($discussionsOverlayMode.get()) {
+      // discussions overlay is active - close the overlay to ensure the rest of the page is usable
+      toggleDiscussionsOverlayMode();
     }
 
     if (!$commentMode.get()) {

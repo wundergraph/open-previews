@@ -13,6 +13,8 @@ import { $activeCommentPin, PinDetails } from "./utils/state/activeCommentPin";
 import { useMutation, useQuery } from "./lib/wundergraph";
 import { $openPreviewConfig } from "./utils/state/openPreviewConfig";
 import "./main.css";
+import { AllDiscussions } from "./components/all-discussions";
+import { $discussionsOverlayMode } from "./utils/state/discussionsOverlayMode";
 
 const styles = `__STYLES__`;
 
@@ -75,6 +77,8 @@ function App() {
   );
 
   const pinDetails = useStore($activeCommentPin);
+
+  const discussionsOverlayMode = useStore($discussionsOverlayMode);
 
   const { isOpen, ...otherProps } = pinDetails;
 
@@ -172,6 +176,9 @@ function App() {
   return (
     <ShadowRoot>
       <div>
+        {data?.comments && discussionsOverlayMode ? (
+          <AllDiscussions comments={data?.comments} />
+        ) : null}
         {user.data ? (
           <Selections
             data={data}

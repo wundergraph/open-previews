@@ -102,6 +102,7 @@ export const Selections = ({
 
         return (
           <ActiveCommentPin
+            key={each.id}
             pinDetails={{
               element: clickedElement,
               coords: { x: selection?.x ?? 0, y: selection?.y ?? 0 },

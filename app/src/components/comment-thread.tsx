@@ -11,6 +11,7 @@ import {
   DISCUSSION_PENDING_STATE,
   DISCUSSION_RESOLVED_STATE,
 } from "~/utils/constants/constants";
+import { cleanCommentText } from "~/utils/cleanCommentText";
 import { Avatar } from "./ui/avatar";
 import { Box, Flex, Stack } from "../../styled-system/jsx";
 import { Link, Text } from "./ui/layout";
@@ -74,18 +75,18 @@ export const CommentThread: React.FC<CommentProps> = ({
     }
   };
 
-  const chunks = comment?.body.split(/\n{2,}/) ?? [];
-
-  if (chunks.length > 1) chunks.pop();
-
-  const commentWithoutMeta = chunks.join("\n\n");
+  const isResolved = comment?.body.includes(DISCUSSION_RESOLVED_STATE);
 
   const resolveComment = () => {
-    const updatedBody =
-      comment?.body.replace(
-        DISCUSSION_PENDING_STATE,
-        DISCUSSION_RESOLVED_STATE
-      ) ?? "";
+    const updatedBody = isResolved
+      ? comment?.body.replace(
+          DISCUSSION_RESOLVED_STATE,
+          DISCUSSION_PENDING_STATE
+        ) ?? ""
+      : comment?.body.replace(
+          DISCUSSION_PENDING_STATE,
+          DISCUSSION_RESOLVED_STATE
+        ) ?? "";
 
     onResolve({
       comment: updatedBody,
@@ -129,9 +130,18 @@ export const CommentThread: React.FC<CommentProps> = ({
             </Stack>
           </Stack>
           <div>
-            <p>{commentWithoutMeta}</p>
+            <p>{cleanCommentText(comment.body)}</p>
           </div>
-
+          {username === comment.author?.login ? (
+            <div>
+              <button onClick={resolveComment}>
+                {isResolved ? `Mark as Pending ⏳` : `Mark as Resolved ✅`}
+              </button>
+            </div>
+          ) : null}
+          <div>
+            <p>Total comments: {(comment.replies.nodes?.length ?? 0) + 1}</p>
+          </div>
           <Text color="fg.muted" fontSize="sm">
             {comment.replies.nodes?.length ?? 0} replies
           </Text>
