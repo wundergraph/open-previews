@@ -10,9 +10,11 @@ export default defineConfig({
   plugins: [
     react(),
     injectCSSPlugin(),
-    // dts({
-    //   insertTypesEntry: true,
-    // }),
+    dts({
+      insertTypesEntry: true,
+      tsConfigFilePath: path.resolve(__dirname, "./tsconfig.json"),
+      // rollupTypes: true,
+    }),
   ],
   resolve: {
     alias: {
@@ -29,15 +31,7 @@ export default defineConfig({
       },
     },
     rollupOptions: {
-      external: [
-        "react",
-        "react-dom",
-        // "@wundergraph/swr",
-        // "swr",
-        // Having this external causes the Astro app to fail when imported.
-        // This does add a lot of bloat to the bundle, but it works untill we optimize this.
-        // "@wundergraph/sdk/client",
-      ],
+      external: ["react", "react-dom"],
       output: {
         globals: {
           react: "React",

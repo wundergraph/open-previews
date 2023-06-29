@@ -7,6 +7,7 @@ import { createHooks } from "@wundergraph/swr";
 export const client = createClient();
 
 export const { useQuery, useMutation, useSubscription } =
+  /* @ts-ignore */
   createHooks<Operations>(client);
 
 export const swrLocalStorageProvider: (

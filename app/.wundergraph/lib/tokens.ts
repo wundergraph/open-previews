@@ -31,7 +31,7 @@ export const encodeUserToken = async (user: User) => {
   return jwt;
 };
 
-interface Token {
+export interface Token {
   accessToken: string;
   name: string;
   email: string;

@@ -23,7 +23,8 @@
     "build:wundergraph": "wunderctl generate",
     "build:vite": "vite build",
     "build": "npm run build:wundergraph && npm run build:vite",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "analyze": "npx vite-bundle-visualizer"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",

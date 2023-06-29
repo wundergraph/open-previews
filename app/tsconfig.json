@@ -16,11 +16,13 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["zod", "nanostores"],
-    "baseUrl": "./src",
+    "types": ["zod", "nanostores", "swr"],
+    "declaration": true,
+    "declarationMap": true,
+    "baseUrl": "./",
     "paths": {
-      "~/*": ["./*"],
-      "~/styled-system/*": ["../styled-system/*"]
+      "~/*": ["./src/*"],
+      "~/styled-system/*": ["./styled-system/*"]
     }
   },
   "include": ["src", "./wundergraph/**/*.ts", "styled-system"],

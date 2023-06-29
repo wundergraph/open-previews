@@ -1,5 +1,11 @@
 import { useStore } from "@nanostores/react";
-import { ChangeEvent, FC, KeyboardEvent, useEffect, useRef } from "react";
+import React, {
+  ChangeEvent,
+  FC,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+} from "react";
 import { NewCommentArgs } from "~/App";
 import {
   $activePinCommentText,
@@ -23,12 +29,12 @@ export const CommentBox: FC<CommentBoxProps> = ({
   userProfileLink,
   username,
 }) => {
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-
+  // lazy render the textarea otherwise we loose focus and the selection is lost.
+  const [show, setShow] = React.useState(false);
   useEffect(() => {
     setTimeout(() => {
-      inputRef.current?.focus();
-    }, 300);
+      setShow(true);
+    }, 50);
   }, []);
 
   const commentText = useStore($activePinCommentText);
@@ -53,16 +59,10 @@ export const CommentBox: FC<CommentBoxProps> = ({
   };
 
   return (
-    <Box
-      bg="bg.subtle"
-      borderBottom="1px solid"
-      borderColor="border.default"
-      py="8px"
-      px="12px"
-    >
+    <Box bg="bg.subtle" borderBottom="1px solid" borderColor="border.default">
       <Stack
-        pb="8px"
-        mb="8px"
+        py="8px"
+        px="12px"
         direction="row"
         alignItems="center"
         borderBottom="1px solid"
@@ -73,13 +73,15 @@ export const CommentBox: FC<CommentBoxProps> = ({
           {username}
         </a>
       </Stack>
-      <Textarea
-        ref={inputRef}
-        placeholder="Write a comment..."
-        value={commentText}
-        onChange={handleInputChange}
-        onKeyUp={handleKeyUp}
-      />
+      {show && (
+        <Textarea
+          autoFocus
+          placeholder="Write a comment..."
+          value={commentText}
+          onChange={handleInputChange}
+          onKeyUp={handleKeyUp}
+        />
+      )}
       <Flex flexDirection="row" justifyContent="flex-end" py="4px" px="12px">
         <Button onClick={onSend}>Send</Button>
       </Flex>
