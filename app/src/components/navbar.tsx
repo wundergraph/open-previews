@@ -36,6 +36,7 @@ import { EyeCloseIcon } from "./icons/eye-close";
 import { BranchIcon } from "./icons/branch";
 import { LogoutIcon } from "./icons/logout";
 import { toggleDiscussionsOverlayMode } from "~/utils/state/discussionsOverlayMode";
+import { InboxIcon } from "./icons/inbox";
 
 const NavbarPositioner = (props) => {
   const { x, y, ...rest } = props;
@@ -100,7 +101,7 @@ export const Navbar = () => {
       ]}
     >
       <NavbarPositioner x={x} y={y}>
-        <ToolbarRoot>
+        <ToolbarRoot gap="4px">
           {user ? (
             <>
               <ToolbarToggleGroup
@@ -114,6 +115,12 @@ export const Navbar = () => {
                   {isCommentModeOn ? <XIcon /> : <CommentIcon />}
                 </ToolbarToggleItem>
               </ToolbarToggleGroup>
+              <ToolbarIconButton
+                onClick={() => toggleDiscussionsOverlayMode()}
+                aria-label="All Discussions"
+              >
+                <InboxIcon />
+              </ToolbarIconButton>
               <ToolbarSeparator />
               <ToolbarIconButton onClick={() => logout()}>
                 <Avatar src={user.profilePicture} name={user.name} size="md" />
@@ -166,13 +173,6 @@ const HamburgerMenu = () => {
                 <LogoutIcon />
               </DropdownMenuIcon>
               Log out
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => toggleDiscussionsOverlayMode()}>
-              <DropdownMenuIcon>
-                <BranchIcon />
-              </DropdownMenuIcon>
-              All Discussions
             </DropdownMenuItem>
           </>
         ) : (

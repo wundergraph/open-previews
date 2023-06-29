@@ -9,6 +9,7 @@ export const IconButton = styled("button", {
     justifyContent: "center",
     color: "fg.default",
     cursor: "pointer",
+    transition: "all 0.2s ease",
     _focus: { boxShadow: `0 0 0 2px black` },
   },
   variants: {
@@ -29,15 +30,16 @@ export const IconButton = styled("button", {
     variant: {
       ghost: {
         backgroundColor: "transparent",
-        _hover: { backgroundColor: "gray.200" },
+        _hover: { backgroundColor: "gray.300" },
       },
       default: {
-        _hover: { backgroundColor: "gray.200" },
+        backgroundColor: "gray.200",
+        _hover: { backgroundColor: "gray.300" },
       },
     },
   },
   defaultVariants: {
-    variant: "default",
+    variant: "ghost",
     size: "md",
   },
 });
@@ -48,14 +50,22 @@ export const Button = styled("button", {
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    color: "inherit",
-    bg: "gray.300",
-    boxShadow: "sm",
+    color: "fg.default",
     cursor: "pointer",
-    _hover: { backgroundColor: "gray.400" },
+    transition: "all 0.2s ease",
     _focus: { boxShadow: "none" },
   },
   variants: {
+    variant: {
+      ghost: {
+        backgroundColor: "transparent",
+        _hover: { backgroundColor: "gray.300" },
+      },
+      default: {
+        backgroundColor: "gray.200",
+        _hover: { backgroundColor: "gray.300" },
+      },
+    },
     size: {
       sm: {
         borderRadius: "4px",
@@ -74,6 +84,7 @@ export const Button = styled("button", {
     },
   },
   defaultVariants: {
-    size: "sm",
+    variant: "default",
+    size: "md",
   },
 });

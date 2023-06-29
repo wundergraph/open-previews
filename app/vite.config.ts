@@ -10,11 +10,11 @@ export default defineConfig({
   plugins: [
     react(),
     injectCSSPlugin(),
-    dts({
-      insertTypesEntry: true,
-      tsConfigFilePath: path.resolve(__dirname, "./tsconfig.json"),
-      // rollupTypes: true,
-    }),
+    // dts({
+    //   insertTypesEntry: true,
+    //   tsConfigFilePath: path.resolve(__dirname, "./tsconfig.json"),
+    //   // rollupTypes: true,
+    // }),
   ],
   resolve: {
     alias: {

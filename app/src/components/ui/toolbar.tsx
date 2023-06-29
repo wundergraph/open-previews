@@ -5,9 +5,9 @@ import { SystemStyleObject } from "../../../styled-system/types";
 export const Toolbar = styled(ToolbarPrimitive.Root, {
   base: {
     display: "flex",
-    padding: "8px",
+    padding: "4px 8px",
     minWidth: "max-content",
-    borderRadius: "25px",
+    borderRadius: "24px",
     bg: "bg.surface",
     border: "1px solid",
     borderColor: "border.default",
@@ -60,7 +60,7 @@ export const ToolbarSeparator = styled(ToolbarPrimitive.Separator, {
   base: {
     width: "1px",
     backgroundColor: "border.default",
-    margin: "4px 12px",
+    margin: "4px 4px",
   },
 });
 
