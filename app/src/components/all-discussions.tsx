@@ -125,7 +125,7 @@ export const AllDiscussions: FC<AllDiscussionsProps> = ({ comments }) => {
 
                 <Stack
                   border="1px solid"
-                  borderColor="border.emphasized"
+                  borderColor="border.default"
                   p="4px"
                   mb="4px"
                   rounded="4px"

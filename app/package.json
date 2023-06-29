@@ -35,6 +35,7 @@
     "@radix-ui/react-dropdown-menu": "^2.0.5",
     "@radix-ui/react-popover": "^1.0.6",
     "@radix-ui/react-toolbar": "^1.0.4",
+    "@radix-ui/react-tooltip": "^1.0.6",
     "@wundergraph/sdk": "^0.166.1",
     "@wundergraph/swr": "^0.15.12",
     "framer-motion": "^10.12.16",

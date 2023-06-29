@@ -86,6 +86,7 @@ export const CommentPopup = ({
         align="start"
         sideOffset={4}
         p="0"
+        overflow="hidden"
         className={`DropdownMenuContent ${CONTROL_ELEMENT_CLASS}`}
       >
         <PopoverArrow />

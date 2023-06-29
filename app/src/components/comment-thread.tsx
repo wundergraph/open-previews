@@ -20,6 +20,8 @@ import { Textarea } from "./ui/forms";
 import { ReplyIcon } from "./icons/reply";
 import { LikeIcon } from "./icons/like";
 import { CheckIcon } from "./icons/check";
+import { PendingIcon } from "./icons/pending";
+import { Tooltip } from "./ui/tooltip";
 
 interface CommentType {
   username: string;
@@ -122,25 +124,22 @@ export const CommentThread: React.FC<CommentProps> = ({
             </Link>
 
             <Stack direction="row" flex="1" justifyContent="flex-end">
-              {username === comment.author?.login ? (
-                <IconButton onClick={resolveComment} aria-label="Resolve">
-                  <CheckIcon />
+              <Tooltip
+                tooltip={isResolved ? `Mark as Pending` : `Mark as Resolved`}
+              >
+                <IconButton
+                  onClick={resolveComment}
+                  aria-label={
+                    isResolved ? `Mark as Pending` : `Mark as Resolved`
+                  }
+                >
+                  {isResolved ? <CheckIcon /> : <PendingIcon />}
                 </IconButton>
-              ) : null}
+              </Tooltip>
             </Stack>
           </Stack>
           <div>
             <p>{cleanCommentText(comment.body)}</p>
-          </div>
-          {username === comment.author?.login ? (
-            <div>
-              <button onClick={resolveComment}>
-                {isResolved ? `Mark as Pending ⏳` : `Mark as Resolved ✅`}
-              </button>
-            </div>
-          ) : null}
-          <div>
-            <p>Total comments: {(comment.replies.nodes?.length ?? 0) + 1}</p>
           </div>
           <Text color="fg.muted" fontSize="sm">
             {comment.replies.nodes?.length ?? 0} replies

@@ -175,7 +175,7 @@ function App() {
 
   return (
     <ShadowRoot>
-      <div>
+      <div id="open-previews-container">
         {data?.comments && discussionsOverlayMode ? (
           <AllDiscussions comments={data?.comments} />
         ) : null}
