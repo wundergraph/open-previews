@@ -18,10 +18,21 @@ import { $discussionsOverlayMode } from "./utils/state/discussionsOverlayMode";
 
 const styles = `__STYLES__`;
 
-function ShadowRoot(props: { children: React.ReactNode }) {
+export interface ShadowRootHandler {
+  unMount: () => unknown;
+}
+
+const ShadowRoot = React.forwardRef<
+  ShadowRootHandler,
+  { children: React.ReactNode }
+>((props, ref) => {
   const rootRef = React.useRef<HTMLElement>();
 
   const [root, setRoot] = React.useState<ShadowRoot | null>(null);
+
+  React.useImperativeHandle(ref, () => ({
+    unMount: () => rootRef.current?.remove(),
+  }));
 
   React.useLayoutEffect(() => {
     if (!rootRef.current) {
@@ -45,7 +56,7 @@ function ShadowRoot(props: { children: React.ReactNode }) {
   }
 
   return null;
-}
+});
 
 const pinDetailsTypeGuard = (props: PinDetails | {}): props is PinDetails => {
   // @ts-expect-error
@@ -69,7 +80,9 @@ export interface ResolveCommentArgs {
   id: string;
 }
 
-function App() {
+function App({ rootElement }: { rootElement?: HTMLElement }) {
+  const rootRef = React.useRef<ShadowRootHandler | null>(null);
+
   const user = useUser();
 
   const [dimension, setDimension] = useState<number>(
@@ -174,7 +187,7 @@ function App() {
   };
 
   return (
-    <ShadowRoot>
+    <ShadowRoot ref={rootRef}>
       <div id="open-previews-container">
         {data?.comments && discussionsOverlayMode ? (
           <AllDiscussions comments={data?.comments} />
@@ -188,7 +201,7 @@ function App() {
             userDetails={userDetails}
           />
         ) : null}
-        <Navbar />
+        <Navbar userDetails={userDetails} root={rootElement || rootRef} />
         {pinDetailsTypeGuard(otherProps) ? (
           <ActiveCommentPin
             pinDetails={otherProps}
