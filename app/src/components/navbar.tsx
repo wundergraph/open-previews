@@ -79,6 +79,7 @@ export interface NavbarProps {
 
 export const Navbar: FC<NavbarProps> = ({ userDetails, root }) => {
   const { login, logout } = useAuth();
+  const { data: user } = useUser();
   const isCommentModeOn = useStore($commentMode);
 
   const [{ x, y }, setCoordinates] = React.useState<{ x: number; y: number }>({
@@ -110,7 +111,7 @@ export const Navbar: FC<NavbarProps> = ({ userDetails, root }) => {
     >
       <NavbarPositioner x={x} y={y}>
         <ToolbarRoot gap="4px">
-          {userDetails ? (
+          {user ? (
             <>
               <ToolbarToggleGroup
                 type="single"
@@ -213,7 +214,13 @@ const HamburgerMenu = ({ root }: { root: NavbarProps["root"] }) => {
               </Link>
             </Stack>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                // @ts-expect-error
+                root?.current ? root.current?.unMount() : root?.remove();
+                sessionStorage.setItem(SESSION_STORAGE_WIDGET_ACTIVE, "false");
+              }}
+            >
               <DropdownMenuIcon>
                 <EyeCloseIcon />
               </DropdownMenuIcon>
