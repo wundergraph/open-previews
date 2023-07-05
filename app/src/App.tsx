@@ -6,7 +6,6 @@ import { ActiveCommentPin } from "./components/active-comment-pin";
 import { useEffect, useState } from "react";
 import { addClickListener } from "./utils";
 import { LiveHighlighter } from "./components/live-highlighter";
-import { CONTROL_ELEMENT_CLASS } from "./utils/constants/constants";
 import { useUser } from "./hooks/use-user";
 import { useStore } from "@nanostores/react";
 import { $activeCommentPin, PinDetails } from "./utils/state/activeCommentPin";
@@ -19,27 +18,14 @@ import { $rootElementReference } from "./utils/state/rootElementReference";
 
 const styles = `__STYLES__`;
 
-export interface ShadowRootHandler {
-  unMount: () => unknown;
-}
-
-const ShadowRoot = React.forwardRef<
-  ShadowRootHandler,
-  { children: React.ReactNode }
->((props, ref) => {
-  const rootRef = React.useRef<HTMLElement>();
+function ShadowRoot(props: { children: React.ReactNode }) {
+  const rootRef = React.useRef<Element>();
 
   const [root, setRoot] = React.useState<ShadowRoot | null>(null);
 
-  React.useImperativeHandle(ref, () => ({
-    unMount: () => rootRef.current?.remove(),
-  }));
-
   React.useLayoutEffect(() => {
     if (!rootRef.current) {
-      rootRef.current = document.createElement("open-previews");
-      rootRef.current.classList.add(CONTROL_ELEMENT_CLASS);
-      document.body.appendChild(rootRef.current);
+      rootRef.current = document.getElementsByTagName("open-previews")[0];
 
       const sheet = new CSSStyleSheet();
       sheet.replaceSync(styles.replace("'\\", "\\\\"));
@@ -57,7 +43,7 @@ const ShadowRoot = React.forwardRef<
   }
 
   return null;
-});
+}
 
 const pinDetailsTypeGuard = (props: PinDetails | {}): props is PinDetails => {
   // @ts-expect-error
@@ -82,8 +68,6 @@ export interface ResolveCommentArgs {
 }
 
 function App() {
-  const rootRef = React.useRef<ShadowRootHandler | null>(null);
-
   const user = useUser();
 
   const [dimension, setDimension] = useState<number>(
@@ -98,9 +82,6 @@ function App() {
 
   useEffect(() => {
     const unsubscribe = addClickListener();
-
-    if (rootRef.current) $rootElementReference.set(rootRef);
-
     return () => {
       unsubscribe();
     };
@@ -191,7 +172,7 @@ function App() {
   };
 
   return (
-    <ShadowRoot ref={rootRef}>
+    <ShadowRoot>
       <div id="open-previews-container">
         {data?.comments && discussionsOverlayMode ? (
           <AllDiscussions comments={data?.comments} />

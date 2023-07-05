@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 
 import App from "./App";
@@ -9,35 +9,16 @@ import {
   setOpenPreviewConfig,
 } from "./utils/state/openPreviewConfig";
 import { SESSION_STORAGE_WIDGET_ACTIVE } from "./utils/constants/constants";
-import { $rootElementReference } from "./utils/state/rootElementReference";
 
-export const OpenPreviews = (props: OpenPreviewConfig) => {
-  useEffect(() => {
-    setOpenPreviewConfig(props);
-  }, [props.categoryId, props.repository]);
+const initOpenPreviews = (options: OpenPreviewConfig) => {
+  const op = document.getElementsByTagName("open-previews")[0];
 
-  if (sessionStorage.getItem(SESSION_STORAGE_WIDGET_ACTIVE) === "false") {
-    return null;
+  if (op) {
+    return; // already initialized
   }
 
-  return (
-    <SWRConfig value={{ provider: swrLocalStorageProvider }}>
-      <App />
-    </SWRConfig>
-  );
-};
-
-export const initOpenPreviews = (options: OpenPreviewConfig) => {
-  if (sessionStorage.getItem(SESSION_STORAGE_WIDGET_ACTIVE) === "false") {
-    return;
-  }
-
-  const root = document.insertBefore(
-    document.body,
-    document.createElement("open-previews")
-  );
-
-  $rootElementReference.set(root);
+  const root = document.createElement("open-previews");
+  document.body.appendChild(root);
 
   setOpenPreviewConfig(options);
 
@@ -49,3 +30,11 @@ export const initOpenPreviews = (options: OpenPreviewConfig) => {
     </React.StrictMode>
   );
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+  const script = document.getElementById("open-previews");
+  initOpenPreviews({
+    repository: script?.dataset.repository || "",
+    categoryId: script?.dataset["category-id"] || "",
+  });
+});

@@ -1,7 +1,3 @@
-import {
-  CONTROL_ELEMENT_CLASS,
-  DISCUSSION_OPEN_IN_PREVIEW_TEXT,
-} from "~/utils/constants/constants";
 import { CommentBox } from "./comment-box";
 import { NewCommentArgs, NewReplyArgs, ResolveCommentArgs } from "~/App";
 import { CommentThread, UserDisplayDetails } from "./comment-thread";
@@ -87,7 +83,6 @@ export const CommentPopup = ({
         sideOffset={4}
         p="0"
         overflow="hidden"
-        className={`DropdownMenuContent ${CONTROL_ELEMENT_CLASS}`}
       >
         <PopoverArrow />
         {comment ? (

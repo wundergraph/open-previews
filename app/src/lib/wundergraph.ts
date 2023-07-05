@@ -1,5 +1,5 @@
 import { LOCAL_STORAGE_SWR_CACHE } from "~/utils/constants/constants";
-import { createClient, Operations } from "../generated/client";
+import { createClient, type Operations } from "../generated/client";
 import type { Cache } from "swr";
 
 import { createHooks } from "@wundergraph/swr";
@@ -7,7 +7,6 @@ import { createHooks } from "@wundergraph/swr";
 export const client = createClient();
 
 export const { useQuery, useMutation, useSubscription } =
-  /* @ts-ignore */
   createHooks<Operations>(client);
 
 export const swrLocalStorageProvider: (
