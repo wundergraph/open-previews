@@ -6,7 +6,6 @@ import { ActiveCommentPin } from "./components/active-comment-pin";
 import { useEffect, useState } from "react";
 import { addClickListener } from "./utils";
 import { LiveHighlighter } from "./components/live-highlighter";
-import { CONTROL_ELEMENT_CLASS } from "./utils/constants/constants";
 import { useUser } from "./hooks/use-user";
 import { useStore } from "@nanostores/react";
 import { $activeCommentPin, PinDetails } from "./utils/state/activeCommentPin";
@@ -19,15 +18,13 @@ import { $discussionsOverlayMode } from "./utils/state/discussionsOverlayMode";
 const styles = `__STYLES__`;
 
 function ShadowRoot(props: { children: React.ReactNode }) {
-  const rootRef = React.useRef<HTMLElement>();
+  const rootRef = React.useRef<Element>();
 
   const [root, setRoot] = React.useState<ShadowRoot | null>(null);
 
   React.useLayoutEffect(() => {
     if (!rootRef.current) {
-      rootRef.current = document.createElement("open-previews");
-      rootRef.current.classList.add(CONTROL_ELEMENT_CLASS);
-      document.body.appendChild(rootRef.current);
+      rootRef.current = document.getElementsByTagName("open-previews")[0];
 
       const sheet = new CSSStyleSheet();
       sheet.replaceSync(styles.replace("'\\", "\\\\"));

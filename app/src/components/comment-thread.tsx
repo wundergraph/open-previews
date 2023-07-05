@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  KeyboardEvent,
-  Fragment,
-  useRef,
-  useEffect,
-} from "react";
+import React, { useState, KeyboardEvent, useRef, useEffect } from "react";
 import { CommentsWithSelections } from "./selections";
 import { NewReplyArgs, ResolveCommentArgs } from "~/App";
 import {

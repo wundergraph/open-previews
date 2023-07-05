@@ -1,19 +1,16 @@
 import path from "node:path";
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import dts from "vite-plugin-dts";
+import preact from "@preact/preset-vite";
 import { injectCSSPlugin } from "./scripts/inject-css";
 
-import dts from "vite-plugin-dts";
-
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
+    preact(),
     injectCSSPlugin(),
     // dts({
     //   insertTypesEntry: true,
     //   tsConfigFilePath: path.resolve(__dirname, "./tsconfig.json"),
-    //   // rollupTypes: true,
     // }),
   ],
   resolve: {
@@ -32,18 +29,13 @@ export default defineConfig({
       },
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
-      output: {
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-        },
-      },
+      treeshake: "smallest",
     },
   },
+
   optimizeDeps: {
     include: [
-      "@wundergraph/sdk",
+      "@wundergraph/sdk/client",
       "rangy",
       "rangy/lib/rangy-classapplier",
       "rangy/lib/rangy-serializer",
