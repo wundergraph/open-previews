@@ -14,8 +14,7 @@ import {
 
 import { CommentIcon } from "./icons/comment";
 import { XIcon } from "./icons/x";
-import React from "react";
-import { useUser } from "~/hooks/use-user";
+import React, { FC, MutableRefObject } from "react";
 import { useAuth } from "~/lib/auth";
 
 import { css } from "../../styled-system/css";
@@ -37,6 +36,11 @@ import { BranchIcon } from "./icons/branch";
 import { LogoutIcon } from "./icons/logout";
 import { toggleDiscussionsOverlayMode } from "~/utils/state/discussionsOverlayMode";
 import { InboxIcon } from "./icons/inbox";
+import { $openPreviewConfig } from "~/utils/state/openPreviewConfig";
+import { UserDisplayDetails } from "./comment-thread";
+import { useUser } from "~/hooks/use-user";
+import { SESSION_STORAGE_WIDGET_ACTIVE } from "~/utils/constants/constants";
+import { removeOpenPreviewsForSession } from "~/utils/state/rootElementReference";
 
 const NavbarPositioner = (props) => {
   const { x, y, ...rest } = props;
@@ -68,7 +72,11 @@ const NavbarPositioner = (props) => {
   );
 };
 
-export const Navbar = () => {
+export interface NavbarProps {
+  userDetails: UserDisplayDetails;
+}
+
+export const Navbar: FC<NavbarProps> = ({ userDetails }) => {
   const { login, logout } = useAuth();
   const { data: user } = useUser();
   const isCommentModeOn = useStore($commentMode);
@@ -123,7 +131,11 @@ export const Navbar = () => {
               </ToolbarIconButton>
               <ToolbarSeparator />
               <ToolbarIconButton onClick={() => logout()}>
-                <Avatar src={user.profilePicture} name={user.name} size="md" />
+                <Avatar
+                  src={userDetails.profilePicURL}
+                  name={userDetails.username}
+                  size="md"
+                />
               </ToolbarIconButton>
             </>
           ) : (
@@ -143,6 +155,9 @@ export const Navbar = () => {
 const HamburgerMenu = () => {
   const { logout } = useAuth();
   const { data: user } = useUser();
+
+  const config = useStore($openPreviewConfig);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -154,14 +169,22 @@ const HamburgerMenu = () => {
         <DropdownMenuArrow />
         {user ? (
           <>
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                window.open(`https://github.com/${config.repository}`, "_blank")
+              }
+            >
               <DropdownMenuIcon>
                 <BranchIcon />
               </DropdownMenuIcon>
               View repository
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                removeOpenPreviewsForSession();
+              }}
+            >
               <DropdownMenuIcon>
                 <EyeCloseIcon />
               </DropdownMenuIcon>
@@ -188,7 +211,13 @@ const HamburgerMenu = () => {
               </Link>
             </Stack>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                // @ts-expect-error
+                root?.current ? root.current?.unMount() : root?.remove();
+                sessionStorage.setItem(SESSION_STORAGE_WIDGET_ACTIVE, "false");
+              }}
+            >
               <DropdownMenuIcon>
                 <EyeCloseIcon />
               </DropdownMenuIcon>

@@ -8,6 +8,7 @@ import {
   OpenPreviewConfig,
   setOpenPreviewConfig,
 } from "./utils/state/openPreviewConfig";
+import { SESSION_STORAGE_WIDGET_ACTIVE } from "./utils/constants/constants";
 
 const initOpenPreviews = (options: OpenPreviewConfig) => {
   const op = document.getElementsByTagName("open-previews")[0];

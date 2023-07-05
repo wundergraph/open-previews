@@ -14,6 +14,7 @@ import { $openPreviewConfig } from "./utils/state/openPreviewConfig";
 import "./main.css";
 import { AllDiscussions } from "./components/all-discussions";
 import { $discussionsOverlayMode } from "./utils/state/discussionsOverlayMode";
+import { $rootElementReference } from "./utils/state/rootElementReference";
 
 const styles = `__STYLES__`;
 
@@ -185,7 +186,7 @@ function App() {
             userDetails={userDetails}
           />
         ) : null}
-        <Navbar />
+        <Navbar userDetails={userDetails} />
         {pinDetailsTypeGuard(otherProps) ? (
           <ActiveCommentPin
             pinDetails={otherProps}
