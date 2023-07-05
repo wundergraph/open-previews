@@ -9,6 +9,7 @@ import {
   setOpenPreviewConfig,
 } from "./utils/state/openPreviewConfig";
 import { SESSION_STORAGE_WIDGET_ACTIVE } from "./utils/constants/constants";
+import { $rootElementReference } from "./utils/state/rootElementReference";
 
 export const OpenPreviews = (props: OpenPreviewConfig) => {
   useEffect(() => {
@@ -36,12 +37,14 @@ export const initOpenPreviews = (options: OpenPreviewConfig) => {
     document.createElement("open-previews")
   );
 
+  $rootElementReference.set(root);
+
   setOpenPreviewConfig(options);
 
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
       <SWRConfig value={{ provider: swrLocalStorageProvider }}>
-        <App rootElement={root} />
+        <App />
       </SWRConfig>
     </React.StrictMode>
   );

@@ -39,8 +39,8 @@ import { InboxIcon } from "./icons/inbox";
 import { $openPreviewConfig } from "~/utils/state/openPreviewConfig";
 import { UserDisplayDetails } from "./comment-thread";
 import { useUser } from "~/hooks/use-user";
-import { ShadowRootHandler } from "~/App";
 import { SESSION_STORAGE_WIDGET_ACTIVE } from "~/utils/constants/constants";
+import { removeOpenPreviewsForSession } from "~/utils/state/rootElementReference";
 
 const NavbarPositioner = (props) => {
   const { x, y, ...rest } = props;
@@ -74,10 +74,9 @@ const NavbarPositioner = (props) => {
 
 export interface NavbarProps {
   userDetails: UserDisplayDetails;
-  root?: HTMLElement | MutableRefObject<ShadowRootHandler | null>;
 }
 
-export const Navbar: FC<NavbarProps> = ({ userDetails, root }) => {
+export const Navbar: FC<NavbarProps> = ({ userDetails }) => {
   const { login, logout } = useAuth();
   const { data: user } = useUser();
   const isCommentModeOn = useStore($commentMode);
@@ -146,14 +145,14 @@ export const Navbar: FC<NavbarProps> = ({ userDetails, root }) => {
             </ToolbarButton>
           )}
           <ToolbarSeparator />
-          <HamburgerMenu root={root} />
+          <HamburgerMenu />
         </ToolbarRoot>
       </NavbarPositioner>
     </DndContext>
   );
 };
 
-const HamburgerMenu = ({ root }: { root: NavbarProps["root"] }) => {
+const HamburgerMenu = () => {
   const { logout } = useAuth();
   const { data: user } = useUser();
 
@@ -183,9 +182,7 @@ const HamburgerMenu = ({ root }: { root: NavbarProps["root"] }) => {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
-                // @ts-expect-error
-                root?.current ? root.current?.unMount() : root?.remove();
-                sessionStorage.setItem(SESSION_STORAGE_WIDGET_ACTIVE, "false");
+                removeOpenPreviewsForSession();
               }}
             >
               <DropdownMenuIcon>

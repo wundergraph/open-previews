@@ -15,6 +15,7 @@ import { $openPreviewConfig } from "./utils/state/openPreviewConfig";
 import "./main.css";
 import { AllDiscussions } from "./components/all-discussions";
 import { $discussionsOverlayMode } from "./utils/state/discussionsOverlayMode";
+import { $rootElementReference } from "./utils/state/rootElementReference";
 
 const styles = `__STYLES__`;
 
@@ -80,7 +81,7 @@ export interface ResolveCommentArgs {
   id: string;
 }
 
-function App({ rootElement }: { rootElement?: HTMLElement }) {
+function App() {
   const rootRef = React.useRef<ShadowRootHandler | null>(null);
 
   const user = useUser();
@@ -97,6 +98,9 @@ function App({ rootElement }: { rootElement?: HTMLElement }) {
 
   useEffect(() => {
     const unsubscribe = addClickListener();
+
+    if (rootRef.current) $rootElementReference.set(rootRef);
+
     return () => {
       unsubscribe();
     };
@@ -201,7 +205,7 @@ function App({ rootElement }: { rootElement?: HTMLElement }) {
             userDetails={userDetails}
           />
         ) : null}
-        <Navbar userDetails={userDetails} root={rootElement || rootRef} />
+        <Navbar userDetails={userDetails} />
         {pinDetailsTypeGuard(otherProps) ? (
           <ActiveCommentPin
             pinDetails={otherProps}
