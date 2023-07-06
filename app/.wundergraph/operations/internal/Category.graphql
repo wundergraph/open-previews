@@ -1,5 +1,5 @@
 query GetCategory($name: String!, $owner: String!, $slug: String!) {
-  repository(name: $name, owner: $owner) {
+  repository: github_repository(name: $name, owner: $owner) {
     discussionCategory(slug: $slug) {
       id
     }
