@@ -19,6 +19,7 @@ import { useConfig } from "./stores/config";
 import "./main.css";
 import { AllDiscussions } from "./components/all-discussions";
 import { $discussionsOverlayMode } from "./stores/discussions-overlay-mode";
+import { useWidgetActive } from "./stores/widget-active";
 
 const styles = `__STYLES__`;
 
@@ -27,8 +28,10 @@ function ShadowRoot(props: { children: React.ReactNode }) {
 
   const [root, setRoot] = React.useState<ShadowRoot | null>(null);
 
+  const isActive = useWidgetActive();
+
   React.useLayoutEffect(() => {
-    if (!rootRef.current) {
+    if (!rootRef.current && isActive) {
       let el = document.getElementsByTagName("open-previews")[0];
 
       if (!el) {
@@ -46,8 +49,12 @@ function ShadowRoot(props: { children: React.ReactNode }) {
       root.adoptedStyleSheets = [sheet];
 
       setRoot(root);
+    } else if (rootRef.current && !isActive) {
+      console.log("REMOVE", rootRef.current);
+      document.body.removeChild(rootRef.current!);
+      rootRef.current = undefined;
     }
-  }, []);
+  }, [isActive]);
 
   if (root) {
     return createPortal(props.children, root);
