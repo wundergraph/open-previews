@@ -1,9 +1,0 @@
-# This is a TOML document to configure your Wundergraph workspaces.
-# For more information, see https://docs.wundergraph.com/docs/cloud/configuration
-
-version = 1
-
-[[projects]]
-name = "open-previews" # The name of the project in WunderGraph Cloud
-workspace = "app"
-build_command = "pnpm run --filter @open-previews/app build"

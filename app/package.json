@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "prepare": "panda codegen",
-    "dev": "concurrently \"npm run dev:vite\" \"npm run wundergraph\" \"npm run browser\"",
+    "dev": "concurrently \"pnpm run dev:vite\" \"pnpm run wundergraph\" \"pnpm run browser\"",
     "check": "tsc --noEmit",
     "clean": "rimraf ./.next",
     "wundergraph": "wunderctl up",
@@ -24,7 +24,7 @@
     "build:wundergraph": "wunderctl generate",
     "build:vite": "vite build",
     "build:react": "vite build --config vite.config.react.ts",
-    "build": "npm run build:wundergraph && npm run build:vite",
+    "build": "pnpm run build:wundergraph && pnpm run build:vite",
     "preview": "vite preview",
     "analyze": "npx vite-bundle-visualizer"
   },

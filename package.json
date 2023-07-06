@@ -4,8 +4,9 @@
   "description": "Open source preview comments for your pull requests",
   "main": "index.js",
   "scripts": {
-    "dev:web": "pnpm run --filter @open-previews/web dev",
-    "dev:app": "pnpm run --filter @open-previews/app dev"
+    "build": "pnpm run --filter open-previews build",
+    "dev:web": "pnpm run --filter web dev",
+    "dev:app": "pnpm run --filter open-previews dev"
   },
   "keywords": [
     "open-previews",

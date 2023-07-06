@@ -1,5 +1,5 @@
 {
-  "name": "@open-previews/web",
+  "name": "web",
   "type": "module",
   "version": "0.0.1",
   "private": true,
