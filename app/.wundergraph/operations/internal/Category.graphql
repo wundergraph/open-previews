@@ -1,0 +1,7 @@
+query GetCategory($name: String!, $owner: String!, $slug) {
+  repository(name: $name, owner: $owner) {
+    discussionCategory(slug: $slug) {
+      id
+    }
+  }
+}
