@@ -4,7 +4,7 @@
   "description": "Open source preview comments for your pull requests",
   "main": "index.js",
   "scripts": {
-    "build": "pnpm run --filter open-previews build",
+    "build": "turbo run build --filter=open-previews",
     "dev:web": "pnpm run --filter web dev",
     "dev:app": "pnpm run --filter open-previews dev"
   },
@@ -22,6 +22,7 @@
   },
   "packageManager": "pnpm@8.3.0",
   "dependencies": {
-    "pnpm": "8.3.0"
+    "pnpm": "8.3.0",
+    "turbo": "^1.10.7"
   }
 }
