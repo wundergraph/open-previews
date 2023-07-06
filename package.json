@@ -16,5 +16,9 @@
     "pull-requests"
   ],
   "author": "WunderGraph Maintainers",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "pnpm": ">=8"
+  },
+  "packageManager": "^pnpm@8.6.0"
 }
