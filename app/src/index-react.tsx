@@ -3,10 +3,7 @@ import { useEffect } from "react";
 import App from "./App";
 import { SWRConfig } from "swr";
 import { swrLocalStorageProvider } from "./lib/wundergraph";
-import {
-  OpenPreviewConfig,
-  setOpenPreviewConfig,
-} from "./utils/state/openPreviewConfig";
+import { OpenPreviewConfig, setOpenPreviewConfig } from "./stores/config";
 
 export const OpenPreviews = (props: OpenPreviewConfig) => {
   useEffect(() => {

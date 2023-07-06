@@ -16,30 +16,15 @@ import { LikeIcon } from "./icons/like";
 import { CheckIcon } from "./icons/check";
 import { PendingIcon } from "./icons/pending";
 import { Tooltip } from "./ui/tooltip";
-
-interface CommentType {
-  username: string;
-  content: string;
-  profilePicURL: string;
-  userProfileLink: string;
-}
-
-export interface UserDisplayDetails {
-  username: string;
-  profilePicURL: string;
-  userProfileLink: string;
-}
+import { GithubIcon } from "./icons/github";
 
 type CommentProps = {
   comment?: CommentsWithSelections;
   onSend: (args: NewReplyArgs) => unknown;
   onResolve: (args: ResolveCommentArgs) => unknown;
-} & UserDisplayDetails;
+};
 
 export const CommentThread: React.FC<CommentProps> = ({
-  username,
-  profilePicURL,
-  userProfileLink,
   comment,
   onSend,
   onResolve,
@@ -117,7 +102,15 @@ export const CommentThread: React.FC<CommentProps> = ({
               {comment?.author?.login}
             </Link>
 
-            <Stack direction="row" flex="1" justifyContent="flex-end">
+            <Stack direction="row" flex="1" gap="1" justifyContent="flex-end">
+              <Tooltip tooltip="View on Github">
+                <IconButton
+                  aria-label="View on Github"
+                  onClick={() => window.open(comment.url)}
+                >
+                  <GithubIcon />
+                </IconButton>
+              </Tooltip>
               <Tooltip
                 tooltip={isResolved ? `Mark as Pending` : `Mark as Resolved`}
               >
@@ -167,14 +160,14 @@ export const CommentThread: React.FC<CommentProps> = ({
               {reply?.author?.login}
             </Link>
 
-            <Stack direction="row" flex="1" justifyContent="flex-end" gap="4px">
+            {/* <Stack direction="row" flex="1" justifyContent="flex-end" gap="4px">
               <IconButton aria-label="Like">
                 <LikeIcon />
               </IconButton>
               <IconButton aria-label="Reply">
                 <ReplyIcon />
               </IconButton>
-            </Stack>
+            </Stack> */}
           </Stack>
           <div>
             <p>{reply.body}</p>

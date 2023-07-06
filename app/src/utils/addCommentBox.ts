@@ -1,6 +1,6 @@
 import { findElementFromPath } from "./findElementFromPath";
 import { pathBuilder } from "./pathBuilder";
-import { addActiveCommentPin } from "./state/activeCommentPin";
+import { addActiveCommentPin } from "../stores/active-pin";
 
 export const addCommentBox = async (event: MouseEvent) => {
   const targetElement = pathBuilder(event);

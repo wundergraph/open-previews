@@ -6,13 +6,13 @@ import { createOperation } from "../generated/wundergraph.factory";
 export default createOperation.query({
   handler: async ({ clientRequest, context }) => {
     try {
-      const { name, email, profilePicture } = await context.getTokenFromRequest(
-        clientRequest
-      );
+      const { username, name, email, avatar } =
+        await context.getTokenFromRequest(clientRequest);
       return {
+        username,
         name,
         email,
-        profilePicture,
+        avatar,
       };
     } catch (e) {
       console.error(e);

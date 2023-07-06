@@ -1,11 +1,11 @@
-import { $commentMode, toggleCommentMode } from "./state/commentMode";
+import { $commentMode, toggleCommentMode } from "../stores/comment-mode";
 import { isControlElement } from "./isControlElement";
 import { addCommentBox } from "./addCommentBox";
-import { removeActiveCommentPin } from "./state/activeCommentPin";
+import { removeActiveCommentPin } from "../stores/active-pin";
 import {
   $discussionsOverlayMode,
   toggleDiscussionsOverlayMode,
-} from "./state/discussionsOverlayMode";
+} from "../stores/discussions-overlay-mode";
 
 export const addClickListener = (): (() => void) => {
   const listener = async (event: MouseEvent) => {

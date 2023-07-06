@@ -1,4 +1,4 @@
-import type { PositionData, SelectionRange } from "../pathBuilder";
+import type { PositionData, SelectionRange } from "../utils/pathBuilder";
 import { atom } from "nanostores";
 
 export type PinDetails = {
@@ -8,9 +8,19 @@ export type PinDetails = {
   selectionRange?: SelectionRange;
 };
 
-type PinOpenStatus = {
+export type PinDetailsActive = {
+  isOpen?: boolean;
+  targetElement?: PositionData;
+  element: HTMLElement;
+  coords: { x: number; y: number };
+  selectionRange?: SelectionRange;
+};
+
+export type PinDetailsInactive = {
   isOpen: boolean;
 };
+
+export type PinDetailsState = PinDetailsActive | PinDetailsInactive;
 
 export const $activePinCommentText = atom<string>("");
 
@@ -22,9 +32,7 @@ export const updateActivePinCommentText = (commentText: string) => {
   $activePinCommentText.set(commentText);
 };
 
-export const $activeCommentPin = atom<
-  (PinDetails & PinOpenStatus) | PinOpenStatus
->({
+export const $activeCommentPin = atom<PinDetailsState>({
   isOpen: false,
 });
 

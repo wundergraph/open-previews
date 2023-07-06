@@ -15,12 +15,12 @@ const getSecret = () => {
 
 export const encodeUserToken = async (user: User) => {
   const secret = getSecret();
-
   const jwt = await new jose.EncryptJWT({
     accessToken: user.rawAccessToken,
+    username: user.nickName,
     name: user.name,
     email: user.email,
-    profilePicture: user.profile,
+    avatar: user.picture,
   })
     .setProtectedHeader({ alg: "dir", enc: "A128CBC-HS256" })
     .setIssuedAt()
@@ -33,9 +33,10 @@ export const encodeUserToken = async (user: User) => {
 
 export interface Token {
   accessToken: string;
+  username: string;
   name: string;
   email: string;
-  profilePicture: string;
+  avatar: string;
 }
 
 export const verifyToken = async (

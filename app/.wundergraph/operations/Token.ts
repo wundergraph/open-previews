@@ -7,12 +7,11 @@ import { encodeUserToken } from "../lib/tokens";
  */
 export default createOperation.query({
   handler: async ({ user, context }) => {
-    const { accessToken, name, email } = await context.getTokenFromUser(user);
+    const { accessToken } = await context.getTokenFromUser(user);
 
     const token = encodeUserToken({
+      ...user,
       rawAccessToken: accessToken,
-      name,
-      email,
     });
 
     return token;

@@ -1,5 +1,5 @@
 import { useStore } from "@nanostores/react";
-import { $commentMode, toggleCommentMode } from "~/utils/state/commentMode";
+import { $commentMode, toggleCommentMode } from "~/stores/comment-mode";
 import { LoginIcon } from "./icons/login";
 import { DndContext, PointerSensor, useDraggable } from "@dnd-kit/core";
 
@@ -14,7 +14,7 @@ import {
 
 import { CommentIcon } from "./icons/comment";
 import { XIcon } from "./icons/x";
-import React, { FC, MutableRefObject } from "react";
+import React, { FC } from "react";
 import { useAuth } from "~/lib/auth";
 
 import { css } from "../../styled-system/css";
@@ -34,20 +34,18 @@ import { Link, Text } from "./ui/layout";
 import { EyeCloseIcon } from "./icons/eye-close";
 import { BranchIcon } from "./icons/branch";
 import { LogoutIcon } from "./icons/logout";
-import { toggleDiscussionsOverlayMode } from "~/utils/state/discussionsOverlayMode";
+import { toggleDiscussionsOverlayMode } from "~/stores/discussions-overlay-mode";
 import { InboxIcon } from "./icons/inbox";
-import { $openPreviewConfig } from "~/utils/state/openPreviewConfig";
-import { UserDisplayDetails } from "./comment-thread";
+import { $openPreviewConfig } from "~/stores/config";
 import { useUser } from "~/hooks/use-user";
 import { SESSION_STORAGE_WIDGET_ACTIVE } from "~/utils/constants/constants";
-import { removeOpenPreviewsForSession } from "~/utils/state/rootElementReference";
+import { disableWidget } from "~/stores/widget-active";
 
 const NavbarPositioner = (props) => {
   const { x, y, ...rest } = props;
-  const { attributes, listeners, isDragging, transform, setNodeRef } =
-    useDraggable({
-      id: "open-previews-navbar",
-    });
+  const { attributes, listeners, transform, setNodeRef } = useDraggable({
+    id: "open-previews-navbar",
+  });
 
   return (
     <div
@@ -72,11 +70,7 @@ const NavbarPositioner = (props) => {
   );
 };
 
-export interface NavbarProps {
-  userDetails: UserDisplayDetails;
-}
-
-export const Navbar: FC<NavbarProps> = ({ userDetails }) => {
+export const Navbar: FC = () => {
   const { login, logout } = useAuth();
   const { data: user } = useUser();
   const isCommentModeOn = useStore($commentMode);
@@ -131,11 +125,7 @@ export const Navbar: FC<NavbarProps> = ({ userDetails }) => {
               </ToolbarIconButton>
               <ToolbarSeparator />
               <ToolbarIconButton onClick={() => logout()}>
-                <Avatar
-                  src={userDetails.profilePicURL}
-                  name={userDetails.username}
-                  size="md"
-                />
+                <Avatar src={user.avatar} name={user.username} size="md" />
               </ToolbarIconButton>
             </>
           ) : (
@@ -180,11 +170,7 @@ const HamburgerMenu = () => {
               View repository
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => {
-                removeOpenPreviewsForSession();
-              }}
-            >
+            <DropdownMenuItem onClick={() => disableWidget()}>
               <DropdownMenuIcon>
                 <EyeCloseIcon />
               </DropdownMenuIcon>
@@ -211,13 +197,7 @@ const HamburgerMenu = () => {
               </Link>
             </Stack>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => {
-                // @ts-expect-error
-                root?.current ? root.current?.unMount() : root?.remove();
-                sessionStorage.setItem(SESSION_STORAGE_WIDGET_ACTIVE, "false");
-              }}
-            >
+            <DropdownMenuItem onClick={() => disableWidget()}>
               <DropdownMenuIcon>
                 <EyeCloseIcon />
               </DropdownMenuIcon>

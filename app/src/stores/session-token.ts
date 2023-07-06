@@ -1,5 +1,5 @@
 import { persistentAtom } from "@nanostores/persistent";
-import { LOCAL_STORAGE_OPEN_PREVIEWS_TOKEN } from "../constants/constants";
+import { LOCAL_STORAGE_OPEN_PREVIEWS_TOKEN } from "../utils/constants/constants";
 
 export const $sessionToken = persistentAtom<string | null>(
   LOCAL_STORAGE_OPEN_PREVIEWS_TOKEN,

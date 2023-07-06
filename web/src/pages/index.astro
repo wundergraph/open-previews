@@ -2,7 +2,6 @@
 import "@fontsource/inter/variable.css";
 import Header from "~/components/header.astro";
 import Splash from "~/components/splash.astro";
-import { OpenPreviews, initOpenPreviews } from 'open-previews'
 
 import "~/styles/index.css";
 
@@ -62,7 +61,8 @@ const description =
   >
     <Header />
     <Splash />
+    <!-- <OpenPreviews client:only categoryId="DIC_kwDOI3kT2M4CXA_L" repository="Pagebakers/cloud-starter" /> -->
 
-    <script id="open-previews" data-repository="Pagebakers/cloud-starter" data-category-id="DIC_kwDOI3kT2M4CXA_L" src="openpreviews.mjs" />
+    <script id="open-previews" data-repository="Pagebakers/cloud-starter" data-category-id="DIC_kwDOI3kT2M4CXA_L" src="openpreviews.js" />
   </body>
 </html>

@@ -1,14 +1,21 @@
 import path from "node:path";
 import { defineConfig } from "vite";
-import preact from "@preact/preset-vite";
+import dts from "vite-plugin-dts";
+import react from "@vitejs/plugin-react";
 import { injectCSSPlugin } from "./scripts/inject-css";
+
+const outDir = path.resolve(__dirname, "../packages/react/dist");
 
 export default defineConfig({
   plugins: [
-    preact({
-      devToolsEnabled: false,
+    react(),
+    injectCSSPlugin({
+      dist: outDir,
     }),
-    injectCSSPlugin(),
+    dts({
+      insertTypesEntry: true,
+      tsConfigFilePath: path.resolve(__dirname, "./tsconfig.json"),
+    }),
   ],
   resolve: {
     alias: {
@@ -19,20 +26,19 @@ export default defineConfig({
     },
   },
   build: {
+    outDir,
     lib: {
-      entry: path.resolve(__dirname, "src/index.tsx"),
+      entry: path.resolve(__dirname, "src/index-react.tsx"),
       name: "Open Previews",
-      formats: ["es"],
+      formats: ["es", "cjs"],
       fileName: (format) => {
-        return `[name].${format === "es" ? "js" : "cjs"}`;
+        return `index.${format === "es" ? "js" : "cjs"}`;
       },
     },
     rollupOptions: {
       treeshake: "smallest",
+      external: ["react", "react-dom"],
     },
-  },
-  define: {
-    "process.env.NODE_ENV": "'production'",
   },
   optimizeDeps: {
     include: [

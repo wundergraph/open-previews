@@ -1,7 +1,7 @@
 import React from "react";
 import { openWindow } from "~/utils/open-window";
 import { client } from "./wundergraph";
-import { $sessionToken } from "~/utils/state/sessionToken";
+import { $sessionToken } from "~/stores/session-token";
 import { useStore } from "@nanostores/react";
 
 const gatewayUrl = import.meta.env.GATEWAY_URL || "http://localhost:9991";

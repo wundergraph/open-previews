@@ -4,10 +4,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { SWRConfig } from "swr";
 import { swrLocalStorageProvider } from "./lib/wundergraph";
-import {
-  OpenPreviewConfig,
-  setOpenPreviewConfig,
-} from "./utils/state/openPreviewConfig";
+import { OpenPreviewConfig, setOpenPreviewConfig } from "./stores/config";
 import { SESSION_STORAGE_WIDGET_ACTIVE } from "./utils/constants/constants";
 
 const initOpenPreviews = (options: OpenPreviewConfig) => {

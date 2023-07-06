@@ -16,7 +16,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["zod", "nanostores", "swr"],
+    "types": ["zod", "nanostores", "swr/_internal"],
     "declaration": true,
     "declarationMap": true,
     "baseUrl": "./",

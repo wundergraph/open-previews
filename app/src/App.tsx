@@ -1,5 +1,7 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
+import { useStore } from "@nanostores/react";
+
 import { Navbar } from "./components/navbar";
 import { Selections } from "./components/selections";
 import { ActiveCommentPin } from "./components/active-comment-pin";
@@ -7,14 +9,16 @@ import { useEffect, useState } from "react";
 import { addClickListener } from "./utils";
 import { LiveHighlighter } from "./components/live-highlighter";
 import { useUser } from "./hooks/use-user";
-import { useStore } from "@nanostores/react";
-import { $activeCommentPin, PinDetails } from "./utils/state/activeCommentPin";
+import {
+  $activeCommentPin,
+  PinDetailsActive,
+  PinDetailsState,
+} from "./stores/active-pin";
 import { useMutation, useQuery } from "./lib/wundergraph";
-import { $openPreviewConfig } from "./utils/state/openPreviewConfig";
+import { useConfig } from "./stores/config";
 import "./main.css";
 import { AllDiscussions } from "./components/all-discussions";
-import { $discussionsOverlayMode } from "./utils/state/discussionsOverlayMode";
-import { $rootElementReference } from "./utils/state/rootElementReference";
+import { $discussionsOverlayMode } from "./stores/discussions-overlay-mode";
 
 const styles = `__STYLES__`;
 
@@ -25,10 +29,17 @@ function ShadowRoot(props: { children: React.ReactNode }) {
 
   React.useLayoutEffect(() => {
     if (!rootRef.current) {
-      rootRef.current = document.getElementsByTagName("open-previews")[0];
+      let el = document.getElementsByTagName("open-previews")[0];
+
+      if (!el) {
+        el = document.createElement("open-previews");
+        document.body.appendChild(el);
+      }
+
+      rootRef.current = el;
 
       const sheet = new CSSStyleSheet();
-      sheet.replaceSync(styles.replace("'\\", "\\\\"));
+      sheet.replaceSync(styles.replace("\\", "\\\\"));
 
       const root = rootRef.current.attachShadow({ mode: "open" });
 
@@ -45,9 +56,8 @@ function ShadowRoot(props: { children: React.ReactNode }) {
   return null;
 }
 
-const pinDetailsTypeGuard = (props: PinDetails | {}): props is PinDetails => {
-  // @ts-expect-error
-  if (props?.element && props?.coords) {
+const isActivePin = (props: PinDetailsState): props is PinDetailsActive => {
+  if ("element" in props && props?.element && props?.coords) {
     return true;
   }
   return false;
@@ -78,8 +88,6 @@ function App() {
 
   const discussionsOverlayMode = useStore($discussionsOverlayMode);
 
-  const { isOpen, ...otherProps } = pinDetails;
-
   useEffect(() => {
     const unsubscribe = addClickListener();
     return () => {
@@ -87,7 +95,7 @@ function App() {
     };
   }, []);
 
-  const config = useStore($openPreviewConfig);
+  const config = useConfig();
 
   const { data, mutate } = useQuery({
     operationName: "Comments",
@@ -96,11 +104,6 @@ function App() {
       categoryId: config.categoryId,
       url: window.location.hostname,
     },
-    enabled: !!user.data,
-  });
-
-  const { data: viewer } = useQuery({
-    operationName: "Viewer",
     enabled: !!user.data,
   });
 
@@ -122,17 +125,17 @@ function App() {
   };
 
   const createNewThread = ({ comment }: NewCommentArgs) => {
-    if (pinDetailsTypeGuard(otherProps)) {
+    if (isActivePin(pinDetails)) {
       createComment({
         body: comment ?? "",
         discussionId: data?.id,
         meta: {
           href: window.location.href,
-          path: JSON.stringify(otherProps.targetElement?.path ?? "{}"),
-          x: otherProps.coords.x,
-          y: otherProps.coords.y,
+          path: JSON.stringify(pinDetails.targetElement?.path ?? "{}"),
+          x: pinDetails.coords.x,
+          y: pinDetails.coords.y,
           resolved: false,
-          selection: otherProps.selectionRange,
+          selection: pinDetails.selectionRange,
         },
       }).then(() => {
         mutate();
@@ -165,12 +168,6 @@ function App() {
     };
   }, []);
 
-  const userDetails = {
-    username: viewer?.github_viewer?.login ?? "",
-    profilePicURL: viewer?.github_viewer?.avatarUrl ?? "",
-    userProfileLink: viewer?.github_viewer?.url ?? "",
-  };
-
   return (
     <ShadowRoot>
       <div id="open-previews-container">
@@ -183,19 +180,19 @@ function App() {
             dimension={dimension}
             onResolve={resolveComment}
             onReply={createNewReply}
-            userDetails={userDetails}
+            user={user.data}
           />
         ) : null}
-        <Navbar userDetails={userDetails} />
-        {pinDetailsTypeGuard(otherProps) ? (
+        <Navbar />
+        {user.data && isActivePin(pinDetails) ? (
           <ActiveCommentPin
-            pinDetails={otherProps}
+            pinDetails={pinDetails}
             defaultOpen
             onResolve={resolveComment}
             dimension={dimension}
             onSubmit={createNewThread}
             onReply={createNewReply}
-            userDetails={userDetails}
+            user={user.data}
           />
         ) : null}
         {user.data ? <LiveHighlighter /> : null}

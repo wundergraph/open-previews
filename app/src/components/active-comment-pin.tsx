@@ -2,11 +2,10 @@ import { FC, useMemo } from "react";
 import { CommentPopup } from "./comment-popup";
 import { rangy } from "~/utils/rangy";
 import { Highlight } from "./highlight";
-import { PinDetails } from "~/utils/state/activeCommentPin";
+import { PinDetails } from "~/stores/active-pin";
 import { NewCommentArgs, NewReplyArgs, ResolveCommentArgs } from "~/App";
 import { CommentsWithSelections } from "./selections";
-import { UserDisplayDetails } from "./comment-thread";
-import { Stack } from "../../styled-system/jsx";
+import { User } from "~/hooks/use-user";
 
 type ActiveCommentPinProps = {
   pinDetails: PinDetails;
@@ -14,7 +13,7 @@ type ActiveCommentPinProps = {
   defaultOpen?: boolean;
   comment?: CommentsWithSelections;
   onReply: (args: NewReplyArgs) => unknown;
-  userDetails: UserDisplayDetails;
+  user: User;
   dimension: number;
   onResolve: (args: ResolveCommentArgs) => unknown;
 };
@@ -28,10 +27,10 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
   onSubmit = (props: NewCommentArgs) => null,
   defaultOpen = false,
   comment,
-  userDetails,
   dimension,
   onResolve = (props: ResolveCommentArgs) => null,
   onReply = (props: NewReplyArgs) => null,
+  user,
 }) => {
   let rects: DOMRect[] = [];
 
@@ -81,7 +80,7 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
         onResolve={onResolve}
         defaultOpen={defaultOpen}
         comment={comment}
-        userDetails={userDetails}
+        user={user}
       />
       {rects.map((rect, i) => {
         return (

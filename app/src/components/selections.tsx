@@ -3,8 +3,8 @@ import { ActiveCommentPin } from "./active-comment-pin";
 import { findElementFromPath } from "~/utils/findElementFromPath";
 import { NewReplyArgs, ResolveCommentArgs } from "~/App";
 import { DISCUSSION_PENDING_STATE } from "~/utils/constants/constants";
-import { UserDisplayDetails } from "./comment-thread";
 import { useHash } from "~/hooks/use-hash";
+import { User } from "~/hooks/use-user";
 
 export type CommentMeta = {
   path: string;
@@ -35,15 +35,15 @@ export type CommentsWithSelections = Exclude<
 export const Selections = ({
   data,
   onReply,
-  userDetails,
   dimension,
   onResolve,
+  user,
 }: {
   data: CommentsQueryData;
   onReply: (args: NewReplyArgs) => unknown;
-  userDetails: UserDisplayDetails;
   dimension: number;
   onResolve: (args: ResolveCommentArgs) => unknown;
+  user: User;
 }) => {
   const [hash] = useHash();
 
@@ -109,11 +109,11 @@ export const Selections = ({
               selectionRange: selection?.selection,
             }}
             comment={each}
-            userDetails={userDetails}
             onSubmit={() => null}
             dimension={dimension}
             onReply={onReply}
             onResolve={onResolve}
+            user={user}
           />
         );
       })}

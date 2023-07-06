@@ -23,14 +23,13 @@ const github = introspect.graphql({
   headers(builder) {
     return (
       builder
+        // We forward `X-Github-Token` to the `Authorization` header.
         .addClientRequestHeader("Authorization", "X-Github-Token")
-        // .addStaticHeader("Authorization", `Bearer ${process.env.GITHUB_TOKEN}`) // temporary
         .addStaticHeader("X-Github-Next-Global-ID", "1")
     );
   },
 });
 
-// configureWunderGraph emits the configuration
 configureWunderGraphApplication({
   apis: [github],
   server,
@@ -47,13 +46,6 @@ configureWunderGraphApplication({
     ...cors.allowAll,
     allowedOrigins:
       process.env.NODE_ENV === "production" ? ["https://*"] : ["http://*"],
-    /**
-     * Please configure CORS carefully to make sure that your users are protected.
-     * Allowing all origins is usually the worst possible configuration.
-     *
-     * @docs https://docs.wundergraph.com/docs/wundergraph-config-ts-reference/configure-cors
-     */
-    // allowedOrigins: process.env.NODE_ENV === 'production' ? ['http://your.app'] : ['http://localhost:3000'],
   },
   authentication: {
     cookieBased: {
@@ -65,14 +57,8 @@ configureWunderGraphApplication({
         }),
       ],
       authorizedRedirectUriRegexes: [
-        "http://localhost:3000*",
-        "http://localhost:9991*",
-        "https://wg-cloud.eu.ngrok.io*",
-        "https://wg-web.eu.ngrok.io*",
+        new EnvironmentVariable("REDIRECT_URI_REGEX"),
       ],
     },
-  },
-  security: {
-    enableGraphQLEndpoint: process.env.NODE_ENV !== "production",
   },
 });

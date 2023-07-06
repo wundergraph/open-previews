@@ -1,34 +1,24 @@
 import { useStore } from "@nanostores/react";
-import React, {
-  ChangeEvent,
-  FC,
-  KeyboardEvent,
-  useEffect,
-  useRef,
-} from "react";
+import React, { ChangeEvent, FC, KeyboardEvent, useEffect } from "react";
 import { NewCommentArgs } from "~/App";
 import {
   $activePinCommentText,
   clearActivePinComment,
   removeActiveCommentPin,
   updateActivePinCommentText,
-} from "~/utils/state/activeCommentPin";
+} from "~/stores/active-pin";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/forms";
 import { Avatar } from "./ui/avatar";
 import { Box, Flex, Stack } from "../../styled-system/jsx";
-import { UserDisplayDetails } from "./comment-thread";
+import { User } from "~/hooks/use-user";
 
-export interface CommentBoxProps extends UserDisplayDetails {
+export interface CommentBoxProps {
   onSubmit: (data: NewCommentArgs) => unknown;
+  user: User;
 }
 
-export const CommentBox: FC<CommentBoxProps> = ({
-  onSubmit,
-  profilePicURL,
-  userProfileLink,
-  username,
-}) => {
+export const CommentBox: FC<CommentBoxProps> = ({ onSubmit, user }) => {
   // lazy render the textarea otherwise we loose focus and the selection is lost.
   const [show, setShow] = React.useState(false);
   useEffect(() => {
@@ -68,9 +58,13 @@ export const CommentBox: FC<CommentBoxProps> = ({
         borderBottom="1px solid"
         borderColor="border.default"
       >
-        <Avatar src={profilePicURL} name={username} />
-        <a href={userProfileLink} target="_blank" rel="noopener noreferrer">
-          {username}
+        <Avatar src={user.avatar} name={user.name || user.username} />
+        <a
+          href={`https://github.com/${user.username}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {user.username}
         </a>
       </Stack>
       {show && (

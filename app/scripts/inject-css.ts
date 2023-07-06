@@ -1,18 +1,18 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const dist = path.resolve(__dirname, "../dist");
-
-const injectCSS = (file) => {
+const injectCSS = (file, dist) => {
   try {
     const styles = fs.readFileSync(`${dist}/style.css`).toString().trim();
     const replaced = styles
       .replace("\\1f43c", "🐼")
       .replace(":where(:root,:host)", ":host")
-      .replace(/\\/g, "\\\\");
+      .replace(/\\/g, "\\\\")
+      .replace(/"/g, '\\"');
 
     const scriptPath = `${dist}/${file}`;
     const scriptContents = fs.readFileSync(scriptPath).toString();
+
     fs.writeFileSync(
       scriptPath,
       scriptContents.replace("__STYLES__", replaced)
@@ -22,10 +22,14 @@ const injectCSS = (file) => {
   }
 };
 
-export const injectCSSPlugin = () => ({
+export const injectCSSPlugin = ({
+  dist = path.resolve(__dirname, "../dist"),
+}: {
+  dist?: string;
+} = {}) => ({
   name: "inject-css-plugin", // the name of your custom plugin. Could be anything.
   closeBundle: async () => {
-    injectCSS("index.cjs");
-    injectCSS("index.js");
+    injectCSS("index.cjs", dist);
+    injectCSS("index.js", dist);
   },
 });

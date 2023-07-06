@@ -3,7 +3,7 @@ import { rangy } from "~/utils/rangy";
 import { pathBuilder } from "~/utils/pathBuilder";
 import { findElementFromPath } from "~/utils/findElementFromPath";
 import { Highlight } from "./highlight";
-import { addActiveCommentPin } from "~/utils/state/activeCommentPin";
+import { addActiveCommentPin } from "~/stores/active-pin";
 import { isControlElement } from "~/utils/isControlElement";
 
 export const LiveHighlighter: FC = () => {

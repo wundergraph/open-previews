@@ -1,6 +1,6 @@
 import { persistentAtom } from "@nanostores/persistent";
-import { PositionData } from "../pathBuilder";
-import { LOCAL_STORAGE_SELECTIONS } from "../constants/constants";
+import { PositionData } from "../utils/pathBuilder";
+import { LOCAL_STORAGE_SELECTIONS } from "../utils/constants/constants";
 
 export const $activeSelections = persistentAtom<Record<string, PositionData>>(
   LOCAL_STORAGE_SELECTIONS,

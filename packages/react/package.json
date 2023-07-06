@@ -1,0 +1,14 @@
+{
+  "name": "@open-previews/react",
+  "description": "React component for Open Previews",
+  "version": "0.0.1",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js"
+    }
+  },
+  "sideEffects": false
+}

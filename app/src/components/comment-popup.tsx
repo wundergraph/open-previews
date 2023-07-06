@@ -1,6 +1,6 @@
 import { CommentBox } from "./comment-box";
 import { NewCommentArgs, NewReplyArgs, ResolveCommentArgs } from "~/App";
-import { CommentThread, UserDisplayDetails } from "./comment-thread";
+import { CommentThread } from "./comment-thread";
 import { CommentsWithSelections } from "./selections";
 import {
   Popover,
@@ -12,6 +12,61 @@ import { styled } from "../../styled-system/jsx";
 import { PlusIcon } from "./icons/plus";
 import { getUrlFromCommentText } from "~/utils/getUrlFromCommentText";
 import { useHash } from "~/hooks/use-hash";
+import { User } from "~/hooks/use-user";
+
+export const CommentPopup = ({
+  onSubmit,
+  defaultOpen,
+  comment,
+  onReply,
+  onResolve,
+  user,
+}: {
+  onSubmit: (data: NewCommentArgs) => unknown;
+  defaultOpen?: boolean;
+  comment?: CommentsWithSelections;
+  onReply: (args: NewReplyArgs) => unknown;
+  onResolve: (args: ResolveCommentArgs) => unknown;
+  user: User;
+}) => {
+  const [hash] = useHash();
+
+  // Auto-open comment from discussion
+  if (comment?.body) {
+    const url = getUrlFromCommentText(comment.body) ?? "";
+    if (window.location.hash && url.endsWith(window.location.hash)) {
+      defaultOpen = true;
+    }
+  }
+
+  return (
+    <Popover key={hash} defaultOpen={defaultOpen}>
+      <PopoverTrigger asChild>
+        <CommentPin aria-label="open-comments">
+          {comment ? comment.replies?.nodes?.length || 1 : <PlusIcon />}
+        </CommentPin>
+      </PopoverTrigger>
+      <PopoverContent
+        side="right"
+        align="start"
+        sideOffset={4}
+        p="0"
+        overflow="hidden"
+      >
+        <PopoverArrow />
+        {comment ? (
+          <CommentThread
+            onResolve={onResolve}
+            onSend={onReply}
+            comment={comment}
+          />
+        ) : (
+          <CommentBox onSubmit={onSubmit} user={user} />
+        )}
+      </PopoverContent>
+    </Popover>
+  );
+};
 
 const CommentPin = styled("button", {
   base: {
@@ -44,58 +99,3 @@ const CommentPin = styled("button", {
     variant: "default",
   },
 });
-
-export const CommentPopup = ({
-  onSubmit,
-  defaultOpen,
-  comment,
-  onReply,
-  onResolve,
-  userDetails,
-}: {
-  onSubmit: (data: NewCommentArgs) => unknown;
-  defaultOpen?: boolean;
-  comment?: CommentsWithSelections;
-  onReply: (args: NewReplyArgs) => unknown;
-  onResolve: (args: ResolveCommentArgs) => unknown;
-  userDetails: UserDisplayDetails;
-}) => {
-  const [hash] = useHash();
-
-  // Auto-open comment from discussion
-  if (comment?.body) {
-    const url = getUrlFromCommentText(comment.body) ?? "";
-    if (window.location.hash && url.endsWith(window.location.hash)) {
-      defaultOpen = true;
-    }
-  }
-
-  return (
-    <Popover key={hash} defaultOpen={defaultOpen}>
-      <PopoverTrigger asChild>
-        <CommentPin aria-label="open-comments">
-          {comment ? comment.replies?.nodes?.length || 1 : <PlusIcon />}
-        </CommentPin>
-      </PopoverTrigger>
-      <PopoverContent
-        side="right"
-        align="start"
-        sideOffset={4}
-        p="0"
-        overflow="hidden"
-      >
-        <PopoverArrow />
-        {comment ? (
-          <CommentThread
-            onResolve={onResolve}
-            onSend={onReply}
-            comment={comment}
-            {...userDetails}
-          />
-        ) : (
-          <CommentBox onSubmit={onSubmit} {...userDetails} />
-        )}
-      </PopoverContent>
-    </Popover>
-  );
-};
