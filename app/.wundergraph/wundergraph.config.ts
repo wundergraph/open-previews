@@ -59,6 +59,9 @@ configureWunderGraphApplication({
       authorizedRedirectUriRegexes: [
         new EnvironmentVariable("REDIRECT_URI_REGEX"),
       ],
+      secureCookieHashKey: new EnvironmentVariable("SECURE_COOKIE_HASH_KEY"), // must be of length 32
+      secureCookieBlockKey: new EnvironmentVariable("SECURE_COOKIE_BLOCK_KEY"), // must be of length 32
+      csrfTokenSecret: new EnvironmentVariable("CSRF_TOKEN_SECRET"), // must be of length 11
     },
   },
 });
