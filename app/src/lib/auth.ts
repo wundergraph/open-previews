@@ -3,8 +3,9 @@ import { openWindow } from "~/utils/open-window";
 import { client } from "./wundergraph";
 import { $sessionToken } from "~/stores/session-token";
 import { useStore } from "@nanostores/react";
+import { defaultClientConfig } from "~/generated/client";
 
-const gatewayUrl = import.meta.env.GATEWAY_URL || "http://localhost:9991";
+const gatewayUrl = defaultClientConfig.baseURL;
 
 $sessionToken.subscribe((token) => {
   if (token === null) {
