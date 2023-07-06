@@ -1,4 +1,4 @@
-query GetCategory($name: String!, $owner: String!, $slug) {
+query GetCategory($name: String!, $owner: String!, $slug: String!) {
   repository(name: $name, owner: $owner) {
     discussionCategory(slug: $slug) {
       id
