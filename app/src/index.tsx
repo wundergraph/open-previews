@@ -5,7 +5,6 @@ import App from "./App";
 import { SWRConfig } from "swr";
 import { swrLocalStorageProvider } from "./lib/wundergraph";
 import { OpenPreviewConfig, setOpenPreviewConfig } from "./stores/config";
-import { SESSION_STORAGE_WIDGET_ACTIVE } from "./utils/constants/constants";
 
 const initOpenPreviews = (options: OpenPreviewConfig) => {
   const op = document.getElementsByTagName("open-previews")[0];
@@ -32,6 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const script = document.getElementById("open-previews");
   initOpenPreviews({
     repository: script?.dataset.repository || "",
-    categoryId: script?.dataset["category-id"] || "",
+    categoryId: script?.dataset.categoryId || "",
   });
 });
