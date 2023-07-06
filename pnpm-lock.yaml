@@ -41,11 +41,11 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6(@types/react-dom@18.2.1)(@types/react@18.2.0)(react-dom@18.2.0)(react@18.2.0)
       '@wundergraph/sdk':
-        specifier: ^0.167.0
-        version: 0.167.0(@graphql-mesh/store@0.94.2)(react-native@0.72.1)
+        specifier: ^0.166.1
+        version: 0.166.1(@graphql-mesh/store@0.94.2)(react-native@0.72.1)
       '@wundergraph/swr':
         specifier: ^0.15.12
-        version: 0.15.12(@wundergraph/sdk@0.167.0)(react-dom@18.2.0)(react@18.2.0)(swr@2.1.5)
+        version: 0.15.12(@wundergraph/sdk@0.166.1)(react-dom@18.2.0)(react@18.2.0)(swr@2.1.5)
       framer-motion:
         specifier: ^10.12.16
         version: 10.12.16(react-dom@18.2.0)(react@18.2.0)
@@ -85,7 +85,7 @@ importers:
         version: 7.22.5(@babel/core@7.22.7)
       '@pandacss/dev':
         specifier: ^0.5.0
-        version: 0.5.0(@types/node@16.18.38)(@types/react-dom@18.2.1)(@types/react@18.2.0)(astro@2.3.3)(typescript@4.6.4)
+        version: 0.5.0(@types/node@16.18.38)(@types/react-dom@18.2.1)(@types/react@18.2.0)(astro@2.7.0)(typescript@4.6.4)
       '@types/node-fetch':
         specifier: ^2.6.2
         version: 2.6.2
@@ -3087,13 +3087,13 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@pandacss/astro@0.5.0(astro@2.3.3)(typescript@4.6.4):
+  /@pandacss/astro@0.5.0(astro@2.7.0)(typescript@4.6.4):
     resolution: {integrity: sha512-b5ByMJgLUdQh3GftRXIGOlEU8UEv72uOLvxQ1+dWNT5kvSJeB+QAxSARW4adwJrcqYI8BKXZwyJnD9dF8qMu8w==}
     peerDependencies:
       astro: '>=2.x'
     dependencies:
       '@pandacss/postcss': 0.5.0(typescript@4.6.4)
-      astro: 2.3.3(@types/node@18.16.3)(sharp@0.31.2)
+      astro: 2.7.0(@types/node@16.18.38)
       autoprefixer: 10.4.14(postcss@8.4.24)
       postcss: 8.4.24
       postcss-load-config: 4.0.1(postcss@8.4.24)
@@ -3142,7 +3142,7 @@ packages:
       ts-pattern: 4.3.0
     dev: true
 
-  /@pandacss/dev@0.5.0(@types/node@16.18.38)(@types/react-dom@18.2.1)(@types/react@18.2.0)(astro@2.3.3)(typescript@4.6.4):
+  /@pandacss/dev@0.5.0(@types/node@16.18.38)(@types/react-dom@18.2.1)(@types/react@18.2.0)(astro@2.7.0)(typescript@4.6.4):
     resolution: {integrity: sha512-aXw1vSzJ1QOrNrxh1DxtYrwC6rMhrXLjZV07AMsQqHUV8pyq9OM9Jk21p58Y70uh1GSCqLXKM9aHU7n7ihkj8A==}
     hasBin: true
     peerDependencies:
@@ -3151,7 +3151,7 @@ packages:
       astro:
         optional: true
     dependencies:
-      '@pandacss/astro': 0.5.0(astro@2.3.3)(typescript@4.6.4)
+      '@pandacss/astro': 0.5.0(astro@2.7.0)(typescript@4.6.4)
       '@pandacss/config': 0.5.0(typescript@4.6.4)
       '@pandacss/error': 0.5.0
       '@pandacss/logger': 0.5.0
@@ -3162,7 +3162,7 @@ packages:
       '@pandacss/studio': 0.5.0(@types/node@16.18.38)(@types/react-dom@18.2.1)(@types/react@18.2.0)(typescript@4.6.4)
       '@pandacss/token-dictionary': 0.5.0
       '@pandacss/types': 0.5.0
-      astro: 2.3.3(@types/node@18.16.3)(sharp@0.31.2)
+      astro: 2.7.0(@types/node@16.18.38)
       cac: 6.7.14
       pathe: 1.1.1
       perfect-debounce: 1.0.0
@@ -5095,8 +5095,8 @@ packages:
       ts-proto: 1.151.1
     dev: false
 
-  /@wundergraph/sdk@0.167.0(@graphql-mesh/store@0.94.2)(react-native@0.72.1):
-    resolution: {integrity: sha512-350gn4r4lLt2+q9y7URZ0u46wQUGrX9VBafTup6dQq4WGBDvv+sXtFWUNDlysJxn2vOGomfJZm/NJnbLUnf3Lw==}
+  /@wundergraph/sdk@0.166.1(@graphql-mesh/store@0.94.2)(react-native@0.72.1):
+    resolution: {integrity: sha512-rmVY/kNkYOVS5Z6tRB7O25kOyDcYXpBnCrE3yZMMenMyRT4pAhnOMKi6jkieUJhIrFbRwIUQOYcYnw+oujuKMA==}
     hasBin: true
     dependencies:
       '@fastify/formbody': 7.4.0
@@ -5121,7 +5121,7 @@ packages:
       '@wundergraph/orm': 0.2.0
       '@wundergraph/protobuf': 0.116.1
       '@wundergraph/straightforward': 4.2.5
-      '@wundergraph/wunderctl': 0.161.0
+      '@wundergraph/wunderctl': 0.160.0
       axios: 0.26.1(debug@4.3.4)
       axios-retry: 3.5.1
       close-with-grace: 1.2.0
@@ -5179,7 +5179,7 @@ packages:
       - supports-color
     dev: false
 
-  /@wundergraph/swr@0.15.12(@wundergraph/sdk@0.167.0)(react-dom@18.2.0)(react@18.2.0)(swr@2.1.5):
+  /@wundergraph/swr@0.15.12(@wundergraph/sdk@0.166.1)(react-dom@18.2.0)(react@18.2.0)(swr@2.1.5):
     resolution: {integrity: sha512-QefnMki75UvbgzcqrmsJunFM0X/7pO9PKqKiXT55+N9JKtdK378UNR+hCvn+K31yqp5rRuGLqMjV7Hsehjjqtw==}
     peerDependencies:
       '@wundergraph/sdk': '>=0.110.0'
@@ -5187,15 +5187,15 @@ packages:
       react-dom: ^16.8.0 || ^17.0.2 || ^18.0.0
       swr: ^2.1.5
     dependencies:
-      '@wundergraph/sdk': 0.167.0(@graphql-mesh/store@0.94.2)(react-native@0.72.1)
+      '@wundergraph/sdk': 0.166.1(@graphql-mesh/store@0.94.2)(react-native@0.72.1)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-ssr-prepass: 1.5.0(react@18.2.0)
       swr: 2.1.5(react@18.2.0)
     dev: false
 
-  /@wundergraph/wunderctl@0.161.0:
-    resolution: {integrity: sha512-ODszydQGmU/t5sCouAEPh5xQyiVICmxjAxC/Z4pvpPyLhWR3kIzuKrEblygXR36ohiAqqX1VrGf/xBHU2RvW5w==}
+  /@wundergraph/wunderctl@0.160.0:
+    resolution: {integrity: sha512-0WjHlLwcxc2gMtNc17kYPBYq/OS8k1ZkyW/qwLxlPLOaIXEvTk7+fK+BLX0TTf+SVVzaCB2f8YQQdOfmk0cFBQ==}
     hasBin: true
     requiresBuild: true
     dependencies:
@@ -13198,7 +13198,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 4.3.9(@types/node@16.18.38)
+      vite: 4.3.9(@types/node@18.16.3)
 
   /vlq@1.0.1:
     resolution: {integrity: sha512-gQpnTgkubC6hQgdIcRdYGDSDc+SaujOdyesZQMv6JlfQee/9Mp0Qhnys6WxDWvQnL5WZdT7o2Ul187aSt0Rq+w==}

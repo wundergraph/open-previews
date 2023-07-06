@@ -41,7 +41,7 @@
     "@radix-ui/react-popover": "^1.0.6",
     "@radix-ui/react-toolbar": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.6",
-    "@wundergraph/sdk": "^0.167.0",
+    "@wundergraph/sdk": "0.166.1",
     "@wundergraph/swr": "^0.15.12",
     "framer-motion": "^10.12.16",
     "graphql": "^16.6.0",
