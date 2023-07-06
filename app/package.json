@@ -13,12 +13,14 @@
     "dist"
   ],
   "scripts": {
-    "prepare": "panda codegen",
+    "codegen": "panda codegen",
     "dev": "concurrently \"pnpm run dev:vite\" \"pnpm run wundergraph\" \"pnpm run browser\"",
     "check": "tsc --noEmit",
     "clean": "rimraf ./.next",
     "wundergraph": "wunderctl up",
     "browser": "wait-on \"http-get://localhost:5173\" && wait-on \"http-get://localhost:9991\" && open-cli http://localhost:5173",
+    "prebuild": "pnpm run codegen",
+    "predev": "pnpm run codegen",
     "dev:vite": "vite build --watch",
     "dev:react": "vite build --config vite.config.react.ts --watch",
     "build:wundergraph": "wunderctl generate",
