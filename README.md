@@ -8,7 +8,7 @@ no matter where they are hosted. Easy to set up and fully open source.
 - Easy to set up. Just add a single script tag to your app. 🚀
 - Can be self hosted or simply deploy to WunderGraph Cloud. 🌩️
 
-> Open Previews is still under development, watch this repo or [sign up for early access](https://open-previews.com) to stay up to date.
+> Open Previews is still under development, watch this repo or [sign up for early access](https://openpreviews.com) to stay up to date.
 
 ## How it works
 
