@@ -41,7 +41,7 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6(@types/react-dom@18.2.1)(@types/react@18.2.0)(react-dom@18.2.0)(react@18.2.0)
       '@wundergraph/sdk':
-        specifier: ^0.166.1
+        specifier: 0.166.1
         version: 0.166.1(@graphql-mesh/store@0.94.2)(react-native@0.72.1)
       '@wundergraph/swr':
         specifier: ^0.15.12
