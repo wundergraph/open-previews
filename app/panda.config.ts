@@ -1,21 +1,5 @@
 import { defineConfig } from "@pandacss/dev";
 
-import {
-  gray,
-  blue,
-  red,
-  green,
-  grayDark,
-  blueDark,
-  redDark,
-  greenDark,
-  pink,
-  pinkDark,
-  grayDarkA,
-  yellow,
-  yellowDark,
-} from "@radix-ui/colors";
-
 import { textStyles } from "./src/theme/text-styles";
 
 const mapColor = (shades) => {
@@ -33,7 +17,7 @@ export default defineConfig({
 
   prefix: "op",
 
-  hash: false, // hash in production
+  hash: process.env.NODE_ENV === 'production', // hash in production
 
   // Where to look for your css declarations
   include: ["./src/**/*.{ts,tsx}"],

@@ -14,7 +14,7 @@ import {
 
 import { CommentIcon } from "./icons/comment";
 import { XIcon } from "./icons/x";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { useAuth } from "~/lib/auth";
 
 import { css } from "../../styled-system/css";
@@ -29,8 +29,9 @@ import {
   DropdownMenuIcon,
 } from "./ui/menu";
 import { Avatar } from "./ui/avatar";
-import { Stack } from "../../styled-system/jsx";
-import { Link, Text } from "./ui/layout";
+import { Flex, Stack } from "../../styled-system/jsx";
+import { Text } from "./ui/layout";
+import { Link } from "./ui/link";
 import { EyeCloseIcon } from "./icons/eye-close";
 import { BranchIcon } from "./icons/branch";
 import { LogoutIcon } from "./icons/logout";
@@ -38,14 +39,15 @@ import { toggleDiscussionsOverlayMode } from "~/stores/discussions-overlay-mode"
 import { InboxIcon } from "./icons/inbox";
 import { $openPreviewConfig } from "~/stores/config";
 import { useUser } from "~/hooks/use-user";
-import { SESSION_STORAGE_WIDGET_ACTIVE } from "~/utils/constants/constants";
 import { disableWidget } from "~/stores/widget-active";
 
 const NavbarPositioner = (props) => {
   const { x, y, ...rest } = props;
-  const { attributes, listeners, transform, setNodeRef } = useDraggable({
+  const { attributes, listeners, transform, setNodeRef, node } = useDraggable({
     id: "open-previews-navbar",
   });
+
+  
 
   return (
     <div
@@ -58,7 +60,8 @@ const NavbarPositioner = (props) => {
           zIndex: "20000",
           left: x,
           top: y,
-          "--translate-x": `${transform?.x ?? 0}px`,
+          bottom: y ? undefined : '40px',
+          "--translate-x": `${(transform?.x ?? 0)}px`,
           "--translate-y": `${transform?.y ?? 0}px`,
           transform:
             "translate3d(var(--translate-x, 0), var(--translate-y, 0), 0)",
@@ -73,17 +76,38 @@ const NavbarPositioner = (props) => {
 export const Navbar: FC = () => {
   const { login, logout } = useAuth();
   const { data: user } = useUser();
+  const navbarRef = React.useRef<HTMLDivElement>(null);
   const isCommentModeOn = useStore($commentMode);
 
-  const [{ x, y }, setCoordinates] = React.useState<{ x: number; y: number }>({
-    x: window.innerWidth * 0.5 - 50,
-    y: window.innerHeight - 80,
-  });
+  const startRef = React.useRef<{x: number; y: number} | null>(null);
+  const [coordinates, setCoordinates] = React.useState<{ x: number; y: number } | undefined>();
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (navbarRef.current && coordinates) {
+        const { x, y } = navbarRef.current.getBoundingClientRect();
+        setCoordinates({ x, y });
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [])
 
   return (
     <DndContext
+      onDragStart={() => {
+        const rect = navbarRef.current?.getBoundingClientRect();
+        if (rect) {
+          startRef.current = {x: rect.x, y: rect.y}
+        }
+      }}
       onDragEnd={({ delta }) => {
-        setCoordinates(({ x, y }) => {
+        setCoordinates((coordinates) => {
+          const { x, y } = coordinates || startRef.current || { x: 0, y: 0 };
           return {
             x: x + delta.x,
             y: y + delta.y,
@@ -102,42 +126,54 @@ export const Navbar: FC = () => {
         },
       ]}
     >
-      <NavbarPositioner x={x} y={y}>
-        <ToolbarRoot gap="4px">
-          {user ? (
-            <>
-              <ToolbarToggleGroup
-                type="single"
-                value={isCommentModeOn ? "comments-on" : undefined}
-              >
-                <ToolbarToggleItem
-                  value="comments-on"
-                  onClick={toggleCommentMode}
+      <Flex
+        position="fixed"
+        pointerEvents="none"
+        justifyContent="center"
+        alignItems="flex-end"
+        top="0"
+        left="0"
+        w="100vw"
+        h="100vh"
+        zIndex="20000"
+      >
+        <NavbarPositioner {...coordinates}>
+          <ToolbarRoot gap="4px" ref={navbarRef} pointerEvents="all">
+            {user ? (
+              <>
+                <ToolbarToggleGroup
+                  type="single"
+                  value={isCommentModeOn ? "comments-on" : undefined}
                 >
-                  {isCommentModeOn ? <XIcon /> : <CommentIcon />}
-                </ToolbarToggleItem>
-              </ToolbarToggleGroup>
-              <ToolbarIconButton
-                onClick={() => toggleDiscussionsOverlayMode()}
-                aria-label="All Discussions"
-              >
-                <InboxIcon />
-              </ToolbarIconButton>
-              <ToolbarSeparator />
-              <ToolbarIconButton onClick={() => logout()}>
-                <Avatar src={user.avatar} name={user.username} size="md" />
-              </ToolbarIconButton>
-            </>
-          ) : (
-            <ToolbarButton onClick={() => login()} p="0 12px">
-              <LoginIcon className={css({ marginRight: "4px" })} /> Log in to
-              comment
-            </ToolbarButton>
-          )}
-          <ToolbarSeparator />
-          <HamburgerMenu />
-        </ToolbarRoot>
-      </NavbarPositioner>
+                  <ToolbarToggleItem
+                    value="comments-on"
+                    onClick={toggleCommentMode}
+                  >
+                    {isCommentModeOn ? <XIcon /> : <CommentIcon />}
+                  </ToolbarToggleItem>
+                </ToolbarToggleGroup>
+                <ToolbarIconButton
+                  onClick={() => toggleDiscussionsOverlayMode()}
+                  aria-label="All Discussions"
+                >
+                  <InboxIcon />
+                </ToolbarIconButton>
+                <ToolbarSeparator />
+                <ToolbarIconButton onClick={() => logout()}>
+                  <Avatar src={user.avatar} name={user.username} size="md" />
+                </ToolbarIconButton>
+              </>
+            ) : (
+              <ToolbarButton onClick={() => login()} p="0 12px">
+                <LoginIcon className={css({ marginRight: "4px" })} /> Log in to
+                comment
+              </ToolbarButton>
+            )}
+            <ToolbarSeparator />
+            <HamburgerMenu />
+          </ToolbarRoot>
+        </NavbarPositioner>
+      </Flex>
     </DndContext>
   );
 };

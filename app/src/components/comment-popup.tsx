@@ -20,6 +20,7 @@ export const CommentPopup = ({
   comment,
   onReply,
   onResolve,
+  onOpenChange,
   user,
 }: {
   onSubmit: (data: NewCommentArgs) => unknown;
@@ -27,6 +28,7 @@ export const CommentPopup = ({
   comment?: CommentsWithSelections;
   onReply: (args: NewReplyArgs) => unknown;
   onResolve: (args: ResolveCommentArgs) => unknown;
+  onOpenChange?: (open: boolean) => unknown;
   user: User;
 }) => {
   const [hash] = useHash();
@@ -40,7 +42,7 @@ export const CommentPopup = ({
   }
 
   return (
-    <Popover key={hash} defaultOpen={defaultOpen}>
+    <Popover key={hash} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
         <CommentPin aria-label="open-comments">
           {comment ? comment.replies?.nodes?.length || 1 : <PlusIcon />}
@@ -52,6 +54,7 @@ export const CommentPopup = ({
         sideOffset={4}
         p="0"
         overflow="hidden"
+        zIndex="200001"
       >
         <PopoverArrow />
         {comment ? (
@@ -81,6 +84,10 @@ const CommentPin = styled("button", {
     fontSize: "sm",
     fontWeight: "medium",
     boxShadow: "md",
+    _focusVisible: {
+      outline: "none",
+      boxShadow: "0 0 0 2px black",
+    }
   },
   variants: {
     variant: {

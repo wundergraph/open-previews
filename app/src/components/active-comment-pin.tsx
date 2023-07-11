@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, useMemo, useState } from "react";
 import { CommentPopup } from "./comment-popup";
 import { rangy } from "~/utils/rangy";
 import { Highlight } from "./highlight";
@@ -6,6 +6,7 @@ import { PinDetails } from "~/stores/active-pin";
 import { NewCommentArgs, NewReplyArgs, ResolveCommentArgs } from "~/App";
 import { CommentsWithSelections } from "./selections";
 import { User } from "~/hooks/use-user";
+import { useDimensions } from "~/hooks/use-dimensions";
 
 type ActiveCommentPinProps = {
   pinDetails: PinDetails;
@@ -14,27 +15,13 @@ type ActiveCommentPinProps = {
   comment?: CommentsWithSelections;
   onReply: (args: NewReplyArgs) => unknown;
   user: User;
-  dimension: number;
   onResolve: (args: ResolveCommentArgs) => unknown;
 };
 
-export type CommentPinHandle = {
-  addCommentPin: (args: PinDetails) => void;
-};
+const usePinPosition = (pinDetails: PinDetails) => {
+  const dimension = useDimensions()
 
-export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
-  pinDetails,
-  onSubmit = (props: NewCommentArgs) => null,
-  defaultOpen = false,
-  comment,
-  dimension,
-  onResolve = (props: ResolveCommentArgs) => null,
-  onReply = (props: NewReplyArgs) => null,
-  user,
-}) => {
-  let rects: DOMRect[] = [];
-
-  rects = useMemo(() => {
+  let rects = useMemo<DOMRect[]>(() => {
     if (pinDetails.selectionRange) {
       try {
         const range = rangy.deserializeRange(pinDetails.selectionRange);
@@ -65,13 +52,36 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
     };
   }
 
+  return {
+    ...pos,
+    rects
+  }
+}
+
+export type CommentPinHandle = {
+  addCommentPin: (args: PinDetails) => void;
+};
+
+export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
+  pinDetails,
+  onSubmit = (props: NewCommentArgs) => null,
+  defaultOpen = false,
+  comment,
+  onResolve = (props: ResolveCommentArgs) => null,
+  onReply = (props: NewReplyArgs) => null,
+  user,
+}) => {
+  const { x, y, rects} = usePinPosition(pinDetails)
+
+  const [open, setOpen] = useState(defaultOpen)
+
   return (
     <div
       style={{
-        left: `${pos.x}px`,
-        top: `${pos.y}px`,
+        left: `${x}px`,
+        top: `${y}px`,
         position: "fixed",
-        zIndex: "200010",
+        zIndex: open ? "200010" : "200000",
       }}
     >
       <CommentPopup
@@ -79,6 +89,7 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
         onReply={onReply}
         onResolve={onResolve}
         defaultOpen={defaultOpen}
+        onOpenChange={setOpen}
         comment={comment}
         user={user}
       />

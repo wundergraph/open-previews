@@ -39,7 +39,7 @@ export const Textarea = styled("textarea", {
     border: 0,
     background: "transparent",
     outline: 0,
-    color: "inherit",
+    color: "fg.default",
     width: "100%",
     fontFamily: "inherit",
     minHeight: "60px",

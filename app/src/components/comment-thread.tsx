@@ -8,7 +8,8 @@ import {
 import { cleanCommentText } from "~/utils/cleanCommentText";
 import { Avatar } from "./ui/avatar";
 import { Box, Flex, Stack } from "../../styled-system/jsx";
-import { Link, Text } from "./ui/layout";
+import { Text } from "./ui/layout";
+import { Link } from './ui/link'
 import { Button, IconButton } from "./ui/button";
 import { Textarea } from "./ui/forms";
 import { ReplyIcon } from "./icons/reply";
@@ -34,7 +35,9 @@ export const CommentThread: React.FC<CommentProps> = ({
   const [input, setInput] = useState("");
 
   useEffect(() => {
-    inputRef.current?.focus();
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 50)
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -184,7 +187,7 @@ export const CommentThread: React.FC<CommentProps> = ({
           onKeyUp={handleKeyUp}
         />
         <Flex flexDirection="row" justifyContent="flex-end" py="4px" px="8px">
-          <Button onClick={handleSend}>Send</Button>
+          <Button onClick={handleSend} size="sm">Send</Button>
         </Flex>
       </div>
     </div>

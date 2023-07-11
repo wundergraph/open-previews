@@ -2,9 +2,7 @@ import * as PopoverPrimitives from "@radix-ui/react-popover";
 import { styled } from "../../../styled-system/jsx";
 
 export const Popover = styled(PopoverPrimitives.Root, {
-  base: {
-    zIndex: "popover",
-  },
+  base: {},
 });
 export const PopoverTrigger = PopoverPrimitives.Trigger;
 export const PopoverAnchor = PopoverPrimitives.Anchor;

@@ -20,6 +20,7 @@ import "./main.css";
 import { AllDiscussions } from "./components/all-discussions";
 import { $discussionsOverlayMode } from "./stores/discussions-overlay-mode";
 import { useWidgetActive } from "./stores/widget-active";
+import { Box } from "../styled-system/jsx";
 
 const styles = `__STYLES__`;
 
@@ -86,10 +87,6 @@ export interface ResolveCommentArgs {
 
 function App() {
   const user = useUser();
-
-  const [dimension, setDimension] = useState<number>(
-    window.innerHeight + window.innerWidth
-  );
 
   const pinDetails = useStore($activeCommentPin);
 
@@ -160,31 +157,15 @@ function App() {
     });
   };
 
-  useEffect(() => {
-    const rerender = () =>
-      setDimension(
-        window.innerHeight + window.innerWidth + window.scrollX + window.scrollY
-      );
-
-    window.addEventListener("resize", rerender);
-    window.addEventListener("scroll", rerender);
-
-    return () => {
-      window.removeEventListener("resize", rerender);
-      window.removeEventListener("scroll", rerender);
-    };
-  }, []);
-
   return (
     <ShadowRoot>
-      <div id="open-previews-container">
+      <Box id="open-previews-container" color="fg.default">
         {data?.comments && discussionsOverlayMode ? (
           <AllDiscussions comments={data?.comments} />
         ) : null}
         {user.data ? (
           <Selections
             data={data}
-            dimension={dimension}
             onResolve={resolveComment}
             onReply={createNewReply}
             user={user.data}
@@ -196,14 +177,13 @@ function App() {
             pinDetails={pinDetails}
             defaultOpen
             onResolve={resolveComment}
-            dimension={dimension}
             onSubmit={createNewThread}
             onReply={createNewReply}
             user={user.data}
           />
         ) : null}
         {user.data ? <LiveHighlighter /> : null}
-      </div>
+      </Box>
     </ShadowRoot>
   );
 }

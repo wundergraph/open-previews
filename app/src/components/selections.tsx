@@ -5,6 +5,7 @@ import { NewReplyArgs, ResolveCommentArgs } from "~/App";
 import { DISCUSSION_PENDING_STATE } from "~/utils/constants/constants";
 import { useHash } from "~/hooks/use-hash";
 import { User } from "~/hooks/use-user";
+import { useDimensions } from "~/hooks/use-dimensions";
 
 export type CommentMeta = {
   path: string;
@@ -35,13 +36,11 @@ export type CommentsWithSelections = Exclude<
 export const Selections = ({
   data,
   onReply,
-  dimension,
   onResolve,
   user,
 }: {
   data: CommentsQueryData;
   onReply: (args: NewReplyArgs) => unknown;
-  dimension: number;
   onResolve: (args: ResolveCommentArgs) => unknown;
   user: User;
 }) => {
@@ -110,7 +109,6 @@ export const Selections = ({
             }}
             comment={each}
             onSubmit={() => null}
-            dimension={dimension}
             onReply={onReply}
             onResolve={onResolve}
             user={user}

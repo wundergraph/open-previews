@@ -377,7 +377,7 @@ function transform(prop, value) {
 }
 
 const context = {
-  hash: false,
+  hash: true,
   conditions: {
     shift: sortConditions,
     finalize: finalizeConditions,

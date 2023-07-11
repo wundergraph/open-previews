@@ -10,7 +10,8 @@ export const IconButton = styled("button", {
     color: "fg.default",
     cursor: "pointer",
     transition: "all 0.2s ease",
-    _focus: { boxShadow: `0 0 0 2px black` },
+    _focus: { outline: 'none', boxShadow: "none" },
+    _focusVisible: {outline:'none', boxShadow: `0 0 0 2px black` },
   },
   variants: {
     size: {
@@ -53,7 +54,8 @@ export const Button = styled("button", {
     color: "fg.default",
     cursor: "pointer",
     transition: "all 0.2s ease",
-    _focus: { boxShadow: "none" },
+    _focus: { outline: 'none', boxShadow: "none" },
+    _focusVisible: {outline:'none', boxShadow: `0 0 0 2px black` },
   },
   variants: {
     variant: {
@@ -70,8 +72,8 @@ export const Button = styled("button", {
       sm: {
         borderRadius: "4px",
         height: "24px",
-        paddingLeft: "4px",
-        paddingRight: "4px",
+        paddingLeft: "6px",
+        paddingRight: "6px",
         fontSize: "13px",
       },
       md: {
