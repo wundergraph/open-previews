@@ -1,11 +1,11 @@
 import * as React from "react";
 import { createPortal } from "react-dom";
+import "construct-style-sheets-polyfill";
 import { useStore } from "@nanostores/react";
 
 import { Navbar } from "./components/navbar";
 import { Selections } from "./components/selections";
 import { ActiveCommentPin } from "./components/active-comment-pin";
-import { useEffect, useState } from "react";
 import { addClickListener } from "./utils";
 import { LiveHighlighter } from "./components/live-highlighter";
 import { useUser } from "./hooks/use-user";
@@ -51,7 +51,6 @@ function ShadowRoot(props: { children: React.ReactNode }) {
 
       setRoot(root);
     } else if (rootRef.current && !isActive) {
-      console.log("REMOVE", rootRef.current);
       document.body.removeChild(rootRef.current!);
       rootRef.current = undefined;
     }
@@ -92,7 +91,7 @@ function App() {
 
   const discussionsOverlayMode = useStore($discussionsOverlayMode);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const unsubscribe = addClickListener();
     return () => {
       unsubscribe();

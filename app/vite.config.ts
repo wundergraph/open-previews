@@ -19,16 +19,19 @@ export default defineConfig({
     },
   },
   build: {
+    // minify: false,
+    // sourcemap: true,
     lib: {
       entry: path.resolve(__dirname, "src/index.tsx"),
       name: "Open Previews",
-      formats: ["es"],
+      formats: ["es", "cjs"],
       fileName: (format) => {
-        return `[name].${format === "es" ? "js" : "cjs"}`;
+        return `[name].${format}.js`;
       },
     },
     rollupOptions: {
       treeshake: "smallest",
+      
     },
   },
   define: {

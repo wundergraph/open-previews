@@ -29,7 +29,7 @@ export const injectCSSPlugin = ({
 } = {}) => ({
   name: "inject-css-plugin", // the name of your custom plugin. Could be anything.
   closeBundle: async () => {
-    injectCSS("index.cjs", dist);
-    injectCSS("index.js", dist);
+    injectCSS("index.cjs.js", dist);
+    injectCSS("index.es.js", dist);
   },
 });

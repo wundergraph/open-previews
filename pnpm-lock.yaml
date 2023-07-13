@@ -52,6 +52,9 @@ importers:
       '@wundergraph/swr':
         specifier: ^0.15.12
         version: 0.15.12(@wundergraph/sdk@0.166.1)(react-dom@18.2.0)(react@18.2.0)(swr@2.1.5)
+      construct-style-sheets-polyfill:
+        specifier: ^3.1.0
+        version: 3.1.0
       framer-motion:
         specifier: ^10.12.16
         version: 10.12.16(react-dom@18.2.0)(react@18.2.0)
@@ -6864,6 +6867,10 @@ packages:
       no-case: 3.0.4
       tslib: 2.6.0
       upper-case: 2.0.2
+    dev: false
+
+  /construct-style-sheets-polyfill@3.1.0:
+    resolution: {integrity: sha512-HBLKP0chz8BAY6rBdzda11c3wAZeCZ+kIG4weVC2NM3AXzxx09nhe8t0SQNdloAvg5GLuHwq/0SPOOSPvtCcKw==}
     dev: false
 
   /convert-source-map@1.9.0:
