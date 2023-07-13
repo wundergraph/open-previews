@@ -2,6 +2,8 @@ import React from "react";
 import * as TooltipPrimitives from "@radix-ui/react-tooltip";
 import { styled } from "../../../styled-system/jsx";
 
+export const TooltipProvider = TooltipPrimitives.TooltipProvider
+
 const TooltipContent = styled(TooltipPrimitives.Content, {
   base: {
     borderRadius: "4px",
@@ -36,19 +38,26 @@ export const Tooltip = ({ children, tooltip }) => {
     .getElementsByTagName("open-previews")[0]
     .shadowRoot?.getElementById("open-previews-container");
 
+  const [open, setOpen] = React.useState(false);
+
   return (
-    <TooltipPrimitives.Provider delayDuration={200}>
-      <TooltipPrimitives.Root>
-        <TooltipPrimitives.Trigger asChild>
-          {children}
-        </TooltipPrimitives.Trigger>
-        <TooltipPrimitives.Portal container={container}>
-          <TooltipContent sideOffset={10}>
-            {tooltip}
-            <TooltipArrow />
-          </TooltipContent>
-        </TooltipPrimitives.Portal>
-      </TooltipPrimitives.Root>
-    </TooltipPrimitives.Provider>
+    <TooltipPrimitives.Root open={open} onOpenChange={(open) => {
+      if (open === false) {
+        return setTimeout(() => {
+          setOpen(open)
+        }, 100)
+      }
+      setOpen(true)
+    }}>
+      <TooltipPrimitives.Trigger asChild>
+        {children}
+      </TooltipPrimitives.Trigger>
+      <TooltipPrimitives.Portal container={container}>
+        <TooltipContent sideOffset={10}>
+          {tooltip}
+          <TooltipArrow />
+        </TooltipContent>
+      </TooltipPrimitives.Portal>
+    </TooltipPrimitives.Root>
   );
 };

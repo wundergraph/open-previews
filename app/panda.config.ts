@@ -17,7 +17,7 @@ export default defineConfig({
 
   prefix: "op",
 
-  hash: process.env.NODE_ENV === 'production', // hash in production
+  hash: process.env.NODE_ENV === "production", // hash in production
 
   // Where to look for your css declarations
   include: ["./src/**/*.{ts,tsx}"],

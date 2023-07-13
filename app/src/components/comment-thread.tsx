@@ -9,7 +9,7 @@ import { cleanCommentText } from "~/utils/cleanCommentText";
 import { Avatar } from "./ui/avatar";
 import { Box, Flex, Stack } from "../../styled-system/jsx";
 import { Text } from "./ui/layout";
-import { Link } from './ui/link'
+import { Link } from "./ui/link";
 import { Button, IconButton } from "./ui/button";
 import { Textarea } from "./ui/forms";
 import { ReplyIcon } from "./icons/reply";
@@ -37,7 +37,7 @@ export const CommentThread: React.FC<CommentProps> = ({
   useEffect(() => {
     setTimeout(() => {
       inputRef.current?.focus();
-    }, 50)
+    }, 50);
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -79,7 +79,7 @@ export const CommentThread: React.FC<CommentProps> = ({
   };
 
   return (
-    <div>
+    <Flex flexDirection="column" flex="1" flexShrink="0" minH="1px">
       {comment ? (
         <Box
           bg="bg.subtle"
@@ -87,6 +87,7 @@ export const CommentThread: React.FC<CommentProps> = ({
           borderColor="border.default"
           py="8px"
           px="12px"
+          flexShrink="0"
         >
           <Stack mb="8px" direction="row" alignItems="center">
             <Avatar
@@ -137,33 +138,34 @@ export const CommentThread: React.FC<CommentProps> = ({
         </Box>
       ) : null}
 
-      {comment?.replies?.nodes?.map((reply, index) => (
-        <Box
-          bg="bg.subtle"
-          borderBottom="1px solid"
-          borderColor="border.default"
-          py="8px"
-          px="12px"
-          key={index}
-        >
-          <Stack mb="8px" direction="row" alignItems="center">
-            <Avatar
-              src={reply?.author?.avatarUrl}
-              name={reply?.author?.login}
-              size="sm"
-            />
+      <Box flex="1" overflowY="auto">
+        {comment?.replies?.nodes?.map((reply, index) => (
+          <Box
+            bg="bg.subtle"
+            borderBottom="1px solid"
+            borderColor="border.default"
+            py="8px"
+            px="12px"
+            key={index}
+          >
+            <Stack mb="8px" direction="row" alignItems="center">
+              <Avatar
+                src={reply?.author?.avatarUrl}
+                name={reply?.author?.login}
+                size="sm"
+              />
 
-            <Link
-              href={reply?.author?.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              color="fg.default"
-              fontWeight="medium"
-            >
-              {reply?.author?.login}
-            </Link>
+              <Link
+                href={reply?.author?.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                color="fg.default"
+                fontWeight="medium"
+              >
+                {reply?.author?.login}
+              </Link>
 
-            {/* <Stack direction="row" flex="1" justifyContent="flex-end" gap="4px">
+              {/* <Stack direction="row" flex="1" justifyContent="flex-end" gap="4px">
               <IconButton aria-label="Like">
                 <LikeIcon />
               </IconButton>
@@ -171,14 +173,15 @@ export const CommentThread: React.FC<CommentProps> = ({
                 <ReplyIcon />
               </IconButton>
             </Stack> */}
-          </Stack>
-          <div>
-            <p>{reply.body}</p>
-          </div>
-        </Box>
-      ))}
+            </Stack>
+            <Box maxW="100%">
+              <p>{reply.body}</p>
+            </Box>
+          </Box>
+        ))}
+      </Box>
 
-      <div>
+      <Box flexShrink="0">
         <Textarea
           ref={inputRef}
           placeholder="Write a comment..."
@@ -187,9 +190,11 @@ export const CommentThread: React.FC<CommentProps> = ({
           onKeyUp={handleKeyUp}
         />
         <Flex flexDirection="row" justifyContent="flex-end" py="4px" px="8px">
-          <Button onClick={handleSend} size="sm">Send</Button>
+          <Button onClick={handleSend} size="sm">
+            Send
+          </Button>
         </Flex>
-      </div>
-    </div>
+      </Box>
+    </Flex>
   );
 };

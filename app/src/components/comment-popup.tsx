@@ -23,7 +23,7 @@ export const CommentPopup = ({
   onResolve,
   onOpenChange,
   user,
-  coordinates
+  coordinates,
 }: {
   onSubmit: (data: NewCommentArgs) => unknown;
   defaultOpen?: boolean;
@@ -46,23 +46,38 @@ export const CommentPopup = ({
   }
 
   return (
-    <Popover key={hash} defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange}>
+    <Popover
+      key={hash}
+      defaultOpen={defaultOpen}
+      open={open}
+      onOpenChange={onOpenChange}
+    >
       <PopoverTrigger asChild>
-        <CommentPin aria-label="open-comments" style={{
-          position: "absolute",
-          top: `${coordinates.y}px`,
-          left: `${coordinates.x}px`,
-        }}>
+        <CommentPin
+          aria-label="open-comments"
+          style={{
+            position: "absolute",
+            top: `${coordinates.y}px`,
+            left: `${coordinates.x}px`,
+          }}
+        >
           {comment ? comment.replies?.nodes?.length || 1 : <PlusIcon />}
         </CommentPin>
       </PopoverTrigger>
       <PopoverContent
+        display="flex"
+        flexDirection="column"
         side="right"
         align="start"
         sideOffset={4}
         p="0"
         overflow="hidden"
         zIndex="200001"
+        maxW="320px"
+        maxH="100vh"
+        onOpenAutoFocus={(e) => {
+          e.preventDefault();
+        }}
       >
         <PopoverArrow />
         {comment ? (
@@ -95,7 +110,7 @@ const CommentPin = styled("button", {
     _focusVisible: {
       outline: "none",
       boxShadow: "0 0 0 2px black",
-    }
+    },
   },
   variants: {
     variant: {

@@ -40,6 +40,7 @@ import { InboxIcon } from "./icons/inbox";
 import { $openPreviewConfig } from "~/stores/config";
 import { useUser } from "~/hooks/use-user";
 import { disableWidget } from "~/stores/widget-active";
+import { Tooltip } from "./ui/tooltip";
 
 const NavbarPositioner = (props) => {
   const { x, y, ...rest } = props;
@@ -148,22 +149,26 @@ export const Navbar: FC = () => {
                   type="single"
                   value={isCommentModeOn ? "comments-on" : undefined}
                 >
-                  <ToolbarToggleItem
-                    value="comments-on"
-                    onClick={toggleCommentMode}
-                  >
-                    {isCommentModeOn ? <XIcon /> : <CommentIcon />}
-                  </ToolbarToggleItem>
+                  <Tooltip tooltip={isCommentModeOn ? 'Cancel' : 'Add comment'}>
+                    <ToolbarToggleItem
+                      value="comments-on"
+                      onClick={toggleCommentMode}
+                    >
+                      {isCommentModeOn ? <XIcon /> : <CommentIcon />}
+                    </ToolbarToggleItem>
+                  </Tooltip>
                 </ToolbarToggleGroup>
-                <ToolbarIconButton
-                  onClick={() => toggleDiscussionsOverlayMode()}
-                  aria-label="All Discussions"
-                >
-                  <InboxIcon />
-                </ToolbarIconButton>
+                <Tooltip tooltip="All comments">
+                  <ToolbarIconButton
+                    onClick={() => toggleDiscussionsOverlayMode()}
+                    aria-label="All comments"
+                  >
+                    <InboxIcon />
+                  </ToolbarIconButton>
+                </Tooltip>
                 <ToolbarSeparator />
                 <ToolbarIconButton onClick={() => logout()}>
-                  <Avatar src={user.avatar} name={user.username} size="md" />
+                  <Avatar src={user.avatar} name={user.username} size="sm" border="2px solid" borderColor="fg.default" boxSizing="content-box" />
                 </ToolbarIconButton>
               </>
             ) : (

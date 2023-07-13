@@ -19,8 +19,6 @@ export default defineConfig({
     },
   },
   build: {
-    // minify: false,
-    // sourcemap: true,
     lib: {
       entry: path.resolve(__dirname, "src/index.tsx"),
       name: "Open Previews",

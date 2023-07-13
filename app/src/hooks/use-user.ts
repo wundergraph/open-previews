@@ -1,6 +1,7 @@
 import { useAuth } from "~/lib/auth";
 import { useQuery } from "~/lib/wundergraph";
 import {} from "swr/_internal";
+import { useEffect } from "react";
 
 export interface User {
   username: string;
@@ -11,8 +12,16 @@ export interface User {
 
 export const useUser = () => {
   const { token } = useAuth();
-  return useQuery({
+  const user = useQuery({
     operationName: "User",
     enabled: !!token,
   });
+
+  useEffect(() => {
+    if (token) {
+      user.mutate();
+    }
+  }, [])
+
+  return user
 };

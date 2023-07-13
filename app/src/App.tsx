@@ -21,6 +21,7 @@ import { AllDiscussions } from "./components/all-discussions";
 import { $discussionsOverlayMode } from "./stores/discussions-overlay-mode";
 import { useWidgetActive } from "./stores/widget-active";
 import { Box } from "../styled-system/jsx";
+import { TooltipProvider } from "./components/ui/tooltip";
 
 const styles = `__STYLES__`;
 
@@ -158,31 +159,33 @@ function App() {
 
   return (
     <ShadowRoot>
-      <Box id="open-previews-container" color="fg.default">
-        {data?.comments && discussionsOverlayMode ? (
-          <AllDiscussions comments={data?.comments} />
-        ) : null}
-        {user.data ? (
-          <Selections
-            data={data}
-            onResolve={resolveComment}
-            onReply={createNewReply}
-            user={user.data}
-          />
-        ) : null}
-        <Navbar />
-        {user.data && isActivePin(pinDetails) ? (
-          <ActiveCommentPin
-            pinDetails={pinDetails}
-            defaultOpen
-            onResolve={resolveComment}
-            onSubmit={createNewThread}
-            onReply={createNewReply}
-            user={user.data}
-          />
-        ) : null}
-        {user.data ? <LiveHighlighter /> : null}
-      </Box>
+      <TooltipProvider delayDuration={200}>
+        <Box id="open-previews-container" color="fg.default">
+          {data?.comments && discussionsOverlayMode ? (
+            <AllDiscussions comments={data?.comments} />
+          ) : null}
+          {user.data ? (
+            <Selections
+              data={data}
+              onResolve={resolveComment}
+              onReply={createNewReply}
+              user={user.data}
+            />
+          ) : null}
+          <Navbar />
+          {user.data && isActivePin(pinDetails) ? (
+            <ActiveCommentPin
+              pinDetails={pinDetails}
+              defaultOpen
+              onResolve={resolveComment}
+              onSubmit={createNewThread}
+              onReply={createNewReply}
+              user={user.data}
+            />
+          ) : null}
+          {user.data ? <LiveHighlighter /> : null}
+        </Box>
+      </TooltipProvider>
     </ShadowRoot>
   );
 }
