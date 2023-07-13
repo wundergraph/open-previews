@@ -29,7 +29,7 @@ import {
   DropdownMenuIcon,
 } from "./ui/menu";
 import { Avatar } from "./ui/avatar";
-import { Flex, Stack } from "../../styled-system/jsx";
+import { Box, Flex, Stack } from "../../styled-system/jsx";
 import { Text } from "./ui/layout";
 import { Link } from "./ui/link";
 import { EyeCloseIcon } from "./icons/eye-close";
@@ -47,13 +47,16 @@ const NavbarPositioner = (props) => {
     id: "open-previews-navbar",
   });
 
-  
-
   return (
-    <div
+    <Box
       ref={setNodeRef}
       {...listeners}
       {...attributes}
+      _focusVisible={{
+        outline: 'none',
+        position: "relative",
+        boxShadow: "0 0 0 2px token(colors.pink.500)",
+      }}
       style={
         {
           position: "fixed",

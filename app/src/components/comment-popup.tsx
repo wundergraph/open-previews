@@ -17,19 +17,23 @@ import { User } from "~/hooks/use-user";
 export const CommentPopup = ({
   onSubmit,
   defaultOpen,
+  open,
   comment,
   onReply,
   onResolve,
   onOpenChange,
   user,
+  coordinates
 }: {
   onSubmit: (data: NewCommentArgs) => unknown;
   defaultOpen?: boolean;
+  open?: boolean;
   comment?: CommentsWithSelections;
   onReply: (args: NewReplyArgs) => unknown;
   onResolve: (args: ResolveCommentArgs) => unknown;
   onOpenChange?: (open: boolean) => unknown;
   user: User;
+  coordinates: { x: number; y: number };
 }) => {
   const [hash] = useHash();
 
@@ -42,9 +46,13 @@ export const CommentPopup = ({
   }
 
   return (
-    <Popover key={hash} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
+    <Popover key={hash} defaultOpen={defaultOpen} open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
-        <CommentPin aria-label="open-comments">
+        <CommentPin aria-label="open-comments" style={{
+          position: "absolute",
+          top: `${coordinates.y}px`,
+          left: `${coordinates.x}px`,
+        }}>
           {comment ? comment.replies?.nodes?.length || 1 : <PlusIcon />}
         </CommentPin>
       </PopoverTrigger>

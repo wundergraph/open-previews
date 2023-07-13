@@ -76,22 +76,19 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
   const [open, setOpen] = useState(defaultOpen)
 
   return (
-    <div
-      style={{
-        left: `${x}px`,
-        top: `${y}px`,
-        position: "fixed",
-        zIndex: open ? "200010" : "200000",
-      }}
-    >
+    <div>
       <CommentPopup
         onSubmit={onSubmit}
         onReply={onReply}
         onResolve={onResolve}
-        defaultOpen={defaultOpen}
+        open={open}
         onOpenChange={setOpen}
         comment={comment}
         user={user}
+        coordinates={{
+          x,
+          y,
+        }}
       />
       {rects.map((rect, i) => {
         return (
