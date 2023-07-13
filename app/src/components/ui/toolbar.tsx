@@ -35,7 +35,7 @@ const itemStyles: SystemStyleObject = {
     backgroundColor: "bg.muted",
   },
   _focusVisible: {
-    outline: 'none',
+    outline: "none",
     position: "relative",
     boxShadow: "0 0 0 2px token(colors.pink.500)",
   },

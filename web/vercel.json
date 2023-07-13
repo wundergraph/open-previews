@@ -1,0 +1,15 @@
+{
+  "headers": [
+    {
+      "source": "/widget.js",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,OPTIONS" },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date"
+        }
+      ]
+    }
+  ]
+}

@@ -174,7 +174,7 @@ export const Navbar: FC = () => {
                   </ToolbarIconButton>
                 </Tooltip>
                 <ToolbarSeparator />
-                <ToolbarIconButton onClick={() => logout()}>
+                <ToolbarIconButton>
                   <Avatar
                     src={user.avatar}
                     name={user.username}
