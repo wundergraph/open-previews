@@ -41,14 +41,14 @@ const usePinPosition = (pinDetails: PinDetails) => {
 
   if (selection) {
     pos = {
-      x: selection.left + selection.width,
-      y: selection.top + selection.height,
+      x: selection.left + selection.width + window.scrollX,
+      y: selection.top + selection.height + window.scrollY,
     };
   } else {
     const rect = pinDetails.element.getBoundingClientRect();
     pos = {
-      x: rect.left + pinDetails.coords.x,
-      y: rect.top + pinDetails.coords.y,
+      x: rect.left + pinDetails.coords.x + window.scrollX,
+      y: rect.top + pinDetails.coords.y + window.scrollY,
     };
   }
 
