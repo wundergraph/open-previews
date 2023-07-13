@@ -2,7 +2,7 @@ import React from "react";
 import * as TooltipPrimitives from "@radix-ui/react-tooltip";
 import { styled } from "../../../styled-system/jsx";
 
-export const TooltipProvider = TooltipPrimitives.TooltipProvider
+export const TooltipProvider = TooltipPrimitives.TooltipProvider;
 
 const TooltipContent = styled(TooltipPrimitives.Content, {
   base: {
@@ -12,6 +12,8 @@ const TooltipContent = styled(TooltipPrimitives.Content, {
     color: "fg.default",
     bg: "bg.surface",
     fontSize: "xs",
+    border: "1px solid",
+    borderColor: "border.default",
     boxShadow:
       "hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px",
     userSelect: "none",
@@ -29,7 +31,7 @@ const TooltipContent = styled(TooltipPrimitives.Content, {
 
 const TooltipArrow = styled(TooltipPrimitives.Arrow, {
   base: {
-    fill: "white",
+    fill: "bg.surface",
   },
 });
 
@@ -41,22 +43,20 @@ export const Tooltip = ({ children, tooltip }) => {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <TooltipPrimitives.Root open={open} onOpenChange={(open) => {
-      if (open === false) {
-        return setTimeout(() => {
-          setOpen(open)
-        }, 100)
-      }
-      setOpen(true)
-    }}>
-      <TooltipPrimitives.Trigger asChild>
-        {children}
-      </TooltipPrimitives.Trigger>
+    <TooltipPrimitives.Root
+      open={open}
+      onOpenChange={(open) => {
+        if (open === false) {
+          return setTimeout(() => {
+            setOpen(open);
+          }, 100);
+        }
+        setOpen(true);
+      }}
+    >
+      <TooltipPrimitives.Trigger asChild>{children}</TooltipPrimitives.Trigger>
       <TooltipPrimitives.Portal container={container}>
-        <TooltipContent sideOffset={10}>
-          {tooltip}
-          <TooltipArrow />
-        </TooltipContent>
+        <TooltipContent sideOffset={10}>{tooltip}</TooltipContent>
       </TooltipPrimitives.Portal>
     </TooltipPrimitives.Root>
   );

@@ -54,7 +54,7 @@ const NavbarPositioner = (props) => {
       {...listeners}
       {...attributes}
       _focusVisible={{
-        outline: 'none',
+        outline: "none",
         position: "relative",
         boxShadow: "0 0 0 2px token(colors.pink.500)",
       }}
@@ -64,8 +64,8 @@ const NavbarPositioner = (props) => {
           zIndex: "20000",
           left: x,
           top: y,
-          bottom: y ? undefined : '40px',
-          "--translate-x": `${(transform?.x ?? 0)}px`,
+          bottom: y ? undefined : "40px",
+          "--translate-x": `${transform?.x ?? 0}px`,
           "--translate-y": `${transform?.y ?? 0}px`,
           transform:
             "translate3d(var(--translate-x, 0), var(--translate-y, 0), 0)",
@@ -83,8 +83,10 @@ export const Navbar: FC = () => {
   const navbarRef = React.useRef<HTMLDivElement>(null);
   const isCommentModeOn = useStore($commentMode);
 
-  const startRef = React.useRef<{x: number; y: number} | null>(null);
-  const [coordinates, setCoordinates] = React.useState<{ x: number; y: number } | undefined>();
+  const startRef = React.useRef<{ x: number; y: number } | null>(null);
+  const [coordinates, setCoordinates] = React.useState<
+    { x: number; y: number } | undefined
+  >();
 
   useEffect(() => {
     const handleResize = () => {
@@ -99,14 +101,14 @@ export const Navbar: FC = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [])
+  }, []);
 
   return (
     <DndContext
       onDragStart={() => {
         const rect = navbarRef.current?.getBoundingClientRect();
         if (rect) {
-          startRef.current = {x: rect.x, y: rect.y}
+          startRef.current = { x: rect.x, y: rect.y };
         }
       }}
       onDragEnd={({ delta }) => {
@@ -142,14 +144,19 @@ export const Navbar: FC = () => {
         zIndex="20000"
       >
         <NavbarPositioner {...coordinates}>
-          <ToolbarRoot gap="4px" ref={navbarRef} pointerEvents="all">
+          <ToolbarRoot
+            gap="4px"
+            ref={navbarRef}
+            pointerEvents="all"
+            boxShadow="xl"
+          >
             {user ? (
               <>
                 <ToolbarToggleGroup
                   type="single"
                   value={isCommentModeOn ? "comments-on" : undefined}
                 >
-                  <Tooltip tooltip={isCommentModeOn ? 'Cancel' : 'Add comment'}>
+                  <Tooltip tooltip={isCommentModeOn ? "Cancel" : "Add comment"}>
                     <ToolbarToggleItem
                       value="comments-on"
                       onClick={toggleCommentMode}
@@ -168,7 +175,14 @@ export const Navbar: FC = () => {
                 </Tooltip>
                 <ToolbarSeparator />
                 <ToolbarIconButton onClick={() => logout()}>
-                  <Avatar src={user.avatar} name={user.username} size="sm" border="2px solid" borderColor="fg.default" boxSizing="content-box" />
+                  <Avatar
+                    src={user.avatar}
+                    name={user.username}
+                    size="sm"
+                    border="2px solid"
+                    borderColor="fg.default"
+                    boxSizing="content-box"
+                  />
                 </ToolbarIconButton>
               </>
             ) : (
@@ -232,10 +246,16 @@ const HamburgerMenu = () => {
           <>
             <Stack p="4px" gap="2px">
               <Text fontWeight="bold">Open previews</Text>
-              <Text color="fg.muted" fontSize='xs'>
-                Collect feedback from your entire team. Comment on content, components and pages.
+              <Text color="fg.muted" fontSize="xs">
+                Collect feedback from your entire team. Comment on content,
+                components and pages.
               </Text>
-              <Link href="https://openpreviews.com" target="_blank noopener" fontSize="xs" _hover={{textDecoration: 'underline'}}>
+              <Link
+                href="https://openpreviews.com"
+                target="_blank noopener"
+                fontSize="xs"
+                _hover={{ textDecoration: "underline" }}
+              >
                 Learn more
               </Link>
             </Stack>
