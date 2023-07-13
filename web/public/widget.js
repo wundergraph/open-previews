@@ -1,1 +1,1 @@
-../../app/dist/index.js
+../../app/dist/index.cjs.js
