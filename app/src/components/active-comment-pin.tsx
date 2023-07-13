@@ -1,8 +1,8 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { CommentPopup } from "./comment-popup";
 import { rangy } from "~/utils/rangy";
 import { Highlight } from "./highlight";
-import { PinDetails } from "~/stores/active-pin";
+import { PinDetails, PinDetailsState } from "~/stores/active-pin";
 import { NewCommentArgs, NewReplyArgs, ResolveCommentArgs } from "~/App";
 import { CommentsWithSelections } from "./selections";
 import { User } from "~/hooks/use-user";
@@ -21,18 +21,22 @@ type ActiveCommentPinProps = {
 const usePinPosition = (pinDetails: PinDetails) => {
   const dimension = useDimensions()
 
+  const scroll = pinDetails.scroll || { x: 0, y: 0 };
+
   let rects = useMemo<DOMRect[]>(() => {
     if (pinDetails.selectionRange) {
       try {
         const range = rangy.deserializeRange(pinDetails.selectionRange);
-        return Array.from(range.nativeRange.getClientRects());
+        return Array.from<DOMRect>(range.nativeRange.getClientRects()).map((rect) => {
+          return new DOMRect(rect.left + scroll.x, rect.top + scroll.y, rect.width, rect.height)
+        })
       } catch {
         // for now do nothing...
         return [];
       }
     }
     return [];
-    // Dimension needed to update selection when screen is resized / scrolled
+    // Dimension needed to update selection when screen is resized
   }, [pinDetails.selectionRange, dimension]);
 
   const selection = rects[rects.length - 1];
@@ -41,14 +45,14 @@ const usePinPosition = (pinDetails: PinDetails) => {
 
   if (selection) {
     pos = {
-      x: selection.left + selection.width + window.scrollX,
-      y: selection.top + selection.height + window.scrollY,
+      x: selection.left + selection.width,
+      y: selection.top + selection.height,
     };
   } else {
     const rect = pinDetails.element.getBoundingClientRect();
     pos = {
-      x: rect.left + pinDetails.coords.x + window.scrollX,
-      y: rect.top + pinDetails.coords.y + window.scrollY,
+      x: rect.left + pinDetails.coords.x + scroll.x,
+      y: rect.top + pinDetails.coords.y + scroll.y,
     };
   }
 
@@ -72,8 +76,12 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
   user,
 }) => {
   const { x, y, rects} = usePinPosition(pinDetails)
+  const [open, setOpen] = useState(pinDetails.isOpen || defaultOpen)
 
-  const [open, setOpen] = useState(defaultOpen)
+  useEffect(() => {
+    if (pinDetails.isOpen === undefined) return
+    setOpen(pinDetails.isOpen)
+  }, [pinDetails])
 
   return (
     <div>
@@ -95,8 +103,8 @@ export const ActiveCommentPin: FC<ActiveCommentPinProps> = ({
           <Highlight
             key={i}
             style={{
-              left: `${rect.left + window.scrollX}px`,
-              top: `${rect.top + window.scrollY}px`,
+              left: `${rect.left}px`,
+              top: `${rect.top}px`,
               width: `${rect.width}px`,
               height: `${rect.height}px`,
             }}

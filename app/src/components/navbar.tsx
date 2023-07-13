@@ -225,13 +225,12 @@ const HamburgerMenu = () => {
           </>
         ) : (
           <>
-            <Stack p="4px">
+            <Stack p="4px" gap="2px">
               <Text fontWeight="bold">Open previews</Text>
-              <Text color="fg.muted">
-                Add commenting functionality and collaborate with your team on
-                any page.
+              <Text color="fg.muted" fontSize='xs'>
+                Collect feedback from your entire team. Comment on content, components and pages.
               </Text>
-              <Link href="https://openpreviews.com" target="_blank noopener">
+              <Link href="https://openpreviews.com" target="_blank noopener" fontSize="xs" _hover={{textDecoration: 'underline'}}>
                 Learn more
               </Link>
             </Stack>

@@ -11,6 +11,7 @@ export const addCommentBox = async (event: MouseEvent) => {
     return addActiveCommentPin({
       element: clickedElement,
       coords: { x: targetElement.x, y: targetElement.y },
+      scroll: { x: window.scrollX, y: window.scrollY },
       selectionRange: targetElement.selectionRange,
       targetElement,
     });

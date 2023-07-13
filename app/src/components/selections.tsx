@@ -5,7 +5,6 @@ import { NewReplyArgs, ResolveCommentArgs } from "~/App";
 import { DISCUSSION_PENDING_STATE } from "~/utils/constants/constants";
 import { useHash } from "~/hooks/use-hash";
 import { User } from "~/hooks/use-user";
-import { useDimensions } from "~/hooks/use-dimensions";
 
 export type CommentMeta = {
   path: string;
@@ -105,6 +104,7 @@ export const Selections = ({
             pinDetails={{
               element: clickedElement,
               coords: { x: selection?.x ?? 0, y: selection?.y ?? 0 },
+              scroll: { x: window.scrollX, y: window.scrollY },
               selectionRange: selection?.selection,
             }}
             comment={each}

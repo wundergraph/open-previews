@@ -135,8 +135,8 @@ function App() {
         meta: {
           href: window.location.href,
           path: JSON.stringify(pinDetails.targetElement?.path ?? "{}"),
-          x: pinDetails.coords.x,
-          y: pinDetails.coords.y,
+          x: pinDetails.coords.x + window.scrollX,
+          y: pinDetails.coords.y + window.scrollY,
           resolved: false,
           selection: pinDetails.selectionRange,
         },

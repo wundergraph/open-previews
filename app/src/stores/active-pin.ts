@@ -2,9 +2,11 @@ import type { PositionData, SelectionRange } from "../utils/pathBuilder";
 import { atom } from "nanostores";
 
 export type PinDetails = {
+  isOpen?: boolean;
   targetElement?: PositionData;
   element: HTMLElement;
   coords: { x: number; y: number };
+  scroll?: { x: number; y: number };
   selectionRange?: SelectionRange;
 };
 
@@ -13,6 +15,7 @@ export type PinDetailsActive = {
   targetElement?: PositionData;
   element: HTMLElement;
   coords: { x: number; y: number };
+  scroll?: { x: number; y: number };
   selectionRange?: SelectionRange;
 };
 

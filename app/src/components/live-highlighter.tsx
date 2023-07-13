@@ -40,6 +40,10 @@ export const LiveHighlighter: FC = () => {
             x: targetElement.x,
             y: targetElement.y,
           },
+          scroll: {
+            x: window.scrollX,
+            y: window.scrollY,
+          },
           selectionRange: targetElement.selectionRange,
           targetElement,
         });
