@@ -1,0 +1,10 @@
+---
+import ContentSection from "~/components/content-section.astro";
+import {Setup} from "./setup";
+---
+<ContentSection title="Installation" id="installation">
+  <Fragment slot="lead">
+    Add Open Previews to your project with a <span class="text-primary">single line of code</span>.
+  </Fragment>
+  <Setup client:only />
+</ContentSection>

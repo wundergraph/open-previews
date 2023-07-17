@@ -1,0 +1,46 @@
+---
+import { Icon } from "astro-icon";
+import ContentSection from "~/components/content-section.astro";
+import type { FeatureItem } from "~/types";
+
+const features: Array<FeatureItem> = [
+  {
+    title: "Zero-Database",
+    description:
+      "All data and comments are stored in Github Discussions, on your own Github account.",
+    icon: "mdi:github",
+  },
+  {
+    title: "Easy Install",
+    description:
+      "Simply include a JavaScript script tag in your website or app to add preview comments.",
+    icon: "mdi:check",
+  },
+  {
+    title: "Open Source",
+    description:
+      "Open Previews is open source, you can host it yourself and we love to receive contributions.",
+    icon: "mdi:directions-fork",
+  },
+];
+---
+
+<ContentSection title="Features" id="features">
+  <Fragment slot="lead">
+    <span class="text-primary">Collect feedback</span> from your entire team. Comment on content, components and pages.
+    Fully integrated into your <span class="text-primary">existing Git workflow</span>.
+  </Fragment>
+  <ul class="grid max-w-6xl grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {
+      features.map(({ title, description, icon }) => (
+        <li class="flex flex-col items-center gap-4 border border-default  p-6 rounded-md">
+          <div class="h-16 w-16 rounded-full border-2 border-current p-3">
+            <Icon name={icon} />
+          </div>
+          <p class="text-center font-extrabold text-xl">{title}</p>
+          <p class="text-center text-offset text-xs">{description}</p>
+        </li>
+      ))
+    }
+  </ul>
+</ContentSection>

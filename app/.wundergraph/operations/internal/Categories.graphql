@@ -1,0 +1,10 @@
+query GetCategories($owner: String!, $name: String!) {
+  repository: github_repository(owner: $owner, name: $name) {
+    discussionCategories(first: 100) {
+      nodes {
+        id
+        name
+      }
+    }
+  }
+}

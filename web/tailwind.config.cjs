@@ -10,6 +10,19 @@ module.exports = {
       colors: {
         primary: "var(--color-primary)",
         secondary: "var(--color-secondary)",
+        gray: {
+          50: "#B1ABCB",
+          100: "#A59EC3",
+          200: "#8E85B4",
+          300: "#776CA4",
+          400: "#63588F",
+          500: "#514976",
+          600: "#40395C",
+          700: "#2E2A43",
+          800: "#1D1A2A",
+          900: "#050507",
+          950: "#000000",
+        },
       },
       textColor: {
         default: "var(--color-text)",

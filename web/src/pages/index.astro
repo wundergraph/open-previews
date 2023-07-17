@@ -2,6 +2,10 @@
 import "@fontsource/inter/variable.css";
 import Header from "~/components/header.astro";
 import Splash from "~/components/splash.astro";
+import Intro from "~/components/intro.astro";
+import Features from "~/components/features.astro";
+import Installation from "~/components/installation.astro";
+import Deploy from "~/components/deploy.astro";
 
 import "~/styles/index.css";
 
@@ -62,6 +66,18 @@ const description =
     <Header />
     <Splash />
 
-    <script id="open-previews" data-repository="wundergraph/open-previews" data-category-id="DIC_kwDOJcC98c4CXtym" src="widget.js" />
+    <div class="space-y-24 px-8 py-32">
+      <Intro />
+      <Features />
+      <Installation />
+      <Deploy />
+    </div>
+
+    <script
+      id="open-previews"
+      data-repository="wundergraph/open-previews"
+      data-category-id="DIC_kwDOJcC98c4CXtym"
+      src="widget.js"
+    />
   </body>
 </html>
