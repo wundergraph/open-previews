@@ -7,8 +7,8 @@ const getScript = (props: { repo: string; cat: string }) => {
   return `<script
   src="https://openpreviews.com/widget.js"
   type="text/javascript"
-  data-repository="${props.repo}"
-  data-category-id="${props.cat}"
+  data-repository="${props.repo || "[ENTER_REPOSITORY]"}"
+  data-category-id="${props.cat || "[ENTER_CATEGORY_ID]"}"
   async />`;
 };
 
