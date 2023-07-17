@@ -1,5 +1,5 @@
 import React from "react";
-import { useDebounce, useDebouncedCallback } from "use-debounce";
+import { useDebouncedCallback } from "use-debounce";
 import { useClipboard } from "../hooks/use-clipboard";
 import { CheckIcon, CopyIcon } from "lucide-react";
 
