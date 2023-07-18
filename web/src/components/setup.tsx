@@ -76,7 +76,7 @@ export const Setup = () => {
       <div>
         <h3 className="mb-4 text-xl font-bold">1. Github repository</h3>
 
-        <p className="text-md mb-4">
+        <p className="text-md text-offset mb-4">
           <a
             href="https://github.com/apps/open-previews"
             className="decoration-primary underline"
@@ -94,7 +94,7 @@ export const Setup = () => {
           <input
             name="repository"
             placeholder="username/repo-name"
-            className="focus:ring-primary h-12 w-full border px-2 text-sm focus:outline-none focus:ring-2"
+            className="focus:ring-primary h-12 w-full border px-2 text-sm focus:outline-none focus:ring-2 dark:bg-gray-950"
             value={repo}
             onChange={(e) => {
               setRepo(e.target.value);
@@ -107,11 +107,11 @@ export const Setup = () => {
       </div>
       <div>
         <h3 className="mb-4 text-xl font-bold">2. Discussion category</h3>
-        <p className="text-md">
+        <p className="text-md text-offset">
           If you haven't enabled discussions in your repository yet, you can do
           so in your repository settings.
         </p>
-        <p className="text-md mb-4">
+        <p className="text-md text-offset mb-4">
           It's recommended to create a new category (eg "Open previews") with
           the `Announcement` type where the comments will be stored.
         </p>
@@ -120,7 +120,7 @@ export const Setup = () => {
           Category{" "}
           <select
             name="category"
-            className="focus:ring-primary w-full border px-2 text-sm shadow-none focus:outline-none focus:ring-2"
+            className="focus:ring-primary w-full border px-2 text-sm shadow-none focus:outline-none focus:ring-2 dark:bg-gray-950"
             value={cat}
             onChange={(e) => setCat(e.target.value)}
             disabled={!categories.length}
@@ -144,7 +144,7 @@ export const Setup = () => {
       </div>
       <div>
         <h3 className="mb-4 text-xl font-bold">3. Enable Open Previews</h3>
-        <p className="text-md mb-4">
+        <p className="text-md text-offset mb-4">
           Add the following script to the `head` of you website or app.
         </p>
         <div className="text-md relative border p-4 font-mono">
