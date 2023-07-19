@@ -25,7 +25,18 @@ Check out the [Installation instructions](./INSTALLATION.md) to get started.
 ## The tech
 
 - [WunderGraph](https://wundergraph.com) - Backend and integration framework
-- [Vite](https://vitejs.dev) - Frontend
-- [PandaCSS](https://panda-css.com) - CSS Framework
-- [Radix UI](https://radix-ui.com) - The UI Library
 - [Github Discussions](https://docs.github.com/en/discussions) - Comment storage
+- [Vite](https://vitejs.dev) - Frontend
+- [Preact](https://preactjs.com) - UI Framework
+- [PandaCSS](https://panda-css.com) - CSS Framework
+- [Radix UI](https://radix-ui.com) - UI Components
+
+## Todo
+
+- [ ] Optimistic updates
+- [ ] Like and reply to comments
+- [ ] Emoji support
+- [ ] Markdown support
+- [ ] Image support
+
+Let us know if you have any other ideas. We're also happy to accept pull requests.
