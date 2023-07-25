@@ -55,6 +55,7 @@ export const CommentPopup = ({
       <PopoverTrigger asChild>
         <CommentPin
           aria-label="open-comments"
+          zIndex={open ? "active" : "base"}
           style={{
             position: "absolute",
             top: `${coordinates.y}px`,
@@ -103,7 +104,7 @@ const CommentPin = styled("button", {
     width: "28px",
     borderRadius: "100%",
     cursor: "pointer",
-    zIndex: "popover",
+    zIndex: "base",
     fontSize: "sm",
     fontWeight: "medium",
     boxShadow: "md",

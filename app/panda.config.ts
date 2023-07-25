@@ -2,15 +2,6 @@ import { defineConfig } from "@pandacss/dev";
 
 import { textStyles } from "./src/theme/text-styles";
 
-const mapColor = (shades) => {
-  return Object.entries(shades).reduce((acc, [key, value]) => {
-    return {
-      ...acc,
-      [key]: { value },
-    };
-  }, {});
-};
-
 export default defineConfig({
   // Whether to use css reset
   preflight: true,
@@ -134,9 +125,13 @@ export default defineConfig({
             },
           },
         },
+      },
+
+      tokens: {
         zIndex: {
           base: { value: 20000 },
           popover: { value: 20001 },
+          active: { value: 20002 },
         },
       },
 
@@ -167,25 +162,3 @@ export default defineConfig({
   // The output directory for your css system
   outdir: "styled-system",
 });
-
-// tokens: {
-//   // colors: {
-//   //   gray: mapColor(gray),
-//   //   blue: mapColor(blue),
-//   //   red: mapColor(red),
-//   //   green: mapColor(green),
-//   //   grayDark: mapColor(grayDark),
-//   //   blueDark: mapColor(blueDark),
-//   //   redDark: mapColor(redDark),
-//   //   greenDark: mapColor(greenDark),
-//   //   pink: mapColor(pink),
-//   //   pinkDark: mapColor(pinkDark),
-//   //   grayDarkA: mapColor(grayDarkA),
-//   //   yellow: mapColor(yellow),
-//   //   yellowDark: mapColor(yellowDark),
-//   // },
-
-//   zIndex: {
-//     base: { value: 20000 },
-//   },
-// },

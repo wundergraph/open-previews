@@ -1651,6 +1651,18 @@ const tokens = {
     "value": "bounce 1s infinite",
     "variable": "var(--op-eUTuJH)"
   },
+  "zIndex.base": {
+    "value": 20000,
+    "variable": "var(--op-klLGSj)"
+  },
+  "zIndex.popover": {
+    "value": 20001,
+    "variable": "var(--op-beAiOT)"
+  },
+  "zIndex.active": {
+    "value": 20002,
+    "variable": "var(--op-jpbKqG)"
+  },
   "breakpoints.sm": {
     "value": "640px",
     "variable": "var(--op-ikokJA)"
