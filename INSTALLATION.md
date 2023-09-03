@@ -25,8 +25,8 @@ Log in and run the following query:
 
 ```graphql
 query GetCategory {
-  github_repository(name: "your-repository-name", owner: "your-org") {
-    discussionCategory(slug: "preview-comments") {
+  repository(name: "your-repository-name", owner: "your-org") {
+    discussionCategory(slug: "Previews-Comments") {
       id
     }
   }
